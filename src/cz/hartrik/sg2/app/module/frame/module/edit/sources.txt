@@ -1,0 +1,12 @@
+Vlastní
+=======
+icon - border - canvas.png
+icon - border - chunk.png
+icon - fill.png
+
+Cizí
+=======
+icon - flip horizontal.png      Free for commercial use; http://led24.de/iconset/
+icon - flip vertical.png        Free for commercial use; http://led24.de/iconset/
+icon - redo.png                 Free for commercial use; http://led24.de/iconset/
+icon - undo.png                 Free for commercial use; http://led24.de/iconset/

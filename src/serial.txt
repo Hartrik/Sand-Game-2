@@ -1,0 +1,9 @@
+serialVersionUID = 83715083867368 + [XX - skupina] + [XXX - třída]
+
+83715083867368_01_   = sg2.world
+83715083867368_02_   = sg2.world.element   // 92 InfectedSolid
+83715083867368_03_   = sg2.world.factory   //  8 SimpleSingleInputFactory
+
+83715083867368_10_   = sg2.process
+
+83715083867368_99_   = různé pomocné třídy, nezařazené...

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.hartrik.sg2.app.module.dialog.stats.StatsController">
+  <children>
+      <HBox spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+          <VBox alignment="TOP_CENTER" prefWidth="250.0" spacing="15.0" HBox.hgrow="NEVER">
+            <children>
+                  <Label styleClass="title" text="Statistiky plátna" />
+              <HBox VBox.vgrow="ALWAYS">
+                     <children>
+                        <GridPane maxHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="90.0" prefWidth="90.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="179.0" minWidth="10.0" prefWidth="135.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label styleClass="field" text="Šířka" />
+                              <Label styleClass="field" text="Výška" GridPane.rowIndex="1" />
+                              <Label styleClass="field" text="Počet bodů" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                              <Label styleClass="field" text="Zaplněno" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+                              <Label fx:id="lWidth" styleClass="field-value" text="-" GridPane.columnIndex="1" />
+                              <Label fx:id="lHeight" styleClass="field-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label fx:id="lPointCount" styleClass="field-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label fx:id="lPointNonAirCount" styleClass="field-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <Label styleClass="field" text="Chunky" GridPane.rowIndex="2" />
+                              <Label fx:id="lChunks" styleClass="field-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                     </children>
+              </HBox>
+              <HBox alignment="CENTER" fillHeight="false" prefHeight="-1.0" prefWidth="-1.0" spacing="10.0" VBox.vgrow="NEVER">
+                <children>
+                  <Button minHeight="25.0" mnemonicParsing="false" onAction="#close" prefHeight="-1.0" prefWidth="75.0" styleClass="bold" text="Zavřít" />
+                </children>
+              </HBox>
+            </children>
+          </VBox>
+            <TableView fx:id="table" HBox.hgrow="SOMETIMES">
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy></TableView>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </HBox>
+  </children>
+  <stylesheets>
+    <URL value="@style.css" />
+  </stylesheets>
+</AnchorPane>

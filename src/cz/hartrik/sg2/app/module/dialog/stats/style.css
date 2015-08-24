@@ -1,0 +1,5 @@
+
+.title { -fx-font-weight: bold; -fx-font-size: 14; }
+
+.field { -fx-font-weight: bold; }
+.field-value { -fx-font-family: "Courier New"; }

@@ -6,6 +6,7 @@ import cz.hartrik.common.io.Resources;
 import cz.hartrik.common.random.RandomSuppliers;
 import cz.hartrik.sg2.brush.BrushEffect;
 import cz.hartrik.sg2.brush.jfx.BrushCollectionBuilder;
+import cz.hartrik.sg2.world.element.fluid.*;
 import cz.hartrik.sg2.world.element.powder.*;
 import cz.hartrik.sg2.world.element.solid.*;
 import cz.hartrik.sg2.world.element.special.*;
@@ -15,12 +16,12 @@ import static cz.hartrik.sg2.app.sandbox.element.ElementList.*;
 
 /**
  * Základní kolekce štětců.
- * 
- * @version 2015-02-15
+ *
+ * @version 2015-11-18
  * @author Patrik Harag
  */
 public class CollectionBasic {
-    
+
     static final String URL_WOOD = file("Texture - wooden planks.png");
     static final String URL_FIRE = file("Icon - hazard - F.png");
     static final String URL_IRON = file("Texture - iron.png");
@@ -35,16 +36,16 @@ public class CollectionBasic {
     static final String URL_REF_Metal = file("Texture - iron alloy.png");
     static final String URL_BRICK_WALL = file("Texture - brick.png");
     static final String URL_STONE_WALL = file("Texture - stone wall.jpg");
-    
+
     private static String file(String fileName) {
         return Resources.absolutePath(fileName, CollectionBasic.class);
     }
-    
+
     public static void createBrushes(BrushCollectionBuilder collectionBuilder) {
-        
+
         final FireSettings woodFS = new FireSettings(50, 600, 2800, 1500);
         final FireSettings wickFS = new FireSettings( 1, 210, 1200,    2);
-        
+
         collectionBuilder
                 // vzduch (0 - 9)
                 .addRnd(0).setElements().hidden().build()
@@ -52,7 +53,7 @@ public class CollectionBasic {
                 .addRnd(2)
                     .setElements(VOID)
                     .hidden().build()
-                
+
                 // pevné (10 - 39)
                 .addRnd(10)
                     .setElements(WALL_COL)
@@ -104,7 +105,7 @@ public class CollectionBasic {
                     .setTexture(URL_FABRIC)
                     .setMFactory(c -> new Wick(c, wickFS))
                     .setProducer(e -> e instanceof Wick).build()
-                
+
                 // písky (40 - 69)
                 .addRnd(40, SAND_COL)
                 .addRnd(41, SOIL_COL)
@@ -114,17 +115,17 @@ public class CollectionBasic {
                 // kapaliny (70 - 99)
                 .addRnd(70, WATER)
                 .addRnd(71, WATER_SALT)
-        
+
                 // fauna, flora (100 - 129)
                 .add(new JFXGrassBrush(collectionBuilder.load(100),
                         x -> 100 + x * x * 7, GRASS), true)
-                
+
                 .add(new JFXGrassBrush(collectionBuilder.load(101),
                         x -> 100 + x * x * 8, WILD_GRASS), true)
-                
+
                 .add(new JFXGrassBrush(collectionBuilder.load(102),
                         x -> 100 + x * x * x * 3, REED), true)
-                
+
                 .add(new JFXSeedBrush(collectionBuilder.load(110), GRASS,
                         x -> 100 + x * x * 7, SEEDS))
 
@@ -139,7 +140,7 @@ public class CollectionBasic {
 
                 .add(new BrushEffect(collectionBuilder.load(121), BACTERIA_A_FACT),
                         URL_BACTERIA_A)
-                
+
                 // hořlaviny (130 - )
                 .addRnd(130)
                     .setElements(FIRE_COL)
@@ -154,6 +155,7 @@ public class CollectionBasic {
                 .addRnd(134, THERMITE_1_COL)
                 .addRnd(135, THERMITE_2_COL)
                 .addRnd(140, OIL)
+                .addRnd(141, new Napalm(new Color(179, 102, 26), 950, 120))
                 .addRnd(150, NATURAL_GAS)
 
                 // speciální (200 - 299)
@@ -170,7 +172,7 @@ public class CollectionBasic {
                     .setTexture(URL_FILTER)
                     .setMFactory(FilterEmpty::new)
                     .setProducer(e -> e instanceof Filter).build()
-                
+
                 .addRnd(220)
                     .setElements(new PortalIn(RandomSuppliers.of(
                             new Color(14, 156, 202),
@@ -179,12 +181,12 @@ public class CollectionBasic {
                     .setElements(new PortalOut(RandomSuppliers.of(
                             new Color(179,  77, 26),
                             new Color(204, 102, 51)))).build()
-                
+
                 .addSrc(230, URL_PIPE, 100) // 1/100 = 1 %
                 .addSrc(231, URL_PIPE, 40)  // 1/40  = 2.5 %
                 .addSrc(232, URL_PIPE, 10)  // ...
                 .addSrc(233, URL_PIPE, 1)
         ;
     }
-    
+
 }

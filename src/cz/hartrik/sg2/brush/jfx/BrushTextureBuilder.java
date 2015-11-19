@@ -1,6 +1,7 @@
 
 package cz.hartrik.sg2.brush.jfx;
 
+import cz.hartrik.common.Checker;
 import cz.hartrik.common.Color;
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
@@ -13,22 +14,22 @@ import javafx.scene.image.Image;
 
 /**
  * Slouží k vytvoření {@link JFXBrushTexture}.
- * 
- * @version 2014-05-23
+ *
+ * @version 2015-11-19
  * @author Patrik Harag
  */
 public class BrushTextureBuilder extends BrushBuilder {
-    
+
     protected Function<Element, Boolean> isProducerFunc;
     protected ISingleInputFactory<Color, Element> factory;
     protected Image texture;
-    
+
     public BrushTextureBuilder(BrushCollectionBuilder collectionBuilder) {
         super(collectionBuilder);
     }
 
     // settery
-    
+
     @Override
     public BrushTextureBuilder setBrushInfo(BrushInfo brushInfo) {
         super.setBrushInfo(brushInfo);
@@ -40,12 +41,12 @@ public class BrushTextureBuilder extends BrushBuilder {
         super.hidden();
         return this;
     }
-    
+
     public BrushTextureBuilder setTexture(Image image) {
         this.texture = image;
         return this;
     }
-    
+
     public BrushTextureBuilder setTexture(String url) {
         this.texture = new Image(url);
         return this;
@@ -55,39 +56,37 @@ public class BrushTextureBuilder extends BrushBuilder {
         this.isProducerFunc = func;
         return this;
     }
-    
+
     public BrushTextureBuilder setSFactory(
             ISingleInputFactory<Color, Element> factory) {
-        
+
         this.factory = factory;
         return this;
     }
-    
+
     public BrushTextureBuilder setMFactory(
             FactoryFunction<Color, Element> function) {
-        
+
         this.factory = new FuncMapFactory<>(function);
         return this;
     }
-    
+
     // build
-    
+
     @Override
-    public BrushCollectionBuilder build() {
-        if (brushInfo == null || factory == null || texture == null)
-            return collectionBuilder;
-        
-        Brush brush;
+    protected Brush createBrush() {
+        Checker.requireNonNull(factory, "factory cannot be null");
+        Checker.requireNonNull(texture, "texture cannot be null");
+
         if (isProducerFunc != null) {
-            brush = new JFXBrushTexture<Element>(brushInfo, texture, factory) {
+            return new JFXBrushTexture<Element>(brushInfo, texture, factory) {
                 @Override public boolean isProducer(Element element) {
                     return isProducerFunc.apply(element);
                 }
             };
-        } else {
-            brush = new JFXBrushTexture<>(brushInfo, texture, factory);
         }
-        return collectionBuilder.add(brush, hidden);
+
+        return new JFXBrushTexture<>(brushInfo, texture, factory);
     }
-    
+
 }

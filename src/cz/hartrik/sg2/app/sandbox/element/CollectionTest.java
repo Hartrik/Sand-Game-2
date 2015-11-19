@@ -6,7 +6,6 @@ import cz.hartrik.common.io.Resources;
 import cz.hartrik.sg2.brush.ABrushBase;
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.BrushEffect;
-import cz.hartrik.sg2.brush.SourceableBrushDef;
 import cz.hartrik.sg2.brush.jfx.BrushCollectionBuilder;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
 import cz.hartrik.sg2.brush.manage.BrushManager;
@@ -94,7 +93,7 @@ public class CollectionTest {
         ;
     }
 
-    private static class WaterBrush extends ABrushBase implements SourceableBrushDef {
+    private static class WaterBrush extends ABrushBase {
 
         private final Supplier<Element> supplier;
 
@@ -107,7 +106,6 @@ public class CollectionTest {
         public Element getElement(Element current) {
             return supplier.get();
         }
-
     }
 
 }

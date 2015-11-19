@@ -8,13 +8,14 @@ import cz.hartrik.sg2.world.World;
 import cz.hartrik.sg2.world.element.Air;
 import cz.hartrik.sg2.world.element.SolidElement;
 import cz.hartrik.sg2.world.element.type.Sourceable;
+import java.io.Serializable;
 import java.util.function.Supplier;
 
 /**
  * Element představující zdroj. Zdroj (source) je statický element, který okolo
  * sebe vytváří další určité elementy.
  *
- * @version 2014-08-21
+ * @version 2015-11-19
  * @author Patrik Harag
  */
 public class Source extends SolidElement {
@@ -31,7 +32,7 @@ public class Source extends SolidElement {
      *
      * @param color barva zdroje
      * @param chance šance na vytvoření elementu
-     * @param supplier "dodavatel" elementů
+     * @param supplier "dodavatel" elementů, musí být {@link Serializable}
      */
     public Source(Color color, Chance chance, Supplier<Sourceable> supplier) {
         this.color = color;
@@ -50,7 +51,9 @@ public class Source extends SolidElement {
                 (Element element, int eX, int eY) -> {
 
             if (element instanceof Air && chance.nextBoolean()) {
-                world.setAndChange(eX, eY, supplier.get());
+                Element newElement = supplier.get();
+                if (newElement != null)
+                    world.setAndChange(eX, eY, newElement);
             }
         });
     }

@@ -10,12 +10,12 @@ import java.util.function.IntUnaryOperator;
  * @author Patrik Harag
  */
 public class JFXSeedBrush extends JFXGrassBrush {
-    
+
     private final Grass[] grass;
 
     public JFXSeedBrush(BrushInfo info, Grass[] grass,
             IntUnaryOperator operator, Element... elements) {
-        
+
         super(info, operator, elements);
         this.grass = grass;
     }
@@ -24,12 +24,12 @@ public class JFXSeedBrush extends JFXGrassBrush {
     public boolean isProducer(Element element) {
         if (super.isProducer(element))
             return true;
-        
+
         for (Grass next : grass)
             if (next.getClass() == element.getClass())
                 return true;
-        
+
         return false;
     }
-    
+
 }

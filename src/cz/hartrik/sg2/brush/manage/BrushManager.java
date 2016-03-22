@@ -84,12 +84,12 @@ public class BrushManager<T extends Brush> {
     public List<T> getProducers(Element element) {
         final Element normalized = normalize(element);
         return getBrushes((brush, hidden)
-                -> !hidden && brush.isProducer(normalized));
+                -> !hidden && brush.produces(normalized));
     }
 
     public List<T> getProducersAll(Element element) {
         final Element normalized = normalize(element);
-        return getBrushes((brush, hidden) -> brush.isProducer(normalized));
+        return getBrushes((brush, hidden) -> brush.produces(normalized));
     }
     
     public T getProducer(Element element) { // důležitá rychlost
@@ -97,7 +97,7 @@ public class BrushManager<T extends Brush> {
         for (BrushItem<T> brushItem : map.values()) {
             if (brushItem.isHidden()) continue;
             T brush = brushItem.getBrush();
-            if (brush.isProducer(normalized)) return brush;
+            if (brush.produces(normalized)) return brush;
         }
         return null;
     }
@@ -106,7 +106,7 @@ public class BrushManager<T extends Brush> {
         final Element normalized = normalize(element);
         for (BrushItem<T> brushItem : map.values()) {
             T brush = brushItem.getBrush();
-            if (brush.isProducer(normalized)) return brush;
+            if (brush.produces(normalized)) return brush;
         }
         return null;
     }

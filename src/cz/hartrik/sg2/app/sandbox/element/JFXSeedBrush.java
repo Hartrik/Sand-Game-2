@@ -21,8 +21,8 @@ public class JFXSeedBrush extends JFXGrassBrush {
     }
 
     @Override
-    public boolean isProducer(Element element) {
-        if (super.isProducer(element))
+    public boolean produces(Element element) {
+        if (super.produces(element))
             return true;
 
         for (Grass next : grass)

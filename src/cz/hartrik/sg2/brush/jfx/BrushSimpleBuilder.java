@@ -18,7 +18,7 @@ import java.util.function.Function;
  */
 public class BrushSimpleBuilder extends BrushBuilder {
 
-    protected Function<Element, Boolean> isProducerFunc;
+    protected Function<Element, Boolean> producesFunc;
     protected ISingleInputFactory<Color, ? extends Element> factory;
     protected Color[] colors;
 
@@ -39,7 +39,7 @@ public class BrushSimpleBuilder extends BrushBuilder {
     }
 
     public BrushSimpleBuilder setProducer(Function<Element, Boolean> func) {
-        this.isProducerFunc = func;
+        this.producesFunc = func;
         return this;
     }
 
@@ -62,10 +62,10 @@ public class BrushSimpleBuilder extends BrushBuilder {
         if (colors == null)
             colors = new Color[0];
 
-        if (isProducerFunc != null) {
+        if (producesFunc != null) {
             return new BrushSimple(brushInfo, factory, colors) {
-                @Override public boolean isProducer(Element element) {
-                    return isProducerFunc.apply(element);
+                @Override public boolean produces(Element element) {
+                    return producesFunc.apply(element);
                 }
             };
         }

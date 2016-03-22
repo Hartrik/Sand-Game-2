@@ -119,12 +119,12 @@ public class Can implements Tool {
         private boolean equals(int x, int y) {
             final Element element = area.get(x, y);
 
-            if (target.isProducer(element))
+            if (target.produces(element))
                 return true;
 
             Optional<Element> baseElement = Elements.getBaseElement(element);
             if (baseElement.isPresent())
-                return target.isProducer(baseElement.get());
+                return target.produces(baseElement.get());
 
             return false;
         }

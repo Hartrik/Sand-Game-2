@@ -27,7 +27,7 @@ var producer = brushManager.getProducer(element);
 
 // zjištětění, jestli je konkrétní element nanášen určitým štětcem
 
-producer.isProducer(element);  // => true
+producer.produces(element);  // => true
 
 
 // získání seznamu všech štětců, kterými může být konkrétní element nanesen

@@ -40,7 +40,7 @@ public class CollectionTest {
 //                        collectionBuilder.load(72), new Image(URL_WATER),
 //                        (e) -> new Water(new Color(0, 0, 178), 1000)) {
 //                            @Override
-//                            public boolean isProducer(Element element) {
+//                            public boolean produces(Element element) {
 //                                return element instanceof Water || element instanceof Steam;
 //                            }
 //                        }
@@ -64,7 +64,7 @@ public class CollectionTest {
                         () -> new SaltWater(new Color(0, 0, 178), 1000)) {
 
                             @Override
-                            public boolean isProducer(Element element) {
+                            public boolean produces(Element element) {
                                 return element instanceof SaltWater
                                     || element instanceof Steam;
                             }
@@ -85,7 +85,7 @@ public class CollectionTest {
                         () -> new SaltDry(ElementList.SALT_COLORS.get(), 2000)) {
 
                             @Override
-                            public boolean isProducer(Element element) {
+                            public boolean produces(Element element) {
                                 return element instanceof SaltDry;
                             }
                         }, new Image(URL_WIP)

@@ -30,7 +30,7 @@ public class BrushSingleton extends ABrushBase
     }
 
     @Override
-    public boolean isProducer(Element element) {
+    public boolean produces(Element element) {
         return this.element.equals(element);
     }
 

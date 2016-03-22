@@ -40,7 +40,7 @@ class RegionToolsImpl implements RegionTools {
     public void replace(Brush brush1, Brush brush2) {
         Inserter<?> inserter = area.getInserter();
         region.forEach((oldElement, x, y) -> {
-            if (brush1.isProducer(oldElement))
+            if (brush1.produces(oldElement))
                 inserter.apply(x, y, brush2);
         });
         inserter.finalizeInsertion();

@@ -20,7 +20,7 @@ import javafx.scene.image.Image;
  */
 public class BrushTextureBuilder extends BrushBuilder {
 
-    protected Function<Element, Boolean> isProducerFunc;
+    protected Function<Element, Boolean> producesFunc;
     protected ISingleInputFactory<Color, Element> factory;
     protected Image texture;
 
@@ -53,7 +53,7 @@ public class BrushTextureBuilder extends BrushBuilder {
     }
 
     public BrushTextureBuilder setProducer(Function<Element, Boolean> func) {
-        this.isProducerFunc = func;
+        this.producesFunc = func;
         return this;
     }
 
@@ -78,10 +78,10 @@ public class BrushTextureBuilder extends BrushBuilder {
         Checker.requireNonNull(factory, "factory cannot be null");
         Checker.requireNonNull(texture, "texture cannot be null");
 
-        if (isProducerFunc != null) {
+        if (producesFunc != null) {
             return new JFXBrushTexture<Element>(brushInfo, texture, factory) {
-                @Override public boolean isProducer(Element element) {
-                    return isProducerFunc.apply(element);
+                @Override public boolean produces(Element element) {
+                    return producesFunc.apply(element);
                 }
             };
         }

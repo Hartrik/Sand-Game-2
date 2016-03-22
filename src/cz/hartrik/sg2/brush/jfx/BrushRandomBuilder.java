@@ -17,7 +17,7 @@ import javafx.scene.image.Image;
 public class BrushRandomBuilder extends BrushBuilder {
 
     protected Element[] elements;
-    protected Function<Element, Boolean> isProducerFunc;
+    protected Function<Element, Boolean> producesFunc;
 
     public BrushRandomBuilder(BrushCollectionBuilder collectionBuilder) {
         super(collectionBuilder);
@@ -55,9 +55,9 @@ public class BrushRandomBuilder extends BrushBuilder {
     }
 
     public BrushRandomBuilder setProducer(
-            Function<Element, Boolean> isProducerFunc) {
+            Function<Element, Boolean> producesFunc) {
 
-        this.isProducerFunc = isProducerFunc;
+        this.producesFunc = producesFunc;
         return this;
     }
 
@@ -65,10 +65,10 @@ public class BrushRandomBuilder extends BrushBuilder {
 
     @Override
     protected Brush createBrush() {
-        if (isProducerFunc != null) {
+        if (producesFunc != null) {
             return new BrushRandom(brushInfo, elements) {
-                @Override public boolean isProducer(Element element) {
-                    return isProducerFunc.apply(element);
+                @Override public boolean produces(Element element) {
+                    return producesFunc.apply(element);
                 }
             };
         }

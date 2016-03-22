@@ -33,7 +33,7 @@ public class BrushRandom extends ABrushBase
 
     @Override
     public Element getElement(Element current) {
-        if (current != null && isProducer(current)) return null;
+        if (current != null && produces(current)) return null;
 
         return elements.length > 1
                 ? elements[random.nextInt(elements.length)]
@@ -41,7 +41,7 @@ public class BrushRandom extends ABrushBase
     }
 
     @Override
-    public boolean isProducer(Element element) {
+    public boolean produces(Element element) {
         Checker.requireNonNull(element);
         if (elements.length == 0) return false;
 

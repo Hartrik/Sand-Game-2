@@ -54,7 +54,7 @@ public class BrushSource extends ABrushBase {
     }
 
     @Override
-    public boolean isProducer(Element element) {
+    public boolean produces(Element element) {
         if (!(element instanceof Source)) return false;
 
         // po načtení mapy nefunguje

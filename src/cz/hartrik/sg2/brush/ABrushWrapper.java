@@ -41,8 +41,8 @@ public class ABrushWrapper implements Brush, Wrapper {
     }
 
     @Override
-    public boolean isProducer(Element element) {
-        return brush.isProducer(element);
+    public boolean produces(Element element) {
+        return brush.produces(element);
     }
 
     @Override

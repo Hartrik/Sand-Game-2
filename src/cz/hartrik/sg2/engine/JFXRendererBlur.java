@@ -36,7 +36,7 @@ public class JFXRendererBlur extends JFXRenderer {
     @Override
     protected void updateColor(int index) {
         final Element element = area.getArray()[index];
-        final Color color = element.getColor();
+        final Color color = getColor(element);
         final int i = index * 4;
 
         if (element instanceof Air) {

@@ -2,7 +2,6 @@
 package cz.hartrik.sg2.engine;
 
 import cz.hartrik.common.Color;
-import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.ElementArea;
 
 /**
@@ -21,31 +20,29 @@ public class JFXRendererBlurSimple extends JFXRenderer {
     }
 
     @Override
-    protected void updateColor(int index) {
-        final Element[] array = area.getArray();
-
-        final Color color = getColor(array[index]);
+    protected void updateAt(int index) {
+        final Color color = getColor(elements[index], temperature[index]);
         index *= 4;
 
         if (color.equals(Color.WHITE)) {
 
-            final int b = data[index]     & 0xFF;
-            final int g = data[index + 1] & 0xFF;
-            final int r = data[index + 2] & 0xFF;
+            final int b = buffer[index]     & 0xFF;
+            final int g = buffer[index + 1] & 0xFF;
+            final int r = buffer[index + 2] & 0xFF;
 
             if (r != 255 && g != 255 && b != 255) {
 
-                data[index]     = (byte) ((b * fAlpha) + (color.getBlue()  * fAlphaRev));
-                data[index + 1] = (byte) ((g * fAlpha) + (color.getGreen() * fAlphaRev));
-                data[index + 2] = (byte) ((r * fAlpha) + (color.getRed()   * fAlphaRev));
+                buffer[index]     = (byte) ((b * fAlpha) + (color.getBlue()  * fAlphaRev));
+                buffer[index + 1] = (byte) ((g * fAlpha) + (color.getGreen() * fAlphaRev));
+                buffer[index + 2] = (byte) ((r * fAlpha) + (color.getRed()   * fAlphaRev));
 
                 return;
             }
         }
 
-        data[index]     = color.getByteBlue();
-        data[index + 1] = color.getByteGreen();
-        data[index + 2] = color.getByteRed();
+        buffer[index]     = color.getByteBlue();
+        buffer[index + 1] = color.getByteGreen();
+        buffer[index + 2] = color.getByteRed();
     }
 
 }

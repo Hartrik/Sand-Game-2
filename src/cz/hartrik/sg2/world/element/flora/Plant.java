@@ -5,7 +5,7 @@ import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.World;
 import cz.hartrik.sg2.world.element.ClassicElement;
 import cz.hartrik.sg2.world.element.powder.Soil;
-import cz.hartrik.sg2.world.element.type.Organic;
+import cz.hartrik.sg2.world.element.Organic;
 
 /**
  * Abstraktní třída pro rostliny.

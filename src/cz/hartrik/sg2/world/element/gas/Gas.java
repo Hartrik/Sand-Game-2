@@ -2,7 +2,7 @@
 package cz.hartrik.sg2.world.element.gas;
 
 import cz.hartrik.sg2.world.element.NonSolidElement;
-import cz.hartrik.sg2.world.element.type.Sourceable;
+import cz.hartrik.sg2.world.element.special.Sourceable;
 
 /**
  * Abstraktní třída pro plynné elementy.

@@ -14,12 +14,11 @@ import cz.hartrik.sg2.world.element.*;
 import cz.hartrik.sg2.world.element.fauna.*;
 import cz.hartrik.sg2.world.element.flora.*;
 import cz.hartrik.sg2.world.element.fluid.*;
-import cz.hartrik.sg2.world.element.fluid.simplewater.*;
 import cz.hartrik.sg2.world.element.gas.*;
 import cz.hartrik.sg2.world.element.powder.*;
 import cz.hartrik.sg2.world.element.solid.*;
 import cz.hartrik.sg2.world.element.temperature.*;
-import cz.hartrik.sg2.world.element.type.Organic;
+import cz.hartrik.sg2.world.element.Organic;
 import cz.hartrik.sg2.world.factory.*;
 import java.util.function.Supplier;
 
@@ -27,7 +26,7 @@ import java.util.function.Supplier;
  * Seznam elementů použitých v základní kolekci.
  * Z důvodu přehlednosti nejsou některé řádky zalomeny.
  *
- * @version 2015-11-19
+ * @version 2016-06-15
  * @author Patrik Harag
  */
 public class ElementList {
@@ -83,9 +82,8 @@ public class ElementList {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Voda">
-//    public static final SimpleWater WATER = new SimpleWaterC(cSupp(c(0, 0, 178), c(0, 0, 160)), 1000, Chance.OFTEN);
-    public static final SimpleWater WATER = new SimpleWater(c(0, 0, 178), 1000, Chance.OFTEN);
-    public static final SimpleSteam STEAM = new SimpleSteam(c(147, 182, 217), -100, new RatioChance(7), WATER, new RatioChance(1000));
+    public static final Water WATER = new WaterC(cSupp(c(0, 0, 178), c(0, 0, 160)), 1000, Chance.OFTEN);
+    public static final Steam STEAM = new Steam(c(147, 182, 217), -100, new RatioChance(7), WATER);
     static { WATER.setVaporized(STEAM); }
     //</editor-fold>
 
@@ -93,9 +91,9 @@ public class ElementList {
     public static final RandomSupplier<Color> SALT_COLORS = RandomSuppliers.of(
                 c(214, 204, 179), c(229, 225, 213), c(219, 215, 203));
 
-//    public static final SimpleWaterSalt WATER_SALT = new SimpleWaterSaltC(cSupp(c(0, 0, 100), c(0, 0, 105)), 1070, Chance.OFTEN);
-    public static final SimpleWaterSalt WATER_SALT = new SimpleWaterSalt(c(0, 0, 100), 1070, Chance.OFTEN);
-    static final ISingleInputFactory<Salt, EWaterSalt> WS_FACTORY = salt -> WATER_SALT;
+//    public static final SaltWater WATER_SALT = new SimpleWaterSaltC(cSupp(c(0, 0, 100), c(0, 0, 105)), 1070, Chance.OFTEN);
+    public static final SaltWater WATER_SALT = new SaltWater(c(0, 0, 100), 1070, Chance.OFTEN);
+    static final ISingleInputFactory<Salt, SaltWater> WS_FACTORY = salt -> WATER_SALT;
 
     public static final Salt SALT_1 = new Salt(c(214, 204, 179), 1400, WS_FACTORY);
     public static final Salt SALT_2 = new Salt(c(229, 225, 213), 1400, WS_FACTORY);
@@ -117,7 +115,7 @@ public class ElementList {
     static final Humus GRASS_DEAD_3 = new Humus(c(85, 94, 28), 1520, rc(800), SOIL_COL);
     public static final Element[] GRASS_DEAD_COL = { GRASS_DEAD_1, GRASS_DEAD_2, GRASS_DEAD_3, AIR };
 
-    static final FireSettings FS = new FireSettings(rc(5), 500, 1200, rc(100));
+    static final FireSettings FS = new FireSettings(rc(5), 400, 1200, rc(50));
 
     static final Grass GRASS_1 = new Grass(c(39, 87, 28), rc(400), 9, GRASS_DEAD_COL, FS);
     static final Grass GRASS_2 = new Grass(c( 0, 68,  0), rc(400), 7, GRASS_DEAD_COL, FS);
@@ -189,24 +187,26 @@ public class ElementList {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Další hořlaviny atd.">
-    public static final Color[] COAL_COLORS = {
-        new Color(31, 31, 31), new Color(46, 44, 41),
-        new Color(13, 13, 13), new Color(17, 17, 15)
+    public static final Coal[] COAL_COL = {
+        new Coal(new Color(31, 31, 31)),
+        new Coal(new Color(46, 44, 41)),
+        new Coal(new Color(13, 13, 13)),
+        new Coal(new Color(17, 17, 15))
     };
 
-    public static final PowderMidF[] THERMITE_1_COL = new ArrayBuilderElement<PowderMidF>() {{
+    public static final Thermite[] THERMITE_1_COL = new ArrayBuilderElement<Thermite>() {{
         FireSettings fs = new FireSettings(Chance.ALWAYS, 200, 3000, Chance.SOMETIMES);
-        function = c -> new PowderMidF(c, 1200, fs);
+        function = c -> new Thermite(c, 1200, fs);
     }}
             .addColor(new Color(68, 42, 41), 5)
             .addColor(new Color(50, 28, 27), 3)
             .addColor(new Color(83, 55, 55))
-            .addColor(new Color(47, 28, 28)).build(PowderMidF[]::new);
+            .addColor(new Color(47, 28, 28)).build(Thermite[]::new);
 
 
-    public static final PowderMidF[] THERMITE_2_COL = new ArrayBuilderElement<PowderMidF>() {{
+    public static final Thermite[] THERMITE_2_COL = new ArrayBuilderElement<Thermite>() {{
         FireSettings fs = new FireSettings(Chance.ALWAYS, 200, 3000, rc(500));
-        function = c -> new PowderMidF(c, 1200, fs);
+        function = c -> new Thermite(c, 1200, fs);
     }}
             .addColor(new Color(137,  86,  89), 6)
             .addColor(new Color(125,  70,  72), 2)
@@ -214,11 +214,11 @@ public class ElementList {
             .addColor(new Color(138,  84,  86), 2)
             .addColor(new Color(118,  72,  75), 2)
             .addColor(new Color(101,  61,  65))
-            .addColor(new Color(151, 104, 106)).build(PowderMidF[]::new);
+            .addColor(new Color(151, 104, 106)).build(Thermite[]::new);
 
-    public static final Element OIL = new FluidWaterF(new Color(208, 163, 16), 900, new FireSettings(Chance.ALWAYS, 210, 2800, Chance.SOMETIMES));
+    public static final Element OIL = new Oil(new Color(208, 163, 16), 900, new FireSettings(Chance.ALWAYS, 210, 2800, Chance.SOMETIMES));
 
-    public static final Element NATURAL_GAS = new GasF(new Color(214, 214, 214),  -95, new RatioChance(5),
+    public static final Element NATURAL_GAS = new NaturalGas(new Color(214, 214, 214),  -95, new RatioChance(5),
                 new FireSettings(Chance.ALWAYS, 75, 3000, new RatioChance(10)));
     //</editor-fold>
 

@@ -1,11 +1,13 @@
 package cz.hartrik.sg2.world.element.fauna;
 
-import cz.hartrik.sg2.world.Element;
+import cz.hartrik.sg2.world.element.Organic;
 
 /**
- * @version 2014-12-22
+ * Rozhraní pro element, který okupuje bakterie.
+ *
+ * @version 2016-06-16
  * @author Patrik Harag
  */
-public interface EBacteria extends Element {
-    
+public interface EBacteria extends Organic {
+
 }

@@ -6,7 +6,7 @@ import cz.hartrik.common.io.Resources;
 import cz.hartrik.common.random.RandomSuppliers;
 import cz.hartrik.sg2.brush.BrushEffect;
 import cz.hartrik.sg2.brush.jfx.BrushCollectionBuilder;
-import cz.hartrik.sg2.world.element.fluid.*;
+import cz.hartrik.sg2.world.element.fluid.Napalm;
 import cz.hartrik.sg2.world.element.powder.*;
 import cz.hartrik.sg2.world.element.solid.*;
 import cz.hartrik.sg2.world.element.special.*;
@@ -17,7 +17,7 @@ import static cz.hartrik.sg2.app.sandbox.element.ElementList.*;
 /**
  * Základní kolekce štětců.
  *
- * @version 2015-11-18
+ * @version 2016-06-17
  * @author Patrik Harag
  */
 public class CollectionBasic {
@@ -27,6 +27,7 @@ public class CollectionBasic {
     static final String URL_IRON = file("Texture - iron.png");
     static final String URL_PIPE = file("Icon - pipe.png");
     static final String URL_ROCK = file("Texture - dark rock.png");
+    static final String URL_WATER = file("Icon - water.png");
     static final String URL_FILTER = file("Texture - filter.png");
     static final String URL_FABRIC = file("Texture - fabric.png");
     static final String URL_SPONGE = file("Texture - sponge.png");
@@ -44,7 +45,7 @@ public class CollectionBasic {
     public static void createBrushes(BrushCollectionBuilder collectionBuilder) {
 
         final FireSettings woodFS = new FireSettings(50, 600, 2800, 1500);
-        final FireSettings wickFS = new FireSettings( 1, 210, 1200,    2);
+        final FireSettings wickFS = new FireSettings(1, 0, 1200, 10);
 
         collectionBuilder
             // vzduch (0 - 9)
@@ -84,18 +85,18 @@ public class CollectionBasic {
                 .setProducer(e -> e instanceof BrickWall).build()
             .addTex(20)
                 .setTexture(URL_IRON)
-                .setSFactory(Iron::new)
+                .setMFactory(Iron::new)
                 .setProducer(e -> e instanceof Iron).build()
-            .addTex(21)
-                .setTexture(URL_IRON)
-                .setSFactory(c -> new Iron(c, 1800)).build()
+//            .addTex(21)
+//                .setTexture(URL_IRON)
+//                .setSFactory(c -> new Iron(c, 1800)).build()
             .addTex(22)
                 .setTexture(URL_REF_Metal)
-                .setSFactory(RefractoryMetal::new)
+                .setMFactory(RefractoryMetal::new)
                 .setProducer(e -> e instanceof RefractoryMetal).build()
             .addTex(23)
                 .setTexture(URL_CARBON)
-                .setSFactory(Carbon::new)
+                .setMFactory(Carbon::new)
                 .setProducer(e -> e instanceof Carbon).build()
             .addTex(30)
                 .setTexture(URL_WOOD)
@@ -147,15 +148,14 @@ public class CollectionBasic {
                 .setProducer(e -> e instanceof Fire)
                 .setImage(URL_FIRE).build()
             .addRnd(131, new Heater(Color.ORANGE, 500))
-            .addRnd(132, new Cooler(Color.BLUE, 500))
-            .addSim(133)
-                .setColors(COAL_COLORS)
-                .setFactory(Coal::new)
+            .addRnd(132, new Heater(Color.BLUE, 0))
+            .addRnd(133)
+                .setElements(COAL_COL)
                 .setProducer(e -> e instanceof Coal).build()
             .addRnd(134, THERMITE_1_COL)
             .addRnd(135, THERMITE_2_COL)
             .addRnd(140, OIL)
-            .addRnd(141, new Napalm(new Color(179, 102, 26), 950, 120))
+            .addRnd(141, new Napalm(new Color(179, 102, 26), 950))
             .addRnd(150, NATURAL_GAS)
 
             // speciální (200 - 299)

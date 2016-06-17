@@ -5,7 +5,6 @@ import cz.hartrik.common.random.Chance;
 import cz.hartrik.sg2.process.Tools;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.World;
-import cz.hartrik.sg2.world.element.type.Container;
 
 /**
  * Představuje jakoby zamrzlý element, který je po čase opět rozmrazen a
@@ -37,7 +36,7 @@ public class Frozen extends SolidElement implements Container<Element> {
 
     @Override
     public void doAction(int x, int y, Tools tools, World world) {
-        boolean allFrozen = tools.getDirectionVisitor().visitWhileAll(x, y,
+        boolean allFrozen = tools.getDirVisitor().visitWhileAll(x, y,
                 (Element element) -> element instanceof Frozen);
         
         if (!allFrozen && chanceToUnfreeze.nextBoolean())
@@ -46,7 +45,7 @@ public class Frozen extends SolidElement implements Container<Element> {
 
     @Override
     public boolean testAction(int x, int y, Tools tools, World world) {
-        return tools.getDirectionVisitor().testAll(x, y, element -> {
+        return tools.getDirVisitor().testAll(x, y, element -> {
             return !(element instanceof Frozen);
         });
     }

@@ -2,8 +2,8 @@ package cz.hartrik.sg2.world;
 
 /**
  * Nástroje pro práci se základním polem elementů.
- * 
- * @version 2015-03-28
+ *
+ * @version 2016-06-14
  * @author Patrik Harag
  * @param <T> typ pole elementů
  */
@@ -21,27 +21,37 @@ public abstract class ElementAreaTools<T extends ElementArea>
 
     /**
      * Vrátí nové pole elementů otočené směrem doprava.
-     * 
+     *
      * @return pole elementů
      */
     public T rotateRight() {
         T newArea = empty(area.getHeight(), area.getWidth());
-        area.forEachPoint((int x, int y)
-                -> newArea.set(y, x, area.get(x, area.getHeight() - y - 1)));
-        
+        area.forEachPoint((int x, int y) -> {
+            Element element = area.get(x, area.getHeight() - y - 1);
+            float temp = area.getTemperature(x, area.getHeight() - y - 1);
+
+            newArea.set(y, x, element);
+            newArea.setTemperature(y, x, temp);
+        });
+
         return newArea;
     }
 
     /**
      * Vrátí nové pole elementů otočené směrem doleva.
-     * 
+     *
      * @return pole elementů
      */
     public T rotateLeft() {
         T newArea = empty(area.getHeight(), area.getWidth());
-        area.forEachPoint((int x, int y)
-                -> newArea.set(y, x, area.get(area.getWidth() - x - 1, y)));
-        
+        area.forEachPoint((int x, int y) -> {
+            Element element = area.get(area.getWidth() - x - 1, y);
+            float temp = area.getTemperature(area.getWidth() - x - 1, y);
+
+            newArea.set(y, x, element);
+            newArea.setTemperature(y, x, temp);
+        });
+
         return newArea;
     }
 
@@ -64,16 +74,21 @@ public abstract class ElementAreaTools<T extends ElementArea>
     }
 
     protected void swap(int x1, int y1, int x2, int y2) {
-        final Element first = area.get(x1, y1);
-        final Element second = area.get(x2, y2);
-        area.set(x2, y2, first);
-        area.set(x1, y1, second);
+        Element element1 = area.get(x1, y1);
+        Element element2 = area.get(x2, y2);
+        area.set(x2, y2, element1);
+        area.set(x1, y1, element2);
+
+        float temp1 = area.getTemperature(x1, y1);
+        float temp2 = area.getTemperature(x2, y2);
+        area.setTemperature(x1, y1, temp2);
+        area.setTemperature(x2, y2, temp1);
     }
 
     /**
      * Vytvoří nové pole elementů. Zkopíruje původní elementy, případně ořízne
      * z pravé a spodní strany.
-     * 
+     *
      * @param width nová šířka
      * @param height nová výška
      * @return nově vytvořené pole elementů
@@ -81,27 +96,29 @@ public abstract class ElementAreaTools<T extends ElementArea>
     public T resize(int width, int height) {
         final int oldWidth  = area.getWidth(),
                   oldHeight = area.getHeight();
-        
+
         if ((width == oldWidth) && (height == oldHeight))
             return area;
-        
+
         final T newArea = empty(width, height);
-        for (int x = 0; x < width; x++)
-            for (int y = 0; y < height; y++)
-                if (x < oldWidth && y < oldHeight)
-                    newArea.set(x, y, area.get(x, y));
-        
+        newArea.forEachPoint((int x, int y) -> {
+            if (x < oldWidth && y < oldHeight) {
+                newArea.set(x, y, area.get(x, y));
+                newArea.setTemperature(x, y, area.getTemperature(x, y));
+            }
+        });
+
         return newArea;
     }
-    
+
     /**
      * Vytvoří nové prázdné pole elementů se stejnými parametry, ale novými
      * rozměry.
-     * 
+     *
      * @param width nová šířka
      * @param height nová výška
      * @return nové pole elementů
      */
     public abstract T empty(int width, int height);
-    
+
 }

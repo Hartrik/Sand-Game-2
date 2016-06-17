@@ -4,7 +4,7 @@ package cz.hartrik.sg2.brush.manage;
 import cz.hartrik.common.Checker;
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.world.Element;
-import cz.hartrik.sg2.world.element.type.Metamorphic;
+import cz.hartrik.sg2.world.element.Metamorphic;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

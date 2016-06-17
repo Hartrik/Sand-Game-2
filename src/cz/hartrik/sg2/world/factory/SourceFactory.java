@@ -8,7 +8,7 @@ import cz.hartrik.common.random.RatioChance;
 import cz.hartrik.sg2.brush.SourceableBrush;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.element.special.Source;
-import cz.hartrik.sg2.world.element.type.Sourceable;
+import cz.hartrik.sg2.world.element.special.Sourceable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;

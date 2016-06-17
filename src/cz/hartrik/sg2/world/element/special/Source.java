@@ -7,7 +7,6 @@ import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.World;
 import cz.hartrik.sg2.world.element.Air;
 import cz.hartrik.sg2.world.element.SolidElement;
-import cz.hartrik.sg2.world.element.type.Sourceable;
 import java.io.Serializable;
 import java.util.function.Supplier;
 
@@ -47,7 +46,7 @@ public class Source extends SolidElement {
 
     @Override
     public void doAction(int x, int y, Tools tools, World world) {
-        tools.getDirectionVisitor().visitAll(x, y,
+        tools.getDirVisitor().visitAll(x, y,
                 (Element element, int eX, int eY) -> {
 
             if (element instanceof Air && chance.nextBoolean()) {
@@ -64,7 +63,7 @@ public class Source extends SolidElement {
 
     @Override
     public boolean testAction(int x, int y, Tools tools, World world) {
-        return tools.getDirectionVisitor()
+        return tools.getDirVisitor()
                 .testAll(x, y, element -> element instanceof Air);
     }
 

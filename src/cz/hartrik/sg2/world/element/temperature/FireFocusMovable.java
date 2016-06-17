@@ -9,16 +9,16 @@ import cz.hartrik.sg2.world.factory.IFireFactory;
 
 /**
  * Element představující přemístitelné ohnisko.
- * 
+ *
  * @version 2014-04-01
  * @author Patrik Harag
  */
 public class FireFocusMovable extends FireFocus {
-    
+
     private static final long serialVersionUID = 83715083867368_02_041L;
 
     private boolean lastMoved = true;
-    
+
     public FireFocusMovable(Flammable element, IFireFactory factory) {
         super(element, factory);
     }
@@ -26,8 +26,10 @@ public class FireFocusMovable extends FireFocus {
     @Override
     public void doAction(int x, int y, Tools tools, World world) {
         if (lastMoved) if (burnElement(x, y, tools, world)) return;
-        
-        getElement().doAction(x, y, tools, world);
+
+        world.setTemperature(x, y, element.getFlammableNumber());
+
+        element.doAction(x, y, tools, world);
 
         Element elementAt = world.get(x, y);
         if (elementAt == this) {
@@ -38,17 +40,17 @@ public class FireFocusMovable extends FireFocus {
             elementMoved(elementAt, x, y, tools, world);
         }
     }
-    
+
     protected void elementMoved(Element newElement, int x, int y,
             Tools tools, World world) {
-        
-        tools.getDirectionVisitor().visitAll(x, y,
+
+        tools.getDirVisitor().visitAll(x, y,
                 (Element next, int eX, int eY) -> {
-            
+
             if (next instanceof Air)
                 world.setAndChange(eX, eY,
                         factory.getFire(element.getFlammableNumber()));
         });
     }
-    
+
 }

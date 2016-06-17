@@ -11,14 +11,14 @@ import java.util.function.Supplier;
 
 /**
  * Element představující vstupní portál.
- * 
- * @version 2015-02-16
+ *
+ * @version 2016-06-15
  * @author Patrik Harag
  */
 public class PortalIn extends Portal {
 
     private static final long serialVersionUID = 83715083867368_02_088L;
-    
+
     public PortalIn(Supplier<Color> supplier) {
         super(supplier);
     }
@@ -26,10 +26,10 @@ public class PortalIn extends Portal {
     @Override
     public void doAction(int x, int y, Tools tools, World world) {
         final Direction direction = tools.randomDirection();
-        
+
         final int ex = x + direction.getX();
         final int ey = y + direction.getY();
-        
+
         if (world.valid(ex, ey)) {
             final Element element = world.get(ex, ey);
 
@@ -38,38 +38,50 @@ public class PortalIn extends Portal {
 
             final int dx = -direction.getX();
             final int dy = -direction.getY();
-            int ix = x + dx;
-            int iy = y + dy;
+            int nx = x + dx;
+            int ny = y + dy;
 
-            boolean out = false;
+            boolean outputFound = false;
 
-            while (world.valid(ix, iy)) {
-                final Element next = world.get(ix, iy);
+            while (world.valid(nx, ny)) {
+                final Element next = world.get(nx, ny);
 
-                if (out) {
+                if (outputFound) {
                     if (next instanceof Air) {
-                        world.setAndChange(ix, iy, element);
-                        world.set(ex, ey, world.getBackground());
+                        transfer(ex, ey, element, nx, ny, world);
                         return;
+
                     } else if (!(next instanceof PortalOut)) {
                         // přes tento výstup nelze projít
-                        out = false;
+                        // pokud bychom chtěli pokračovat v hledání, tak
+                        // stačí nastavit outputFound = false
+                        return;
                     }
+
                 } else if (next instanceof PortalOut) {
                     // nalezen výstup
-                    out = true;
+                    outputFound = true;
                 }
 
-                ix += dx;
-                iy += dy;
+                nx += dx;
+                ny += dy;
             }
         }
     }
-    
+
+    private void transfer(int ex, int ey, Element e, int nx, int ny, World world) {
+        world.setAndChange(ex, ey, world.getBackground());
+        world.setAndChange(nx, ny, e);
+
+        float temperature = world.getTemperature(ex, ey);
+        world.setTemperature(nx, ny, temperature);
+        world.setTemperature(ex, ey, World.DEFAULT_TEMPERATURE);
+    }
+
     @Override
     public boolean testAction(int x, int y, Tools tools, World world) {
-        return tools.getDirectionVisitor().testAll(x, y, (element) ->
+        return tools.getDirVisitor().testAll(x, y, (element) ->
                 element instanceof NonSolidElement && !(element instanceof Air));
     }
-    
+
 }

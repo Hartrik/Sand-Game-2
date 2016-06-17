@@ -3,63 +3,101 @@ package cz.hartrik.sg2.world.element.fluid;
 
 import cz.hartrik.common.Color;
 import cz.hartrik.common.random.Chance;
-import cz.hartrik.common.random.RatioChance;
 import cz.hartrik.sg2.process.Tools;
+import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.World;
-import cz.hartrik.sg2.world.element.gas.GasTC;
-import java.util.function.IntFunction;
+import cz.hartrik.sg2.world.element.Air;
+import cz.hartrik.sg2.world.element.gas.SimpleGasElement;
+import cz.hartrik.sg2.world.element.temperature.Fire;
+import cz.hartrik.sg2.world.element.temperature.FireAffected;
 
 /**
- * @version 2014-12-28
+ * Element představující vodní páru.
+ *
+ * @version 2016-06-17
  * @author Patrik Harag
  */
-public class Steam extends GasTC {
-    
-    private static final long serialVersionUID = 83715083867368_02_081L;
-    
-    protected static final RatioChance CHANCE_DECREMENT = new RatioChance(10);
-    protected static final RatioChance CHANCE_RND = new RatioChance(1000);
-    protected static final float CONDUCTIVE_INDEX = 0.5f;
-    
-    private final IntFunction<Water> waterSupp;
-    
-    public Steam(Color color, int density, Chance chanceToMoveUp,
-            IntFunction<Water> waterSupp) {
-        
-        this(color, density, chanceToMoveUp, NORMAL_TEMP, waterSupp);
-    }
+public class Steam extends SimpleGasElement implements FireAffected, Dryable {
+
+    private static final long serialVersionUID = 83715083867368_02_047L;
+
+    private final Water water;
 
     public Steam(Color color, int density, Chance chanceToMoveUp,
-            int temperature, IntFunction<Water> waterSupp) {
-        
-        super(color, density, chanceToMoveUp, temperature);
-        this.waterSupp = waterSupp;
+            Water water) {
+
+        super(color, density, chanceToMoveUp);
+        this.water = water;
     }
 
-    // Element
-    
     @Override
     public void doAction(int x, int y, Tools tools, World world) {
-        final int temperature = getTemperature();
-        
-        if (temperature < 25)
-            world.setAndChange(x, y, waterSupp.apply(temperature));
-        else if (CHANCE_RND.nextBoolean())
-            world.setAndChange(x, y, waterSupp.apply(temperature / 2));
+        float temperature = world.getTemperature(x, y);
+
+        if (turnIntoWater(temperature, tools))
+            world.setAndChange(x, y, water);
         else
             super.doAction(x, y, tools, world);
     }
 
-    //  ThermalConductiveDef
+    private boolean turnIntoWater(float temperature, Tools tools) {
+        if (temperature < 100)
+            return true;
+
+        float t = temperature * temperature - 9_500;
+        return tools.randomInt((int) t) == 0;
+    }
+
+    @Override
+    public boolean testAction(int x, int y, Tools tools, World world) {
+        return true;
+    }
+
+    @Override
+    public boolean hasTemperature() {
+        return water.hasTemperature();
+    }
+
+    @Override
+    public boolean isConductive() {
+        return water.isConductive();
+    }
 
     @Override
     public float getConductiveIndex() {
-        return CONDUCTIVE_INDEX;
+        return water.getConductiveIndex();
     }
 
     @Override
-    public int decrementTemperature(int value) {
-        return (CHANCE_DECREMENT.nextBoolean()) ? value - 1 : value;
+    public float loss() {
+        return water.loss();
     }
-    
+
+    // FireAffected
+
+    @Override
+    public void onFire(int x, int y, Tools tools, World world, float temp) {
+        // zajistí rychlý průchod přes plameny
+        // jinak by částečky páry mohly zůstat viset uprostřed ohně
+
+        for (int ny = y - 1; ny >= 0; ny--) {
+            Element next = world.get(x, ny);
+
+            if (next instanceof Fire)
+                continue;
+
+            if (next instanceof Air)
+                tools.swap(x, y, this, x, ny, next);
+
+            return;
+        }
+    }
+
+    // Dryable
+
+    @Override
+    public Element dry() {
+        return null;
+    }
+
 }

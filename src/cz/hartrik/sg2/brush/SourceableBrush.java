@@ -1,7 +1,7 @@
 
 package cz.hartrik.sg2.brush;
 
-import cz.hartrik.sg2.world.element.type.Sourceable;
+import cz.hartrik.sg2.world.element.special.Sourceable;
 import java.io.Serializable;
 import java.util.function.Supplier;
 

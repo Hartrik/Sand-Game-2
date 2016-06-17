@@ -34,9 +34,9 @@ public class JFXRendererBlur extends JFXRenderer {
     }
 
     @Override
-    protected void updateColor(int index) {
-        final Element element = area.getArray()[index];
-        final Color color = getColor(element);
+    protected void updateAt(int index) {
+        final Element element = elements[index];
+        final Color color = getColor(element, temperature[index]);
         final int i = index * 4;
 
         if (element instanceof Air) {
@@ -51,14 +51,14 @@ public class JFXRendererBlur extends JFXRenderer {
             if (blur[index]) {
                 // pokračuje se v mizení
 
-                final int b = data[i]     & 0xFF;
-                final int g = data[i + 1] & 0xFF;
-                final int r = data[i + 2] & 0xFF;
+                final int b = buffer[i]     & 0xFF;
+                final int g = buffer[i + 1] & 0xFF;
+                final int r = buffer[i + 2] & 0xFF;
 
                 if (isVisible(r, g, b)) {
-                    data[i]     = (byte) ((b * ALPHA) + WHITE_BACKGROUND);
-                    data[i + 1] = (byte) ((g * ALPHA) + WHITE_BACKGROUND);
-                    data[i + 2] = (byte) ((r * ALPHA) + WHITE_BACKGROUND);
+                    buffer[i]     = (byte) ((b * ALPHA) + WHITE_BACKGROUND);
+                    buffer[i + 1] = (byte) ((g * ALPHA) + WHITE_BACKGROUND);
+                    buffer[i + 2] = (byte) ((r * ALPHA) + WHITE_BACKGROUND);
 
                     return;
                 }
@@ -70,9 +70,9 @@ public class JFXRendererBlur extends JFXRenderer {
         last[index] = element instanceof FallingElement;
         blur[index] = false;
 
-        data[i]     = color.getByteBlue();
-        data[i + 1] = color.getByteGreen();
-        data[i + 2] = color.getByteRed();
+        buffer[i]     = color.getByteBlue();
+        buffer[i + 1] = color.getByteGreen();
+        buffer[i + 2] = color.getByteRed();
     }
 
     private boolean isVisible(int r, int g, int b) {

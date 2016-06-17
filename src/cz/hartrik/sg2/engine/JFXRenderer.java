@@ -2,118 +2,82 @@
 package cz.hartrik.sg2.engine;
 
 import cz.hartrik.common.Color;
-import cz.hartrik.sg2.world.Chunk;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.ElementArea;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 import javafx.scene.image.WritablePixelFormat;
 
-import static cz.hartrik.sg2.world.Chunk.CHUNK_SIZE;
-
 /**
- * Jednoduchý renderer, který se stará o aktualizaci bufferu.
+ * Jednoduchý renderer. Po zavolání metody {@link #updateBuffer()} vykreslí
+ * do bufferu, obsah plátna. Buffer je možné získat metodou {@link #getBuffer()}.
+ * <p>
+ * Vykresluje se vždy celé plátno, bez ohledu na aktivitu chunků.
  *
- * @version 2016-05-23
+ * @version 2016-06-17
  * @author Patrik Harag
  */
 public class JFXRenderer implements Renderer {
 
     protected final ElementArea area;
-    private final Element[] array;
-    private final int width;
-    private final int height;
+    protected final Element[] elements;
+    protected final float[] temperature;
 
-    protected final byte[] data;
-    private int lastUpdatedChunks;
+    protected final byte[] buffer;
     private final WritablePixelFormat<ByteBuffer> pixelFormat;
 
-    private Function<Element, Color> colorPalette = ColorPalettes.NORMAL;
+    private BiFunction<Element, Float, Color> colorPalette = ColorPalettes.NORMAL;
 
+    @SuppressWarnings("deprecation")
     public JFXRenderer(ElementArea area) {
         this.area = area;
-        this.array = area.getArray();
-        this.width = area.getWidth();
-        this.height = area.getHeight();
+        this.elements = area.getElements();
+        this.temperature = area.getTemperature();
 
-        this.data = new byte[width * height * 4];
+        this.buffer = new byte[area.getWidth() * area.getHeight() * 4];
         this.pixelFormat = WritablePixelFormat.getByteBgraPreInstance();
 
-        Arrays.fill(data, (byte) (255));
+        Arrays.fill(buffer, (byte) (255));
     }
 
-    // vykreslování po chuncích
-
-    @Deprecated
-    public synchronized void updateBuffer(Chunk[] chunks) {
-        for (Chunk chunk : chunks)
-            updateChunk(chunk.getX(), chunk.getY());
-        lastUpdatedChunks = chunks.length;
+    /**
+     * Vykreslí celé plátno do bufferu.
+     */
+    public synchronized void updateBuffer() {
+        for (int i = 0; i < elements.length; i++)
+            updateAt(i);
     }
 
-    @Deprecated
-    protected final void updateChunk(final int cx, final int cy) {
-        final int maxY = cy * CHUNK_SIZE + CHUNK_SIZE;
-        for (int y = cy * CHUNK_SIZE; y < maxY; y++) {
-            final int maxX = cx * CHUNK_SIZE + CHUNK_SIZE;
-            for (int x = cx * CHUNK_SIZE; x < maxX; x++) {
-                updateColor(x, y);
-            }
-        }
-    }
-
-    // vykreslování celého plátna najednou
-
-    public synchronized void updateBufferAll() {
-        for (int i = 0; i < array.length; i++) updateColor(i);
-
-        // pro velká plátna raději paralelně:
-        //
-        // IntStream.range(0, array.length)
-        //          .parallel()
-        //          .forEach(this::updateColor);
-
-        lastUpdatedChunks = width / Chunk.CHUNK_SIZE * height / Chunk.CHUNK_SIZE;
-    }
-
-    // pomocné metody
-
-    protected final void updateColor(final int x, final int y) {
-        updateColor(y * width + x);
-    }
-
-    protected void updateColor(int index) {
-        final Color color = getColor(array[index]);
+    protected void updateAt(int index) {
+        final Color color = getColor(elements[index], temperature[index]);
         index *= 4;
 
-        data[index]     = color.getByteBlue();
-        data[index + 1] = color.getByteGreen();
-        data[index + 2] = color.getByteRed();
+        buffer[index]     = color.getByteBlue();
+        buffer[index + 1] = color.getByteGreen();
+        buffer[index + 2] = color.getByteRed();
     }
 
-    protected Color getColor(Element element) {
-        return colorPalette.apply(element);
+    protected Color getColor(Element element, float temp) {
+        return colorPalette.apply(element, temp);
     }
 
     // settery
 
-    public void setColorPalette(Function<Element, Color> colorPalette) {
+    public synchronized void setColorPalette(
+            BiFunction<Element, Float, Color> colorPalette) {
+
         this.colorPalette = colorPalette;
     }
 
     // gettery
 
-    public final byte[] getData() {
-        return data;
+    public final byte[] getBuffer() {
+        return buffer;
     }
 
     public final WritablePixelFormat<ByteBuffer> getPixelFormat() {
         return pixelFormat;
-    }
-
-    public final int getLastUpdatedChunks() {
-        return lastUpdatedChunks;
     }
 
 }

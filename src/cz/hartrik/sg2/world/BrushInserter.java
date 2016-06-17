@@ -8,13 +8,13 @@ import cz.hartrik.sg2.brush.Controls;
 
 /**
  * Spravuje vkládání štětcem do pole elementů.
- * 
- * @version 2015-03-28
+ *
+ * @version 2016-06-13
  * @author Patrik Harag
  * @param <T>
  */
 public class BrushInserter<T extends ElementArea> implements Inserter<T> {
-    
+
     protected final T area;
     protected final Inserter<T> inserter;
     protected final Brush brush;
@@ -23,19 +23,22 @@ public class BrushInserter<T extends ElementArea> implements Inserter<T> {
     public BrushInserter(Inserter<T> inserter, Brush brush) {
         this(inserter, brush, null);
     }
-    
+
     public BrushInserter(Inserter<T> inserter, Brush brush, Controls controls) {
         this.area = inserter.getArea();
         this.inserter = inserter;
         this.brush = Checker.requireNonNull(brush);
         this.controls = controls;
+
+        if (inserter instanceof ElementAreaInserter)
+            ((ElementAreaInserter) inserter).setControls(controls);
     }
-    
+
     // insert
-    
+
     /**
      * Pokusí se na danou pozici aplikovat element z vybraného štětce.
-     * 
+     *
      * @param x horizontální pozice
      * @param y vertikální pozice
      * @return úspěšnost (tj. pokud projde všemi testy)
@@ -46,17 +49,17 @@ public class BrushInserter<T extends ElementArea> implements Inserter<T> {
 
     /**
      * Aplikuje na danou pozici element z vybraného štětce.
-     * 
+     *
      * @param point pozice
      * @return úspěšnost operace
      */
     public boolean apply(Point point) {
         return apply(point.getX(), point.getY());
     }
-    
+
     /**
      * Pokusí se na danou pozici vložit element z vybraného štětce.
-     * 
+     *
      * @param x horizontální pozice
      * @param y vertikální pozice
      * @return úspěšnost (tj. pokud projde všemi testy)
@@ -67,14 +70,14 @@ public class BrushInserter<T extends ElementArea> implements Inserter<T> {
 
     /**
      * Vloží na danou pozici element z vybraného štětce.
-     * 
+     *
      * @param point pozice
      * @return úspěšnost operace
      */
     public boolean insert(Point point) {
-        return insert(point.getX(), point.getY());
+        return insert(point.getX(), point.getY(), brush);
     }
-    
+
     @Override
     public boolean insert(int x, int y, Element element) {
         return inserter.insert(x, y, element);
@@ -84,21 +87,12 @@ public class BrushInserter<T extends ElementArea> implements Inserter<T> {
     public boolean insert(int x, int y, Brush brush) {
         return inserter.insert(x, y, brush);
     }
-    
+
     @Override
     public boolean apply(int x, int y, Brush brush) {
-        if (area.valid(x, y)) {
-            
-            Element oldElem = area.get(x, y);
-            Element newElem = (brush.isAdvanced())
-                    ? brush.getElement(oldElem, x, y, area, controls)
-                    : brush.getElement(oldElem);
-            
-            return inserter.insert(x, y, newElem);
-        }
-        return false;
+        return inserter.apply(x, y, brush);
     }
-    
+
     @Override
     public T getArea() {
         return area;
@@ -118,10 +112,15 @@ public class BrushInserter<T extends ElementArea> implements Inserter<T> {
     public BrushInserter<T> with(Brush brush) {
         return with(brush, controls);
     }
-    
+
     @Override
     public BrushInserter<T> with(Brush brush, Controls controls) {
         return new BrushInserter<>(inserter, brush, controls);
     }
-    
+
+    @Override
+    public void setEraseTemperature(boolean eraseTemperature) {
+        inserter.setEraseTemperature(eraseTemperature);
+    }
+
 }

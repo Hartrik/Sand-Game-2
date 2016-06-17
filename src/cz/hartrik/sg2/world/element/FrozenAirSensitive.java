@@ -29,7 +29,7 @@ public class FrozenAirSensitive extends Frozen {
 
     @Override
     public void doAction(int x, int y, Tools tools, World world) {
-        boolean noAir = tools.getDirectionVisitor().visitWhileAll(x, y,
+        boolean noAir = tools.getDirVisitor().visitWhileAll(x, y,
                 (Element element) -> !(element instanceof Air));
         
         if (!noAir && chanceToUnfreeze.nextBoolean())
@@ -38,7 +38,7 @@ public class FrozenAirSensitive extends Frozen {
     
     @Override
     public boolean testAction(int x, int y, Tools tools, World world) {
-        return tools.getDirectionVisitor().testAll(x, y, element -> {
+        return tools.getDirVisitor().testAll(x, y, element -> {
             return element instanceof Air;
         });
     }

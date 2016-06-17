@@ -2,8 +2,8 @@ package cz.hartrik.sg2.engine;
 
 import cz.hartrik.common.Color;
 import cz.hartrik.sg2.world.Element;
+import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.element.Air;
-import cz.hartrik.sg2.world.element.temperature.Thermal;
 import java.util.stream.IntStream;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
@@ -11,10 +11,12 @@ import javafx.scene.image.PixelReader;
 /**
  * Přiděluje elementům barvu podle teploty.
  *
- * @version 2016-05-23
+ * @version 2016-06-15
  * @author Patrik Harag
  */
 public class HeatmapColorPalette {
+
+    public static final Color ERROR_COLOR = Color.MAGENTA;
 
     private final int size;
     private final Color[] lookupTable;
@@ -52,19 +54,26 @@ public class HeatmapColorPalette {
      * Vrátí barvu elementu podle jeho teploty.
      *
      * @param element element
+     * @param temperature teplota
      * @return barva
      */
-    public Color color(Element element) {
-        if (element instanceof Thermal) {
-            double relTemp = relativize(((Thermal) element).getTemperature());
+    public Color color(Element element, float temperature) {
+        if (element.hasTemperature()) {
+            double relTemp = relativize(temperature);
             return lookupTable[(int) (relTemp * size)];
+        }
+
+        if (temperature != ElementArea.DEFAULT_TEMPERATURE) {
+            // na plátně je element, který by neměl nést neplotu, ale teplotu
+            // stejně má - to je důsledek nějaké chyby
+            return ERROR_COLOR;
         }
 
         return (element instanceof Air) ? airColor : defColor;
     }
 
-    private double relativize(int temperature) {
-        double r = ((double) temperature - minTemp) / (maxTemp - minTemp);
+    private double relativize(float temperature) {
+        float r = (temperature - minTemp) / (maxTemp - minTemp);
 
         if (r < 0)
             return 0;

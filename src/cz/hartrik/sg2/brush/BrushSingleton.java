@@ -3,7 +3,7 @@ package cz.hartrik.sg2.brush;
 import cz.hartrik.common.random.RandomSuppliers;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
 import cz.hartrik.sg2.world.Element;
-import cz.hartrik.sg2.world.element.type.Sourceable;
+import cz.hartrik.sg2.world.element.special.Sourceable;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;

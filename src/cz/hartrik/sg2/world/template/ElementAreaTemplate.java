@@ -7,11 +7,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 
 /**
- * @version 2015-01-11
+ * @version 2016-06-16
  * @author Patrik Harag
  */
 public class ElementAreaTemplate implements TemplateWPreview {
-    
+
     private final ElementArea elementArea;
 
     public ElementAreaTemplate(ElementArea elementArea) {
@@ -20,11 +20,14 @@ public class ElementAreaTemplate implements TemplateWPreview {
 
     @Override
     public void insert(Inserter<? extends ElementArea> inserter, int x, int y) {
-        for (int iy = 0; iy < getHeight(); iy++)
-            for (int ix = 0; ix < getWidth(); ix++)
-                inserter.insert((x + ix), (y + iy), elementArea.get(ix, iy));
+        elementArea.forEachPoint((int ix, int iy) -> {
+            if (inserter.insert((x + ix), (y + iy), elementArea.get(ix, iy))) {
+                float temp = elementArea.getTemperature(ix, iy);
+                inserter.getArea().setTemperature((x + ix), (y + iy), temp);
+            }
+        });
     }
-    
+
     @Override
     public boolean isResponsive() {
         return false;
@@ -39,20 +42,20 @@ public class ElementAreaTemplate implements TemplateWPreview {
     public int getHeight() {
         return elementArea.getHeight();
     }
-    
+
     @Override
     public Image getImage() {
         WritableImage image = new WritableImage(getWidth(), getHeight());
-        
+
         JFXRenderer renderer = new JFXRenderer(elementArea);
-        renderer.updateBufferAll();
-        
+        renderer.updateBuffer();
+
         image.getPixelWriter().setPixels(
                 0, 0, getWidth(), getHeight(),
                 renderer.getPixelFormat(),
-                renderer.getData(), 0, (getWidth() * 4));
-        
+                renderer.getBuffer(), 0, (getWidth() * 4));
+
         return image;
     }
-    
+
 }

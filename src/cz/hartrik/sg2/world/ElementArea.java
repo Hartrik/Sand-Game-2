@@ -18,31 +18,36 @@ import java.util.stream.Stream;
  * <code>int</code> použít i {@link Point}, protože se často používá ve spojení
  * s {@link Iterator}, {@link Stream} atd...
  *
- * @version 2015-11-20
+ * @version 2016-06-14
  * @author Patrik Harag
  */
 public class ElementArea implements Region, Serializable {
 
     private static final long serialVersionUID = 83715083867368_01_001L;
 
-    private final Element[] array;
+    public static final float DEFAULT_TEMPERATURE = 0f;
+
+    private final Element[] elements;
+    private final float[] temperature;
+
     private final int width;
     private final int height;
 
     public ElementArea(int width, int height) {
-        this.array = new Element[width * height];
         this.width = width;
         this.height = height;
+
+        this.elements = new Element[width * height];
+        this.temperature = new float[width * height];
+        Arrays.fill(temperature, DEFAULT_TEMPERATURE);
     }
 
     public ElementArea(ElementArea elementArea) {
-        final int length = elementArea.array.length;
-
-        this.array = new Element[length];
         this.width = elementArea.width;
         this.height = elementArea.height;
 
-        System.arraycopy(elementArea.array, 0, array, 0, length);
+        this.elements = elementArea.elements.clone();
+        this.temperature = elementArea.temperature.clone();
     }
 
     // rozměry...
@@ -61,7 +66,7 @@ public class ElementArea implements Region, Serializable {
     // přístupové metody
 
     public final Element get(final int x, final int y) {
-        return array[(y * width) + x];
+        return elements[(y * width) + x];
     }
 
     public final Element get(Point point) {
@@ -69,7 +74,19 @@ public class ElementArea implements Region, Serializable {
     }
 
     public final void set(final int x, final int y, final Element element) {
-        array[(y * width) + x] = element;
+        elements[(y * width) + x] = element;
+    }
+
+    public final void setTemperature(final int x, final int y, final float t) {
+        temperature[(y * width) + x] = t;
+    }
+
+    public final void addTemperature(final int x, final int y, final float t) {
+        temperature[(y * width) + x] += t;
+    }
+
+    public final float getTemperature(final int x, final int y) {
+        return temperature[(y * width) + x];
     }
 
     public final void set(Point point, Element element) {
@@ -99,8 +116,14 @@ public class ElementArea implements Region, Serializable {
         return new Clip(this, shape, x, y);
     }
 
-    public final Element[] getArray() {
-        return array;
+    @Deprecated
+    public final Element[] getElements() {
+        return elements;
+    }
+
+    @Deprecated
+    public float[] getTemperature() {
+        return temperature;
     }
 
     // různé
@@ -134,14 +157,14 @@ public class ElementArea implements Region, Serializable {
 
     @Override
     public Iterator<Element> iterator() {
-        return Iterators.iterator(array);
+        return Iterators.iterator(elements);
     }
 
     @Override
     public Iterator<Point> iteratorPoint() {
         return new Iterator<Point>() {
             private int i;
-            @Override public boolean hasNext() { return i < array.length; }
+            @Override public boolean hasNext() { return i < elements.length; }
             @Override public Point next() {
                 return new Point(i % width, i++ / width);
             }
@@ -152,9 +175,9 @@ public class ElementArea implements Region, Serializable {
     public Iterator<Pair<Element, Point>> iteratorLabeled() {
         return new Iterator<Pair<Element, Point>>() {
             private int i;
-            @Override public boolean hasNext() { return i < array.length; }
+            @Override public boolean hasNext() { return i < elements.length; }
             @Override public Pair<Element, Point> next() {
-                Element element = array[i];
+                Element element = elements[i];
                 return Pair.of(element, Point.of(i % width, i++ / width));
             }
         };
@@ -162,7 +185,7 @@ public class ElementArea implements Region, Serializable {
 
     @Override
     public Stream<Element> stream() {
-        return Arrays.stream(array);
+        return Arrays.stream(elements);
     }
 
     @Override
@@ -177,20 +200,20 @@ public class ElementArea implements Region, Serializable {
 
     @Override
     public void forEach(Consumer<? super Element> consumer) {
-        for (Element array1 : array) {
+        for (Element array1 : elements) {
             consumer.accept(array1);
         }
     }
 
     @Override
     public void forEach(PointElementConsumer<? super Element> consumer) {
-        for (int i = 0; i < array.length; i++)
-            consumer.accept(array[i], i % width, i / width);
+        for (int i = 0; i < elements.length; i++)
+            consumer.accept(elements[i], i % width, i / width);
     }
 
     @Override
     public void forEachPoint(PointConsumer consumer) {
-        for (int i = 0; i < array.length; i++)
+        for (int i = 0; i < elements.length; i++)
             consumer.accept(i % width, i / width);
     }
 

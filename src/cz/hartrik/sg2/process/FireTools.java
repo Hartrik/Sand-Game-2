@@ -1,24 +1,23 @@
 
 package cz.hartrik.sg2.process;
 
-import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.World;
 import cz.hartrik.sg2.world.element.Air;
+import cz.hartrik.sg2.world.element.temperature.Burnable;
 import cz.hartrik.sg2.world.element.temperature.Flammable;
-import cz.hartrik.sg2.world.element.temperature.ThermalInfluenced;
 import cz.hartrik.sg2.world.factory.IFireFactory;
 
 /**
  * Nástroje pro práci s ohněm a teplotou.
- * 
+ *
  * @see Flammable
- * @see ThermalInfluenced
- * 
- * @version 2014-05-15
+ * @see Burnable
+ *
+ * @version 2016-06-16
  * @author Patrik Harag
  */
 public class FireTools {
-    
+
     private final World world;
     private final Tools tools;
     private final IFireFactory fireFactory;
@@ -28,57 +27,49 @@ public class FireTools {
         this.tools = tools;
         this.fireFactory = fireFactory;
     }
-    
+
     public IFireFactory getFireFactory() {
         return fireFactory;
     }
-    
-    public boolean findAir(int x, int y) {
-        return !tools.getDirectionVisitor().visitWhileAll(x, y,
-                (Element element) -> !(element instanceof Air));
+
+    public final boolean findAir(int x, int y) {
+        return world.valid(x+1, y) && world.get(x+1, y) instanceof Air
+            || world.valid(x-1, y) && world.get(x-1, y) instanceof Air
+            || world.valid(x, y+1) && world.get(x, y+1) instanceof Air
+            || world.valid(x, y-1) && world.get(x, y-1) instanceof Air;
     }
-    
-    // affect
-    
-    public boolean affect(int x, int y, int temperature, boolean fire) {
-        return world.valid(x, y)
-                ? affect(x, y, world.get(x, y), temperature, fire)
-                : false;
+
+    public final boolean affectBurnable(int x, int y, Burnable burnable, float temp) {
+        if (temp > burnable.getDegreeOfFlammability()
+                && burnable.getChanceToBurn()) {
+
+            world.setAndChange(x, y, world.getBackground());
+            world.setTemperature(x, y, World.DEFAULT_TEMPERATURE);
+            return true;
+        }
+        return false;
     }
-    
+
     /**
-     * Vyvyne teplotu na určitý element. Pokud je element hořlavý, může se
-     * vznítit.
-     * 
+     * Zkusí zapálit hořlavý element.
+     *
      * @param x horizontální pozice elementu
      * @param y vertikální pozice elementu
-     * @param element element
-     * @param temperature teplota působící na e
+     * @param flammable hořlavý element
      * @param fire přítomnost ohně
-     * @return pokud je element zapálen nebo nahrazen jiným
+     * @return došlo ke vznícení
      */
-    public boolean affect(int x, int y, Element element, int temperature,
+    public final boolean affectFlammable(int x, int y, Flammable flammable,
             boolean fire) {
-        
-        return element instanceof Flammable
-                ? (affectFlammable(x, y, (Flammable) element, temperature, fire)
-                    ? true
-                    : affectTI(x, y, element, temperature, fire))
-                : affectTI(x, y, element, temperature, fire);
+
+        float temperature = world.getTemperature(x, y);
+        return affectFlammable(x, y, flammable, temperature, fire);
     }
-    
-    private boolean affectTI(int x, int y, Element element, int temperature,
-            boolean fire) {
-        
-        return element instanceof ThermalInfluenced
-                ? affectTI(x, y, (ThermalInfluenced) element, temperature, fire)
-                : false;
-    }
-    
+
     /**
-     * Vyvyne teplotu na hořlavý element. Pokud je v okolí vzduch, tak se může
+     * Vyvine teplotu na hořlavý element. Pokud je v okolí vzduch, tak se může
      * vznítit.
-     * 
+     *
      * @param x horizontální pozice elementu
      * @param y vertikální pozice elementu
      * @param flammable hořlavý element
@@ -86,33 +77,17 @@ public class FireTools {
      * @param fire přítomnost ohně
      * @return došlo ke vznícení
      */
-    public boolean affectFlammable(int x, int y, Flammable flammable,
-            int temperature, boolean fire) {
-        
-        if ((fire || findAir(x, y))
-                && temperature >= flammable.getDegreeOfFlammability()
-                && flammable.getChanceToFlareUp()) {
-            
+    public final boolean affectFlammable(int x, int y, Flammable flammable,
+            float temperature, boolean fire) {
+
+        if (temperature >= flammable.getDegreeOfFlammability()
+                && flammable.getChanceToFlareUp()
+                && (fire || findAir(x, y))) {
+
             world.setAndChange(x, y, fireFactory.getFireFocus(flammable));
             return true;
         }
         return false;
     }
 
-    /**
-     * Vyvyne teplotu na element.
-     * 
-     * @param x horizontální pozice elementu
-     * @param y vertikální pozice elementu
-     * @param element element, který může být ovlivněn ohněm
-     * @param temperature teplota působící na element
-     * @param fire přítomnost ohně
-     * @return došlo ke spálení nebo nahrazení elementu jiným
-     */
-    public boolean affectTI(int x, int y, ThermalInfluenced element,
-            int temperature, boolean fire) {
-        
-        return element.temperature(x, y, tools, world, temperature, fire);
-    }
-    
 }

@@ -6,7 +6,8 @@ import cz.hartrik.common.random.RandomSuppliers;
 import cz.hartrik.common.random.XORShiftRandom;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
 import cz.hartrik.sg2.world.Element;
-import cz.hartrik.sg2.world.element.type.Sourceable;
+import cz.hartrik.sg2.world.ElementArea;
+import cz.hartrik.sg2.world.element.special.Sourceable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
@@ -16,7 +17,7 @@ import java.util.function.Supplier;
  * Pro elementy bez pevné textury, pro které není potřeba na každý výskyt
  * vytvořit novou instanci.
  *
- * @version 2015-11-19
+ * @version 2016-06-16
  * @author Patrik Harag
  */
 public class BrushRandom extends ABrushBase
@@ -32,12 +33,23 @@ public class BrushRandom extends ABrushBase
     }
 
     @Override
-    public Element getElement(Element current) {
-        if (current != null && produces(current)) return null;
+    public Element getElement(Element current, int x, int y,
+            ElementArea area, Controls controls) {
 
+        if (current != null && produces(current)) {
+            // zabraňuje překreslování elementů nanesených stejným štětcem
+            // vrácení objektu != null resetuje teplotu
+            return current;
+        }
+
+        return getElement();
+    }
+
+    @Override
+    public Element getElement(Element current) {
         return elements.length > 1
                 ? elements[random.nextInt(elements.length)]
-                : elements.length == 0 ? null : elements[0];
+                : (elements.length == 0 ? null : elements[0]);
     }
 
     @Override
@@ -60,6 +72,11 @@ public class BrushRandom extends ABrushBase
         return next.getClass() == element.getClass()
                 && element.getColor().equals(next.getColor())
                 && element.getDensity() == next.getDensity();
+    }
+
+    @Override
+    public boolean isAdvanced() {
+        return true;
     }
 
     // CollectibleBrush

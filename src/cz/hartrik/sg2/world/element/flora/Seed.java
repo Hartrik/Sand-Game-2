@@ -9,7 +9,7 @@ import cz.hartrik.sg2.world.World;
 import cz.hartrik.sg2.world.element.Air;
 import cz.hartrik.sg2.world.element.FallingElement;
 import cz.hartrik.sg2.world.element.powder.Soil;
-import cz.hartrik.sg2.world.element.type.Organic;
+import cz.hartrik.sg2.world.element.Organic;
 
 /**
  * Element představující semínko. Slouží k setí rostlin.

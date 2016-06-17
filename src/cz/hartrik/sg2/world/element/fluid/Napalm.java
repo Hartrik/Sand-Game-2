@@ -10,52 +10,66 @@ import cz.hartrik.sg2.world.element.temperature.FireSettings;
 
 /**
  * Element představující napalm.
- * Zde se jedná o tekutinu, která vede teplo, snadno se vznítí a teplota
- * plamenů dosahuje 2100 °C. Dokud element padá, tak nedochází k jeho spalování.
+ * Zde se jedná o tekutinu, který se ihned vznítí a teplota
+ * plamenů dosahuje 2350 °C. Dokud element padá, tak nedochází k jeho spalování.
  * <p>
  *
- * <i>Může být vytvořena pouze jedna instance tohoto elementu pro použití
- * na celém plátně. Sice bude všude stejná teplota, ale to stejně není na
- * první pohled poznat.</i>
+ * <i> Může být vytvořena pouze jedna instance tohoto elementu pro použití
+ * na celém plátně. </i>
  *
- * @version 2015-11-18
+ * @version 2016-06-17
  * @author Patrik Harag
  */
-public class Napalm extends FluidWaterTC implements BurnableDef {
+public class Napalm extends FluidWater implements BurnableDef {
 
     private static final long serialVersionUID = 83715083867368_02_093L;
 
     private static final FireSettings fs = new FireSettings(
-            Chance.ALWAYS, 100, 2100, new RatioChance(20));
+            Chance.ALWAYS, 0, 2350, new RatioChance(20));
 
-    public Napalm(Color color, int density, int temperature) {
-        super(color, density, temperature);
+    public Napalm(Color color, int density) {
+        super(color, density);
     }
 
     @Override
     public void doAction(int x, int y, Tools tools, World world) {
-        super.doAction(x, y, tools, world);
+        world.setTemperature(x, y, getFlammableNumber());
 
-        // spálení elementu
-        if (getFireSettings().getChanceToBurn().nextBoolean())
-            world.setAndChange(x, y, world.getBackground());
+        if (!flow(x, y, tools, world)) {
+            tools.getFireTools().affectFlammable(x, y, this, false);
+        }
+    }
+
+    @Override
+    public boolean testAction(int x, int y, Tools tools, World world) {
+        return true;
+    }
+
+    @Override
+    public boolean hasTemperature() {
+        return true;
+    }
+
+    @Override
+    public boolean isConductive() {
+        return true;
     }
 
     @Override
     public float getConductiveIndex() {
-        return .5f;
+        return 0.5f;
     }
+
+    @Override
+    public float loss() {
+        return 0;
+    }
+
+    // BurnableDef
 
     @Override
     public FireSettings getFireSettings() {
         return fs;
-    }
-
-    @Override
-    public void setTemperature(int temperature) {
-        // teplotu nelze snížit
-        if (temperature > getTemperature())
-            super.setTemperature(temperature);
     }
 
 }

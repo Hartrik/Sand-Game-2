@@ -4,7 +4,7 @@ package cz.hartrik.sg2.world.element;
 import cz.hartrik.common.Color;
 import cz.hartrik.sg2.process.Tools;
 import cz.hartrik.sg2.world.World;
-import cz.hartrik.sg2.world.element.type.Sourceable;
+import cz.hartrik.sg2.world.element.special.Sourceable;
 
 /**
  * Abstraktní třída pro elementy, na které působí gravitace.

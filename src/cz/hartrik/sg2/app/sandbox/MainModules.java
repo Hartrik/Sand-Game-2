@@ -21,11 +21,12 @@ import cz.hartrik.sg2.world.ModularWorld;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import javafx.stage.Window;
 
 /**
- * @version 2015-03-28
+ * @version 2016-06-18
  * @author Patrik Harag
  */
 public class MainModules {
@@ -34,17 +35,18 @@ public class MainModules {
     public static StageModule<Frame, FrameController>[] modules() {
 
         // io
-
         Supplier<BrushManager<?>> bmSupplier =
                 () -> Main.getFrame().getFrameController().getBrushManager();
 
-        SerZipIO<ModularWorld> serZipIO = new SerZipIO<>();
-        BrushTemplateZipIO<ModularWorld> btIO = new BrushTemplateZipIO<>(
-                bmSupplier, 0,
-                (w, h) -> new ModularWorld(w, h,
-                        bmSupplier.get().getBrush(1).getElement()));
+        BiFunction<Integer, Integer, ModularWorld> areaSupplier =
+                (w, h) -> new ModularWorld(w, h, bmSupplier.get().getBrush(1).getElement());
 
-        IOProvider<ModularWorld> ioProvider = new BasicIOProvider<>(Arrays.asList(serZipIO, btIO));
+        ResourceTypeManager rtManager = new ResourceTypeManager(bmSupplier, 0);
+
+        ZipIO<ModularWorld> serZipIO = new ZipIOSerial<>(areaSupplier, rtManager);
+        ZipIO<ModularWorld> tmpZipIO = new ZipIOBrushTemplate<>(areaSupplier, rtManager);
+
+        IOProvider<ModularWorld> ioProvider = new BasicIOProvider<>(Arrays.asList(serZipIO, tmpZipIO));
 
         JFXMultiFileChooser chooser = new JFXMultiFileChooser(ioProvider, Paths.get("."));
         UIProvider<Window> uiProvider = new JFXUIProvider<>(chooser);

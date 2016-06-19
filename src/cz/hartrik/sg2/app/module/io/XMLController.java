@@ -2,19 +2,18 @@ package cz.hartrik.sg2.app.module.io;
 
 import cz.hartrik.common.Pair;
 import java.io.*;
+import java.util.function.Consumer;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -22,107 +21,113 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * @version 2015-03-12
+ * Poskytuje metody pro vytváření a načítání XML kontroleru, který řídí načítání
+ * resources ze zip souboru.
+ *
+ * @version 2016-06-19
  * @author Patrik Harag
  */
 class XMLController {
-    
+
+    private XMLController() { }
+
     static class Data {
-        public String type = "";
-        public String version = "";
+        public String appName = "";
+        public String appVersion = "";
+
         public String title = "";
         public String description = "";
+
+        public int contentWidth;
+        public int contentHeight;
     }
-    
+
     // write
-    
-    static void write(
-            OutputStream outStream, Data data, XMLConsumer consumer)
+
+    static void write(OutputStream out, Data data, Consumer<SimpleDOM> content)
             throws IOException {
-        
+
         try {
-            writeImpl(outStream, data, consumer);
-        } catch (TransformerException | XMLStreamException ex) {
+            writeImpl(out, data, content);
+        } catch (Exception ex) {
             throw new IOException(ex);
         }
     }
-    
+
     private static void writeImpl(
-            OutputStream outStream, Data data, XMLConsumer consumer)
-            throws IOException, XMLStreamException, TransformerException {
-        
-        StringWriter stringWriter = new StringWriter();
+            OutputStream outStream, Data data, Consumer<SimpleDOM> contentProvider)
+            throws IOException, XMLStreamException,
+                   TransformerException, ParserConfigurationException {
 
-        XMLOutputFactory factory = XMLOutputFactory.newInstance();
-        XMLStreamWriter out = factory.createXMLStreamWriter(stringWriter);
+        SimpleDOM dom = SimpleDOM
+            .root("data")
+                .addAttribute("app-name", data.appName)
+                .addAttribute("app-version", data.appVersion)
+                .addNode("title").addText(data.title).end()
+                .addNode("description").addText(data.description).end()
+                .addNode("content")
+                    .addAttribute("width", data.contentWidth)
+                    .addAttribute("height", data.contentHeight);
 
-        out.writeStartElement("data");
-         out.writeAttribute("type", data.type);
-         out.writeAttribute("app-version", data.version);
+        contentProvider.accept(dom);
 
-         out.writeStartElement("title");
-          out.writeCharacters(data.title);
-         out.writeEndElement();
+        DOMSource source = new DOMSource(dom.getDocument());
+		StreamResult result = new StreamResult(new OutputStreamWriter(outStream, "UTF-8"));
 
-         out.writeStartElement("description");
-          out.writeCharacters(data.description);
-         out.writeEndElement();
+        Transformer transformer = createTransformer();
+		transformer.transform(source, result);
+	}
 
-         out.writeStartElement("content");
-          consumer.accept(out);
-         out.writeEndElement();
-        out.writeEndElement();
-        out.close();
-
-        Source xmlInput = new StreamSource(new StringReader(stringWriter.toString()));
-        StreamResult xmlOutput = new StreamResult(new OutputStreamWriter(outStream, "UTF-8"));
-
+    private static Transformer createTransformer() throws TransformerConfigurationException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        transformerFactory.setAttribute("indent-number", 2);
-        Transformer transformer = transformerFactory.newTransformer(); 
+		Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.transform(xmlInput, xmlOutput);
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        return transformer;
     }
-    
-    static interface XMLConsumer {
-        public void accept(XMLStreamWriter out) throws XMLStreamException;
-    }
-    
+
     // read
-    
+
     static Pair<Data, Node> read(InputStream inputStream)
             throws ParseException, IOException {
-        
-        final Document document;
-        try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            document = dBuilder.parse(inputStream);
-            document.getDocumentElement().normalize();
-        } catch (ParserConfigurationException | SAXException ex) {
-            throw new ParseException(ex);
-        }
 
-        // získání obecných informací
-        
+        Document document = loadDocument(inputStream);
         Element documentElement = document.getDocumentElement();
-        
-        Data data = new Data() {{
-            type = documentElement.getAttribute("type");
-            version = documentElement.getAttribute("app-version");
-            title = "not implemented";
-            description = title;
-        }};
-        
-        // získání uzlu se specifikacemi
-        
+
         NodeList contentList = document.getElementsByTagName("content");
+
         if (contentList.getLength() < 1)
             throw new ParseException("xml controller - there is no <content>");
 
-        // návratová hodnota
-        
-        return Pair.of(data, contentList.item(0));
+        Node contentNode = contentList.item(0);
+        Pair<Integer, Integer> size = ParseUtils
+                .parseCanvasSize(contentNode);
+
+        Data data = new Data() {{
+            appName = documentElement.getAttribute("app-name");
+            appVersion = documentElement.getAttribute("app-version");
+
+            title = "not implemented";
+            description = "not implemented";
+
+            contentWidth = size.getFirst();
+            contentHeight = size.getSecond();
+        }};
+
+        return Pair.of(data, contentNode);
     }
-    
+
+    private static Document loadDocument(InputStream inputStream) throws IOException {
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document document = dBuilder.parse(inputStream);
+            document.getDocumentElement().normalize();
+            return document;
+
+        } catch (ParserConfigurationException | SAXException ex) {
+            throw new ParseException(ex);
+        }
+    }
+
 }

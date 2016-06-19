@@ -2,13 +2,13 @@
 package cz.hartrik.sg2.app.module.io;
 
 /**
- * Vyjímka vyvolaná při parsování dat.
- * 
+ * Výjimka vyvolaná při parsování dat.
+ *
  * @version 2014-09-20
  * @author Patrik Harag
  */
 public class ParseException extends RuntimeException {
-    
+
     private static final long serialVersionUID = 6549451674104710994L;
 
     public ParseException() {

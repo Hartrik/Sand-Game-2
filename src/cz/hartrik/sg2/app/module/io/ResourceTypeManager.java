@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 /**
  * Spravuje seznam všech dostupných typů zdrojů.
  *
- * @version 2016-06-18
+ * @version 2016-06-19
  * @author Patrik Harag
  */
 public class ResourceTypeManager {
@@ -23,6 +23,7 @@ public class ResourceTypeManager {
         this.resourceTypes = new ResourceType[] {
             new ResourceBrushTemplate(bmSupplier, defaultBrush),
             new ResourceSerialized(),
+            new ResourceHeatmap()
         };
     }
 

@@ -37,9 +37,12 @@ public class ZipIOBrushTemplate <T extends ElementArea> extends ZipIO<T> {
     public Map<String, ResourceType> getWriteResourceTypes() {
         Map<String, ResourceType> map = new LinkedHashMap<>();
 
-        String id = ResourceBrushTemplate.IDENTIFIER;
-        map.put("template.png", resourceTypeManager.findByIdentifier(id));
+        String id1 = ResourceBrushTemplate.IDENTIFIER;
+        map.put("template.png", resourceTypeManager.findByIdentifier(id1));
 
+        String id2 = ResourceHeatmap.IDENTIFIER;
+        map.put("heatmap.png", resourceTypeManager.findByIdentifier(id2));
+        
         return map;
     }
 

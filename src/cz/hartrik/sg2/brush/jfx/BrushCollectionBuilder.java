@@ -22,14 +22,14 @@ import javafx.scene.image.Image;
 public class BrushCollectionBuilder {
 
     protected final BrushInfoLoader loader;
-    protected final List<BrushItem<Brush>> collection;
+    protected final List<BrushItem> collection;
 
     public BrushCollectionBuilder(BrushInfoLoader loader) {
         this.loader = loader;
         this.collection = new ArrayList<>();
     }
 
-    public List<BrushItem<Brush>> getCollection() {
+    public List<BrushItem> getCollection() {
         return collection;
     }
 
@@ -126,10 +126,10 @@ public class BrushCollectionBuilder {
     }
 
     public BrushCollectionBuilder add(Brush brush, boolean hidden) {
-        return add(new BrushItem<>(brush, hidden));
+        return add(new BrushItem(brush, hidden));
     }
 
-    public BrushCollectionBuilder add(BrushItem<Brush> brush) {
+    public BrushCollectionBuilder add(BrushItem brush) {
         collection.add(brush);
 
         return this;

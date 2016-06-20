@@ -7,7 +7,6 @@ import cz.hartrik.sg2.app.module.canvas.MouseControllerExt;
 import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
 import cz.hartrik.sg2.app.module.frame.module.script.ToolFactory;
 import cz.hartrik.sg2.app.sandbox.element.StandardBrushCollection;
-import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.jfx.JFXControls;
 import cz.hartrik.sg2.brush.manage.BrushManager;
 import cz.hartrik.sg2.brush.manage.ObservedBrushManagerBC;
@@ -110,14 +109,13 @@ public class FrameController extends FrameControllerTemplate implements Initiali
 
     // brush manager
 
-    private final ObservedBrushManagerBC<Brush> brushManager
-            = StandardBrushCollection.create(
-                () -> new ObservedBrushManagerBC<>(
-                        StandardBrushCollection.getVersion(),
-                        StandardBrushCollection::getBCConverter),
-                () -> engine.getProcessor().getTools());
+    private final ObservedBrushManagerBC brushManager = StandardBrushCollection.create(
+            () -> new ObservedBrushManagerBC(
+                    StandardBrushCollection.getVersion(),
+                    StandardBrushCollection::getBCConverter),
+            () -> engine.getProcessor().getTools());
 
-    public BrushManager<Brush> getBrushManager() {
+    public BrushManager getBrushManager() {
         return brushManager;
     }
 

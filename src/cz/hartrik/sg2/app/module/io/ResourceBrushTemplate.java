@@ -5,6 +5,7 @@ import cz.hartrik.common.reflect.TODO;
 import cz.hartrik.sg2.app.sandbox.element.StandardBrushCollection;
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.manage.BrushManager;
+import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.Inserter;
 import java.awt.image.BufferedImage;
@@ -20,7 +21,7 @@ import org.w3c.dom.NodeList;
 /**
  * ID štětců uložená v png obrázku.
  *
- * @version 2016-06-18
+ * @version 2016-06-20
  * @author Patrik Harag
  */
 @TODO("Podporuje pouze StandardBrushCollection")
@@ -28,11 +29,11 @@ public class ResourceBrushTemplate implements ResourceType {
 
     public static final String IDENTIFIER = "brush template";
 
-    private final Supplier<BrushManager<? extends Brush>> supplier;
+    private final Supplier<BrushManager> supplier;
     private final int defaultBrushID;
 
     public ResourceBrushTemplate(
-            Supplier<BrushManager<? extends Brush>> supplier, int defaultBrushID) {
+            Supplier<BrushManager> supplier, int defaultBrushID) {
 
         this.supplier = supplier;
         this.defaultBrushID = defaultBrushID;
@@ -55,26 +56,26 @@ public class ResourceBrushTemplate implements ResourceType {
 
     @Override
     public void writeData(OutputStream os, ElementArea area) throws IOException {
-        ImageIO.write(createImage(area), "png", os);
+        ImageIO.write(createImage(area, supplier.get()), "png", os);
     }
 
-    protected BufferedImage createImage(ElementArea area) {
+    protected BufferedImage createImage(ElementArea area, BrushManager bm) {
         BufferedImage bufferedImage = new BufferedImage(
                 area.getWidth(), area.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
-
-        BrushManager<?> brushManager = supplier.get();
-
         area.forEach((element, x, y) -> {
-            Brush producer = brushManager.getProducerAll(element);
-            int id = (producer == null)
-                    ? defaultBrushID
-                    : producer.getInfo().getId();
-
+            int id = getID(element, bm, defaultBrushID);
             bufferedImage.setRGB(x, y, ~id);
         });
 
         return bufferedImage;
+    }
+
+    protected int getID(Element element, BrushManager brushManager, int def) {
+        Brush producer = brushManager.getProducerAll(element);
+        return (producer == null)
+                ? def
+                : producer.getInfo().getId();
     }
 
     // --- načtení
@@ -108,7 +109,7 @@ public class ResourceBrushTemplate implements ResourceType {
     }
 
     protected void apply(ElementArea area, BufferedImage image, IntUnaryOperator convertor,
-            BrushManager<?> manager, int x, int y) {
+            BrushManager manager, int x, int y) {
 
         final int imgWidth = image.getWidth();
         final int imgHeight = image.getHeight();
@@ -117,6 +118,7 @@ public class ResourceBrushTemplate implements ResourceType {
         final int areaHeight = area.getHeight();
 
         Inserter<?> inserter = area.getInserter();
+        inserter.setEraseTemperature(false);
 
         for (int cX = x; cX < (x + imgWidth) && cX < areaWidth; cX++) {
             for (int cY = y; cY < (y + imgHeight) && cY < areaHeight; cY++) {

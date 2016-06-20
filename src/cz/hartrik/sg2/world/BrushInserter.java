@@ -4,12 +4,14 @@ package cz.hartrik.sg2.world;
 import cz.hartrik.common.Checker;
 import cz.hartrik.common.Point;
 import cz.hartrik.sg2.brush.Brush;
+import cz.hartrik.sg2.brush.BrushEffect;
 import cz.hartrik.sg2.brush.Controls;
+import cz.hartrik.sg2.brush.Wrapper;
 
 /**
  * Spravuje vkládání štětcem do pole elementů.
  *
- * @version 2016-06-13
+ * @version 2016-06-20
  * @author Patrik Harag
  * @param <T>
  */
@@ -32,6 +34,9 @@ public class BrushInserter<T extends ElementArea> implements Inserter<T> {
 
         if (inserter instanceof ElementAreaInserter)
             ((ElementAreaInserter) inserter).setControls(controls);
+
+        if (Wrapper.isInstance(brush, BrushEffect.class))
+            inserter.setEraseTemperature(false);
     }
 
     // insert

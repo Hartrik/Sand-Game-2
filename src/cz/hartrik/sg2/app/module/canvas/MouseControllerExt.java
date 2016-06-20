@@ -35,7 +35,7 @@ public class MouseControllerExt extends MouseControllerPick {
             Supplier<JFXEngine<?>> engineSupplier,
             Supplier<ElementArea> areaSupplier,
             Supplier<EngineSyncToolsMW> syncTools,
-            BrushManager<?> brushManager, CanvasWithCursor canvas) {
+            BrushManager brushManager, CanvasWithCursor canvas) {
 
         super(imageView, controls, engineSupplier, areaSupplier, syncTools,
                 brushManager);

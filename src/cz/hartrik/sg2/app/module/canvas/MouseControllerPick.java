@@ -1,12 +1,12 @@
 
 package cz.hartrik.sg2.app.module.canvas;
 
-import cz.hartrik.sg2.tool.Can;
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.jfx.JFXControls;
 import cz.hartrik.sg2.brush.manage.BrushManager;
 import cz.hartrik.sg2.engine.EngineSyncToolsMW;
 import cz.hartrik.sg2.engine.JFXEngine;
+import cz.hartrik.sg2.tool.Can;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.ElementArea;
 import java.util.function.Supplier;
@@ -14,23 +14,23 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 /**
- * Kontrolor myši s kapátkem a plechovkou na prostředním tlačítku 
- * 
+ * Kontrolor myši s kapátkem a plechovkou na prostředním tlačítku
+ *
  * @version 2015-03-21
  * @author Patrik Harag
  */
 public class MouseControllerPick extends MouseController {
-    
-    protected final BrushManager<?> brushManager;
+
+    protected final BrushManager brushManager;
     protected final Supplier<EngineSyncToolsMW> syncTools;
     private final Can can1;
     private final Can can2;
-    
+
     public MouseControllerPick(ImageView imageView, JFXControls controls,
             Supplier<JFXEngine<?>> engineSupplier,
             Supplier<ElementArea> areaSupplier,
-            Supplier<EngineSyncToolsMW> syncTools, BrushManager<?> brushManager) {
-        
+            Supplier<EngineSyncToolsMW> syncTools, BrushManager brushManager) {
+
         super(imageView, controls, engineSupplier, areaSupplier);
         this.syncTools = syncTools;
         this.brushManager = brushManager;
@@ -41,23 +41,23 @@ public class MouseControllerPick extends MouseController {
     @Override
     protected void onMousePressed(MouseEvent event) {
         if (event.isMiddleButtonDown()) {
-            
+
             final int x = (int) event.getX();
             final int y = (int) event.getY();
-            
+
             if (event.isShiftDown()) {
                 // plechovka 1
                 syncTools.get().synchronize(()
                         -> can1.apply(x, y, getInserter(Brush.EMPTY_BRUSH)));
-                
+
             } else if (event.isControlDown()) {
                 // plechovka 2
                 syncTools.get().synchronize(()
                     -> can2.apply(x, y, getInserter(Brush.EMPTY_BRUSH)));
-                
+
             } else if (event.isAltDown()) {
-                
-                
+
+
             } else {
                 // picker
                 ElementArea area = areaSupplier.get();
@@ -68,10 +68,10 @@ public class MouseControllerPick extends MouseController {
                 if (producer != null)
                     controls.setPrimaryBrush(producer);
             }
-            
+
         } else {
             super.onMousePressed(event);
         }
     }
-    
+
 }

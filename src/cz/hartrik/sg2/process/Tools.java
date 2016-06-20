@@ -2,7 +2,6 @@
 package cz.hartrik.sg2.process;
 
 import cz.hartrik.common.random.XORShiftRandom;
-import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.manage.BrushManager;
 import cz.hartrik.sg2.world.Direction;
 import cz.hartrik.sg2.world.Element;
@@ -26,9 +25,9 @@ public class Tools {
     protected final GravityTools gravityTools;
     protected final FireTools fireTools;
 
-    protected BrushManager<Brush> brushManager;
+    protected BrushManager brushManager;
 
-    public Tools(World world, BrushManager<Brush> brushManager) {
+    public Tools(World world, BrushManager brushManager) {
         this.world = world;
         this.brushManager = brushManager;
 
@@ -39,7 +38,7 @@ public class Tools {
         this.fireTools = new FireTools(world, this, new FireFactoryImpl());
     }
 
-    public BrushManager<Brush> getBrushManager() {
+    public BrushManager getBrushManager() {
         return brushManager;
     }
 

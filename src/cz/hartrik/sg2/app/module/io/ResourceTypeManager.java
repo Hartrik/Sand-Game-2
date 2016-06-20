@@ -1,6 +1,5 @@
 package cz.hartrik.sg2.app.module.io;
 
-import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.manage.BrushManager;
 import java.util.Arrays;
 import java.util.Collection;
@@ -9,7 +8,7 @@ import java.util.function.Supplier;
 /**
  * Spravuje seznam všech dostupných typů zdrojů.
  *
- * @version 2016-06-19
+ * @version 2016-06-20
  * @author Patrik Harag
  */
 public class ResourceTypeManager {
@@ -17,11 +16,11 @@ public class ResourceTypeManager {
     private final ResourceType[] resourceTypes;
 
     public ResourceTypeManager(
-            Supplier<BrushManager<? extends Brush>> bmSupplier,
-            int defaultBrush) {
+            Supplier<BrushManager> bmSupplier, int defaultBrush) {
 
         this.resourceTypes = new ResourceType[] {
             new ResourceBrushTemplate(bmSupplier, defaultBrush),
+            new ResourceEffectTemplate(bmSupplier, defaultBrush),
             new ResourceSerialized(),
             new ResourceHeatmap()
         };

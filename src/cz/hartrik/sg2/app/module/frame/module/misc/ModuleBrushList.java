@@ -22,34 +22,34 @@ public class ModuleBrushList implements StageModule<Frame, FrameController> {
     @Override
     public void init(Frame stage, FrameController controller,
             ServiceManager manager) {
-        
+
         final VBox panel = controller.getLeftPanel();
         final ListView<Brush> listView = createListView(controller);
-        
+
         panel.getChildren().add(listView);
         VBox.setVgrow(listView, Priority.ALWAYS);
     }
-    
+
     protected ListView<Brush> createListView(FrameController controller) {
-        final BrushManager<Brush> brushManager = controller.getBrushManager();
+        final BrushManager brushManager = controller.getBrushManager();
         final Controls controls = controller.getControls();
-        
+
         final ListView<Brush> listView = new ListView<>();
-        
+
         setItems(listView, brushManager.getBrushes());
         listView.setCellFactory(new BrushCellFactory(controls));
         listView.getSelectionModel().select(controls.getPrimaryBrush());
         listView.setFocusTraversable(false);
-        
+
         assert brushManager instanceof ObservedBrushManager;
         ((ObservedBrushManager) brushManager).addListener(
                 () -> setItems(listView, brushManager.getBrushes()));
-        
+
         return listView;
     }
-    
+
     protected void setItems(ListView<Brush> listView, List<Brush> brushes) {
         listView.getItems().setAll(brushes);
     }
-    
+
 }

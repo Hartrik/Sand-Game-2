@@ -11,7 +11,7 @@ import java.util.function.BiFunction;
  *
  * Dokáže načíst všechny typy resources.
  *
- * @version 2016-06-19
+ * @version 2016-06-20
  * @author Patrik Harag
  * @param <T>
  */
@@ -37,12 +37,15 @@ public class ZipIOBrushTemplate <T extends ElementArea> extends ZipIO<T> {
     public Map<String, ResourceType> getWriteResourceTypes() {
         Map<String, ResourceType> map = new LinkedHashMap<>();
 
-        String id1 = ResourceBrushTemplate.IDENTIFIER;
-        map.put("template.png", resourceTypeManager.findByIdentifier(id1));
+        String id1 = ResourceHeatmap.IDENTIFIER;
+        map.put("heatmap.png", resourceTypeManager.findByIdentifier(id1));
 
-        String id2 = ResourceHeatmap.IDENTIFIER;
-        map.put("heatmap.png", resourceTypeManager.findByIdentifier(id2));
-        
+        String id2 = ResourceBrushTemplate.IDENTIFIER;
+        map.put("template.png", resourceTypeManager.findByIdentifier(id2));
+
+        String id3 = ResourceEffectTemplate.IDENTIFIER;
+        map.put("effects.png", resourceTypeManager.findByIdentifier(id3));
+
         return map;
     }
 

@@ -35,7 +35,7 @@ public class MainModules {
     public static StageModule<Frame, FrameController>[] modules() {
 
         // io
-        Supplier<BrushManager<?>> bmSupplier =
+        Supplier<BrushManager> bmSupplier =
                 () -> Main.getFrame().getFrameController().getBrushManager();
 
         BiFunction<Integer, Integer, ModularWorld> areaSupplier =

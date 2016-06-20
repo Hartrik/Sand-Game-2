@@ -102,31 +102,31 @@ public abstract class ZipIO<T extends ElementArea>
 
     @Override
     public T load(Path path) throws IOException, ParseException {
-        ZipFile zip = new ZipFile(path.toFile());
-        ZipEntry controller = findEntry(zip, FILE_CONTROLLER);
+        try (ZipFile zip = new ZipFile(path.toFile())) {
+            ZipEntry controller = findEntry(zip, FILE_CONTROLLER);
 
-        Pair<XMLController.Data, Node> pair;
-        try (InputStream inputStream = zip.getInputStream(controller)) {
-            pair = XMLController.read(inputStream);
-        }
-
-        XMLController.Data data = pair.getFirst();
-        Node contentNode = pair.getSecond();
-
-        T area = areaSupplier.apply(data.contentWidth, data.contentHeight);
-
-        NodeList content = contentNode.getChildNodes();
-        for (int i = 0; i < content.getLength(); i++) {
-
-            Node node = content.item(i);
-            String nodeName = node.getNodeName();
-
-            if (nodeName != null && nodeName.equals("resource")) {
-                loadResource(area, node, zip);
+            Pair<XMLController.Data, Node> pair;
+            try (InputStream inputStream = zip.getInputStream(controller)) {
+                pair = XMLController.read(inputStream);
             }
-        }
 
-        return area;
+            XMLController.Data data = pair.getFirst();
+            Node contentNode = pair.getSecond();
+
+            T area = areaSupplier.apply(data.contentWidth, data.contentHeight);
+
+            NodeList content = contentNode.getChildNodes();
+            for (int i = 0; i < content.getLength(); i++) {
+
+                Node node = content.item(i);
+                String nodeName = node.getNodeName();
+
+                if (nodeName != null && nodeName.equals("resource")) {
+                    loadResource(area, node, zip);
+                }
+            }
+            return area;
+        }
     }
 
     private void loadResource(T area, Node resourceNode, ZipFile zip)

@@ -17,16 +17,16 @@ import cz.hartrik.sg2.app.module.frame.module.script.*;
 import cz.hartrik.sg2.app.module.frame.module.tools.*;
 import cz.hartrik.sg2.app.module.io.*;
 import cz.hartrik.sg2.brush.manage.BrushManager;
+import cz.hartrik.sg2.world.BasicElement;
 import cz.hartrik.sg2.world.ModularWorld;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import javafx.stage.Window;
 
 /**
- * @version 2016-06-18
+ * @version 2016-06-21
  * @author Patrik Harag
  */
 public class MainModules {
@@ -38,13 +38,13 @@ public class MainModules {
         Supplier<BrushManager> bmSupplier =
                 () -> Main.getFrame().getFrameController().getBrushManager();
 
-        BiFunction<Integer, Integer, ModularWorld> areaSupplier =
-                (w, h) -> new ModularWorld(w, h, bmSupplier.get().getBrush(1).getElement());
+        ElementAreaProvider<ModularWorld> areaProvider =
+                (w, h, size) -> new ModularWorld(w, h, size, BasicElement.AIR);
 
         ResourceTypeManager rtManager = new ResourceTypeManager(bmSupplier, 0);
 
-        ZipIO<ModularWorld> serZipIO = new ZipIOSerial<>(areaSupplier, rtManager);
-        ZipIO<ModularWorld> tmpZipIO = new ZipIOBrushTemplate<>(areaSupplier, rtManager);
+        ZipIO<ModularWorld> serZipIO = new ZipIOSerial<>(areaProvider, rtManager);
+        ZipIO<ModularWorld> tmpZipIO = new ZipIOBrushTemplate<>(areaProvider, rtManager);
 
         IOProvider<ModularWorld> ioProvider = new BasicIOProvider<>(Arrays.asList(serZipIO, tmpZipIO));
 

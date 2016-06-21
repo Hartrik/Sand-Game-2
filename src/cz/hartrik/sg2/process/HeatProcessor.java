@@ -1,12 +1,9 @@
 package cz.hartrik.sg2.process;
 
-import cz.hartrik.sg2.world.Chunk;
 import cz.hartrik.sg2.world.Direction;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.World;
 import java.util.concurrent.*;
-
-import static cz.hartrik.sg2.world.Chunk.CHUNK_SIZE;
 
 /**
  * Prochází elementy a zároveň se stará o zpracování tepla.
@@ -49,11 +46,11 @@ public class HeatProcessor extends BasicProcessor {
         boolean[] clone = running.clone();
 
         Runnable runnable1 = () -> {
-            iterateT(cyTop, cyTop + Chunk.CHUNK_SIZE / 2 - 1, clone);
+            iterateT(cyTop, cyTop + world.getChunkSize() / 2 - 1, clone);
         };
 
         Runnable runnable2 = () -> {
-            iterateT(cyTop + Chunk.CHUNK_SIZE / 2 , cyBottom, clone);
+            iterateT(cyTop + world.getChunkSize() / 2 , cyBottom, clone);
         };
 
         future1 = exec.submit(runnable1);
@@ -63,7 +60,7 @@ public class HeatProcessor extends BasicProcessor {
     private void iterateE(int cyTop, int cyBottom, boolean[] running) {
         for (int y = cyBottom; y >= cyTop; --y)
             for (int x : randData[xorRandom.nextInt(randDataCount)])
-                if (running[x / CHUNK_SIZE]) nextPoint(x, y);
+                if (running[x / world.getChunkSize()]) nextPoint(x, y);
     }
 
     private void iterateT(final int cyTop, final int cyBottom, boolean[] running) {
@@ -77,8 +74,8 @@ public class HeatProcessor extends BasicProcessor {
             if (!running[h])
                 continue;
 
-            final int to = CHUNK_SIZE * (h + 1);
-            for (int x = CHUNK_SIZE * h; x < to; x++) {
+            final int to = world.getChunkSize() * (h + 1);
+            for (int x = world.getChunkSize() * h; x < to; x++) {
                 processTemperature(x, y);
             }
         }

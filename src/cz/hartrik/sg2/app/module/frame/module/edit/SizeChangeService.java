@@ -10,11 +10,11 @@ import cz.hartrik.sg2.world.ModularWorld;
 import javafx.stage.Window;
 
 /**
- * @version 2015-04-07
+ * @version 2016-06-21
  * @author Patrik Harag
  */
 public class SizeChangeService implements Registerable {
-    
+
     protected final Window window;
     protected final FrameController controller;
 
@@ -22,45 +22,50 @@ public class SizeChangeService implements Registerable {
         this.window = window;
         this.controller = frameController;
     }
-    
+
     // služby
-    
+
     public void changeSize() {
         final Engine<?, ?> engine = controller.getEngine();
-        
+
         boolean rendererStopped = engine.isRendererStopped();
         boolean processorStopped = engine.isProcessorStopped();
-        
+
         engine.processorStop();
         engine.rendererStop();
 
         final ModularWorld world = controller.getWorld();
-        
-        ChangeSizeDialog dialog = new ChangeSizeDialog(
-                window, world.getWidth(), world.getHeight());
-        
+
+        ChangeSizeDialog dialog = new ChangeSizeDialog(window,
+                world.getWidth(), world.getHeight(), world.getChunkSize());
+
         dialog.showAndWait();
+
         Pair<Integer, Integer> size = dialog.getSize();
-        
+        int chunkSize = dialog.getChunkSize();
+
         if (size != null && (size.getFirst() != world.getWidth()
-                || size.getSecond() != world.getHeight())) {
-            
-            controller.setUpCanvas(
-                    world.getTools().resize(size.getFirst(), size.getSecond()));
-            
+                || size.getSecond() != world.getHeight()
+                || chunkSize != world.getChunkSize())) {
+
+            ModularWorld resized = world.getTools().resize(
+                    size.getFirst(), size.getSecond(), chunkSize);
+
+            controller.setUpCanvas(resized);
+
             if (!processorStopped) controller.getEngine().processorStart();
-            
+
         } else {
             if (!rendererStopped) engine.rendererStart();
             if (!processorStopped) engine.processorStart();
         }
     }
-    
+
     // registrační metoda
-    
+
     @Override
     public void register(ServiceManager manager) {
         manager.register(EditServices.SERVICE_CHANGE_SIZE, this::changeSize);
     }
-    
+
 }

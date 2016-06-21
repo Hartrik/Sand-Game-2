@@ -9,31 +9,37 @@ import javafx.stage.Window;
 
 /**
  * Dialog pro výběr rozměrů plátna.
- * 
- * @version 2015-04-04
+ *
+ * @version 2016-06-21
  * @author Patrik Harag
  */
 public class ChangeSizeDialog extends FXMLControlledStage<ChangeSizeController> {
-    
+
     public static final String ICON = "icon - resize.png";
-    
-    public ChangeSizeDialog(Window owner, int initalWidth, int initalHeight) {
+
+    public ChangeSizeDialog(Window owner,
+            int initalWidth, int initalHeight, int initialChunkSize) {
+
         super(ChangeSizeDialog.class.getResource("ChangeSize.fxml"));
 
         initOwner(owner);
         initModality(Modality.APPLICATION_MODAL);
         setTitle("Rozměry plátna");
         getIcons().setAll(Resources.image(ICON, getClass()));
-        
-        setMinWidth(350); setMinHeight(270);
-        setMaxWidth(600); setMaxHeight(350);
-        
-        controller.setInital(initalWidth, initalHeight);
+
+        setMinWidth(540); setMinHeight(400);
+        setMaxWidth(700); setMaxHeight(500);
+
+        controller.setInital(initalWidth, initalHeight, initialChunkSize);
         controller.reset();
     }
-    
+
     public Pair<Integer, Integer> getSize() {
         return controller.getSize();
     }
-    
+
+    public int getChunkSize() {
+        return controller.getChunkSize();
+    }
+
 }

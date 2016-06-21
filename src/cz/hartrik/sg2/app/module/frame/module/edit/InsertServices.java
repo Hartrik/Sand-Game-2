@@ -8,7 +8,6 @@ import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.Controls;
 import cz.hartrik.sg2.brush.jfx.JFXControls;
 import cz.hartrik.sg2.world.BrushInserter;
-import cz.hartrik.sg2.world.Chunk;
 
 import static cz.hartrik.sg2.app.module.frame.module.edit.EditServices.*;
 
@@ -60,17 +59,17 @@ public class InsertServices implements Registerable {
 
             // horizontální
             for (int x = 0; x < area.getWidth(); x++) {
-                for (int y = 0; y < area.getHeight(); y += Chunk.CHUNK_SIZE) {
+                for (int y = 0; y < area.getHeight(); y += area.getChunkSize()) {
                     inserter.apply(x, y);
-                    inserter.apply(x, y + Chunk.CHUNK_SIZE - 1);
+                    inserter.apply(x, y + area.getChunkSize() - 1);
                 }
             }
 
             // vertiální
             for (int y = 0; y < area.getHeight(); y++) {
-                for (int x = 0; x < area.getWidth(); x += Chunk.CHUNK_SIZE) {
+                for (int x = 0; x < area.getWidth(); x += area.getChunkSize()) {
                     inserter.apply(x, y);
-                    inserter.apply(x + Chunk.CHUNK_SIZE - 1, y);
+                    inserter.apply(x + area.getChunkSize() - 1, y);
                 }
             }
 

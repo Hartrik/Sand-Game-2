@@ -7,8 +7,6 @@ import cz.hartrik.sg2.world.Chunk;
 import cz.hartrik.sg2.world.World;
 import java.util.Random;
 
-import static cz.hartrik.sg2.world.Chunk.CHUNK_SIZE;
-
 /**
  * Abstraktní třída Processor.
  *
@@ -55,8 +53,8 @@ public abstract class BasicProcessor implements Processor {
         for (int cy = verChunkCount - 1; cy >= 0; --cy) {
 
             // nejvyšší a nejnišší hor. pozice v ch.
-            final int cyTop = cy * CHUNK_SIZE;
-            final int cyBottom = cyTop + CHUNK_SIZE - 1;
+            final int cyTop = cy * world.getChunkSize();
+            final int cyBottom = cyTop + world.getChunkSize() - 1;
 
             // zjistí horizontální chunky, které (ne)byly změněny
             boolean somethingChanged = false;
@@ -99,8 +97,8 @@ public abstract class BasicProcessor implements Processor {
             final int cx,
             final int cyTop, final int cyBottom) {
 
-        final int cxLeft = cx * CHUNK_SIZE;
-        final int cxRight = cxLeft + CHUNK_SIZE - 1;
+        final int cxLeft = cx * world.getChunkSize();
+        final int cxRight = cxLeft + world.getChunkSize() - 1;
 
         // horní a dolní okraje
         for (int x = cxLeft; x <= cxRight; x++)
@@ -117,8 +115,8 @@ public abstract class BasicProcessor implements Processor {
             final int cx,
             final int cyTop, final int cyBottom) {
 
-        final int cxLeft = cx * CHUNK_SIZE;
-        final int cxRight = cxLeft + CHUNK_SIZE - 1;
+        final int cxLeft = cx * world.getChunkSize();
+        final int cxRight = cxLeft + world.getChunkSize() - 1;
 
         for (int y = cyBottom; y >= cyTop; --y)
             for (int x = cxLeft; x <= cxRight; x++)

@@ -4,7 +4,6 @@ package cz.hartrik.sg2.app.module.io;
 import cz.hartrik.sg2.world.ElementArea;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 /**
  * Zprostředkuje ukládání a načítání plátna do souboru s příponou {@code sgs}.
@@ -12,7 +11,7 @@ import java.util.function.BiFunction;
  *
  * Dokáže načíst všechny typy resources.
  *
- * @version 2016-06-18
+ * @version 2016-06-21
  * @author Patrik Harag
  * @param <T> vstup/výstup
  */
@@ -20,10 +19,10 @@ public class ZipIOSerial<T extends ElementArea> extends ZipIO<T> {
 
     public static final String FILE_DATA = "data.ser";
 
-    public ZipIOSerial(BiFunction<Integer, Integer, T> areaSupplier,
+    public ZipIOSerial(ElementAreaProvider<T> areaProvider,
             ResourceTypeManager resourceTypeManager) {
 
-        super(areaSupplier, resourceTypeManager);
+        super(areaProvider, resourceTypeManager);
     }
 
     @Override

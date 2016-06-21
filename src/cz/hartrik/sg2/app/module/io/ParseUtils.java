@@ -1,15 +1,14 @@
 package cz.hartrik.sg2.app.module.io;
 
-import cz.hartrik.common.Pair;
 import cz.hartrik.common.Point;
-import cz.hartrik.sg2.world.Chunk;
+import cz.hartrik.sg2.world.ElementArea;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
  *
  *
- * @version 2016-06-19
+ * @version 2016-06-21
  * @author Patrik Harag
  */
 public class ParseUtils {
@@ -41,27 +40,33 @@ public class ParseUtils {
         return Point.of(0, 0);
     }
 
-    public static Pair<Integer, Integer> parseCanvasSize(Node contentNode) {
+    public static <T extends ElementArea> T parseCanvas(
+            Node contentNode, ElementAreaProvider<T> areaProvider) {
+
         Node attW = contentNode.getAttributes().getNamedItem("width");
         Node attH = contentNode.getAttributes().getNamedItem("height");
+        Node attS = contentNode.getAttributes().getNamedItem("chunk-size");
 
-        int width, height;
+        int width, height, chunkSize;
 
         try {
             width = Integer.parseInt(attW.getNodeValue());
             height = Integer.parseInt(attH.getNodeValue());
-
         } catch (Exception e) {
             throw new ParseException("Unknown canvas size");
         }
 
-        if (width <= 0 || height <= 0)
-            throw new ParseException("Canvas size cannot be zero or negative");
+        try {
+            chunkSize = Integer.parseInt(attS.getNodeValue());
+        } catch (Exception e) {
+            throw new ParseException("Unknown chunk size");
+        }
 
-        if (width % Chunk.CHUNK_SIZE != 0 || height % Chunk.CHUNK_SIZE != 0)
-            throw new ParseException("Wrong canvas size");
-
-        return Pair.of(width, height);
+        try {
+            return areaProvider.create(width, height, chunkSize);
+        } catch (Exception e) {
+            throw new ParseException(e);
+        }
     }
 
 }

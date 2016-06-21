@@ -2,7 +2,6 @@ package cz.hartrik.sg2.app.module.io;
 
 import cz.hartrik.sg2.world.ElementArea;
 import java.util.*;
-import java.util.function.BiFunction;
 
 /**
  * Zprostředkuje ukládání a načítání plátna do souboru s příponou {@code sgb}.
@@ -11,16 +10,16 @@ import java.util.function.BiFunction;
  *
  * Dokáže načíst všechny typy resources.
  *
- * @version 2016-06-20
+ * @version 2016-06-21
  * @author Patrik Harag
  * @param <T>
  */
 public class ZipIOBrushTemplate <T extends ElementArea> extends ZipIO<T> {
 
-    public ZipIOBrushTemplate(BiFunction<Integer, Integer, T> areaSupplier,
+    public ZipIOBrushTemplate(ElementAreaProvider<T> areaProvider,
             ResourceTypeManager resourceTypeManager) {
 
-        super(areaSupplier, resourceTypeManager);
+        super(areaProvider, resourceTypeManager);
     }
 
     @Override

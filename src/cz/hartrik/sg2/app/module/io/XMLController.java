@@ -1,6 +1,5 @@
 package cz.hartrik.sg2.app.module.io;
 
-import cz.hartrik.common.Pair;
 import java.io.*;
 import java.util.function.Consumer;
 import javax.xml.parsers.DocumentBuilder;
@@ -15,7 +14,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -24,7 +22,7 @@ import org.xml.sax.SAXException;
  * Poskytuje metody pro vytváření a načítání XML kontroleru, který řídí načítání
  * resources ze zip souboru.
  *
- * @version 2016-06-19
+ * @version 2016-06-21
  * @author Patrik Harag
  */
 class XMLController {
@@ -40,6 +38,7 @@ class XMLController {
 
         public int contentWidth;
         public int contentHeight;
+        public int chunkSize;
     }
 
     // write
@@ -67,7 +66,8 @@ class XMLController {
                 .addNode("description").addText(data.description).end()
                 .addNode("content")
                     .addAttribute("width", data.contentWidth)
-                    .addAttribute("height", data.contentHeight);
+                    .addAttribute("height", data.contentHeight)
+                    .addAttribute("chunk-size", data.chunkSize);
 
         contentProvider.accept(dom);
 
@@ -88,33 +88,18 @@ class XMLController {
 
     // read
 
-    static Pair<Data, Node> read(InputStream inputStream)
+    static Node read(InputStream inputStream)
             throws ParseException, IOException {
 
         Document document = loadDocument(inputStream);
-        Element documentElement = document.getDocumentElement();
-
         NodeList contentList = document.getElementsByTagName("content");
 
         if (contentList.getLength() < 1)
             throw new ParseException("xml controller - there is no <content>");
 
         Node contentNode = contentList.item(0);
-        Pair<Integer, Integer> size = ParseUtils
-                .parseCanvasSize(contentNode);
 
-        Data data = new Data() {{
-            appName = documentElement.getAttribute("app-name");
-            appVersion = documentElement.getAttribute("app-version");
-
-            title = "not implemented";
-            description = "not implemented";
-
-            contentWidth = size.getFirst();
-            contentHeight = size.getSecond();
-        }};
-
-        return Pair.of(data, contentNode);
+        return contentNode;
     }
 
     private static Document loadDocument(InputStream inputStream) throws IOException {

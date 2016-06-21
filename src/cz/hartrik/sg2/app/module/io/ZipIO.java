@@ -1,9 +1,9 @@
 package cz.hartrik.sg2.app.module.io;
 
 import cz.hartrik.common.Exceptions;
-import cz.hartrik.common.Pair;
 import cz.hartrik.common.io.NioUtil;
 import cz.hartrik.sg2.app.sandbox.Main;
+import cz.hartrik.sg2.world.ChunkedArea;
 import cz.hartrik.sg2.world.ElementArea;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -12,7 +12,6 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Map;
-import java.util.function.BiFunction;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -23,7 +22,7 @@ import org.w3c.dom.NodeList;
 /**
  * Abstraktní třída pro I/O do ZIP souboru.
  *
- * @version 2016-06-19
+ * @version 2016-06-21
  * @author Patrik Harag
  * @param <T>
  */
@@ -32,13 +31,13 @@ public abstract class ZipIO<T extends ElementArea>
 
     public static final String FILE_CONTROLLER = "controller.xml";
 
-    protected final BiFunction<Integer, Integer, T> areaSupplier;
+    protected final ElementAreaProvider<T> areaProvider;
     protected final ResourceTypeManager resourceTypeManager;
 
-    public ZipIO(BiFunction<Integer, Integer, T> areaSupplier,
+    public ZipIO(ElementAreaProvider<T> areaProvider,
             ResourceTypeManager resourceTypeManager) {
 
-        this.areaSupplier = areaSupplier;
+        this.areaProvider = areaProvider;
         this.resourceTypeManager = resourceTypeManager;
     }
 
@@ -66,6 +65,8 @@ public abstract class ZipIO<T extends ElementArea>
                 description = "";
                 contentWidth = data.getWidth();
                 contentHeight = data.getHeight();
+                chunkSize = (data instanceof ChunkedArea)
+                        ? ((ChunkedArea) data).getChunkSize() : -1;
             }};
 
             Map<String, ResourceType> resources = getWriteResourceTypes();
@@ -105,15 +106,12 @@ public abstract class ZipIO<T extends ElementArea>
         try (ZipFile zip = new ZipFile(path.toFile())) {
             ZipEntry controller = findEntry(zip, FILE_CONTROLLER);
 
-            Pair<XMLController.Data, Node> pair;
+            Node contentNode;
             try (InputStream inputStream = zip.getInputStream(controller)) {
-                pair = XMLController.read(inputStream);
+                contentNode = XMLController.read(inputStream);
             }
 
-            XMLController.Data data = pair.getFirst();
-            Node contentNode = pair.getSecond();
-
-            T area = areaSupplier.apply(data.contentWidth, data.contentHeight);
+            T area = ParseUtils.parseCanvas(contentNode, areaProvider);
 
             NodeList content = contentNode.getChildNodes();
             for (int i = 0; i < content.getLength(); i++) {

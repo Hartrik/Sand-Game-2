@@ -3,7 +3,7 @@ package cz.hartrik.sg2.world;
 /**
  * Nástroje pro práci se základním polem elementů.
  *
- * @version 2016-06-14
+ * @version 2016-06-21
  * @author Patrik Harag
  * @param <T> typ pole elementů
  */
@@ -94,21 +94,22 @@ public abstract class ElementAreaTools<T extends ElementArea>
      * @return nově vytvořené pole elementů
      */
     public T resize(int width, int height) {
-        final int oldWidth  = area.getWidth(),
-                  oldHeight = area.getHeight();
-
-        if ((width == oldWidth) && (height == oldHeight))
+        if ((width == area.getWidth()) && (height == area.getHeight()))
             return area;
 
-        final T newArea = empty(width, height);
-        newArea.forEachPoint((int x, int y) -> {
-            if (x < oldWidth && y < oldHeight) {
-                newArea.set(x, y, area.get(x, y));
-                newArea.setTemperature(x, y, area.getTemperature(x, y));
-            }
-        });
+        T newArea = empty(width, height);
+        copy(area, newArea);
 
         return newArea;
+    }
+
+    protected void copy(T from, T to) {
+        to.forEachPoint((int x, int y) -> {
+            if (x < from.getWidth() && y < from.getHeight()) {
+                to.set(x, y, area.get(x, y));
+                to.setTemperature(x, y, area.getTemperature(x, y));
+            }
+        });
     }
 
     /**

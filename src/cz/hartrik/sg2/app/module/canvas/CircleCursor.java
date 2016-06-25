@@ -8,7 +8,7 @@ import javafx.scene.shape.Circle;
  * @author Patrik Harag
  */
 public class CircleCursor extends ANodeCursor<Circle> {
-    
+
     private final int radius;
 
     public CircleCursor(CanvasWithCursor canvas, int radius) {
@@ -27,7 +27,7 @@ public class CircleCursor extends ANodeCursor<Circle> {
         rectangle.setStrokeWidth(0.5);
         return rectangle;
     }
-    
+
     @Override
     public void onMove(double mX, double mY) {
         double x = mX + canvas.xLocation + radius;
@@ -35,11 +35,11 @@ public class CircleCursor extends ANodeCursor<Circle> {
 
         // pravá, dolní
         if (x < canvas.xLocation || y < canvas.yLocation
-                || mX > canvas.imageView.getFitWidth()
-                || mY > canvas.imageView.getFitHeight()) {
-            
+                || mX > canvas.fxcanvas.getWidth()
+                || mY > canvas.fxcanvas.getHeight()) {
+
             cursor.setVisible(false);
-            
+
         } else {
             cursor.setCenterX(Math.floor(x) + .5);
             cursor.setCenterY(Math.floor(y) + .5);
@@ -50,5 +50,5 @@ public class CircleCursor extends ANodeCursor<Circle> {
     public int getRadius() {
         return radius;
     }
-    
+
 }

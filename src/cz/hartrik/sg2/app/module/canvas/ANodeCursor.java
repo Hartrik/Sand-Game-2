@@ -4,35 +4,35 @@ import javafx.scene.Node;
 
 /**
  * Abstraktní třída pro kurzory tvořené jedním uzlem.
- * 
+ *
  * @version 2015-03-29
  * @author Patrik Harag
  * @param <T> typ kurzoru
  */
 public abstract class ANodeCursor<T extends Node> implements Cursor {
-    
+
     protected final T cursor;
     protected final CanvasWithCursor canvas;
 
     public ANodeCursor(CanvasWithCursor canvas, T cursor) {
         this.canvas = canvas;
         this.cursor = cursor;
-        
+
         cursor.setMouseTransparent(true);
     }
-    
+
     // Cursor
-    
+
     @Override
     public void addCursor() {
         cursor.setVisible(false);
-        canvas.imageView.setCursor(javafx.scene.Cursor.NONE);
+        canvas.fxcanvas.setCursor(javafx.scene.Cursor.NONE);
         canvas.zoomGroup.getChildren().add(cursor);
     }
 
     @Override
     public void removeCursor() {
-        canvas.imageView.setCursor(javafx.scene.Cursor.DEFAULT);
+        canvas.fxcanvas.setCursor(javafx.scene.Cursor.DEFAULT);
         canvas.zoomGroup.getChildren().remove(cursor);
     }
 
@@ -41,7 +41,7 @@ public abstract class ANodeCursor<T extends Node> implements Cursor {
 
     @Override
     public abstract void onMove(double mX, double mY);
-    
+
     @Override
     public void onOver() {
         cursor.setVisible(false);
@@ -50,5 +50,5 @@ public abstract class ANodeCursor<T extends Node> implements Cursor {
     public T getCursor() {
         return cursor;
     }
-    
+
 }

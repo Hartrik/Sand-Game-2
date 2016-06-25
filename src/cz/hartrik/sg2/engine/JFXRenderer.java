@@ -20,8 +20,7 @@ import javafx.scene.image.WritablePixelFormat;
  */
 public class JFXRenderer implements Renderer {
 
-    protected final ElementArea area;
-    protected final Element[] elements;
+    protected Element[] elements;
     protected final float[] temperature;
 
     protected final byte[] buffer;
@@ -31,7 +30,6 @@ public class JFXRenderer implements Renderer {
 
     @SuppressWarnings("deprecation")
     public JFXRenderer(ElementArea area) {
-        this.area = area;
         this.elements = area.getElements();
         this.temperature = area.getTemperature();
 
@@ -40,6 +38,17 @@ public class JFXRenderer implements Renderer {
 
         Arrays.fill(buffer, (byte) (255));
     }
+
+//    public JFXRenderer(
+//            Element[] elements, float[] temperature,
+//            byte[] buffer, WritablePixelFormat<ByteBuffer> pixelFormat) {
+//
+//        this.elements = elements;
+//        this.temperature = temperature;
+//
+//        this.buffer = buffer;
+//        this.pixelFormat = pixelFormat;
+//    }
 
     /**
      * Vykreslí celé plátno do bufferu.
@@ -72,12 +81,16 @@ public class JFXRenderer implements Renderer {
 
     // gettery
 
-    public final byte[] getBuffer() {
+    public synchronized final byte[] getBuffer() {
         return buffer;
     }
 
     public final WritablePixelFormat<ByteBuffer> getPixelFormat() {
         return pixelFormat;
+    }
+
+    public synchronized void setElements(Element[] elements) {
+        this.elements = elements;
     }
 
 }

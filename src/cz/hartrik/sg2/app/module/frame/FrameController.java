@@ -23,17 +23,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
 import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
+import javafx.scene.canvas.Canvas;
 
 /**
  * Kontroler GUI.
  *
- * @version 2015-04-06
+ * @version 2016-06-25
  * @author Patrik Harag
  */
 public class FrameController extends FrameControllerTemplate implements Initializable {
 
-    private final ImageView imageView = new ImageView();
+    private final Canvas fxCanvas = new Canvas();
 
     // world
 
@@ -121,9 +121,9 @@ public class FrameController extends FrameControllerTemplate implements Initiali
 
     // engine sync tools
 
-    private EngineSyncToolsMW syncTools;
+    private EngineSyncTools<ModularWorld> syncTools;
 
-    public EngineSyncToolsMW getSyncTools() {
+    public EngineSyncTools<ModularWorld> getSyncTools() {
         return syncTools;
     }
 
@@ -134,7 +134,7 @@ public class FrameController extends FrameControllerTemplate implements Initiali
         super.initialize(url, rb);
 
         // plátno
-        this.canvas = new CanvasWithCursor(scrollPane, imageView);
+        this.canvas = new CanvasWithCursor(scrollPane, fxCanvas);
 
         controls.primaryToolProperty().addListener((ob, o, tool) -> {
             canvas.removeCursor();
@@ -148,7 +148,7 @@ public class FrameController extends FrameControllerTemplate implements Initiali
         controls.setPrimaryBrush(brushManager.getBrush(10));
         controls.setSecondaryBrush(brushManager.getBrush(1));
 
-        new MouseControllerExt(imageView, controls,
+        new MouseControllerExt(fxCanvas, controls,
                 this::getEngine, this::getWorld, this::getSyncTools,
                 brushManager, canvas).init();
     }
@@ -176,8 +176,7 @@ public class FrameController extends FrameControllerTemplate implements Initiali
         if (engine != null) {
             processorRunning = !engine.isProcessorStopped();
 
-            engine.rendererStop();
-            engine.processorStop();
+            engine.shutdown();
         }
 
         this.world = world;
@@ -185,8 +184,8 @@ public class FrameController extends FrameControllerTemplate implements Initiali
         JFXRenderer renderer = rendererSupplier.apply(world);
         Processor proc = new HeatProcessor(world, new Tools(world, brushManager));
 
-        engine = new JFXEngineT<>(world, proc, renderer, imageView);
-        syncTools = new EngineSyncToolsMW(engine, world);
+        engine = new JFXEngineSEQ<>(world, proc, renderer, fxCanvas);
+        syncTools = new EngineSyncTools<>(engine, world);
 
         for (Runnable runnable : onSetUp) {
             runnable.run();

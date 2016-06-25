@@ -12,18 +12,18 @@ import javafx.scene.image.ImageView;
  * @author Patrik Harag
  */
 public class ImageCursor extends ARectangularCursor<ImageView> {
-    
+
     public ImageCursor(CanvasWithCursor zoomable, Image image) {
         super(zoomable, new ImageView(image),
                 (int) image.getWidth(), (int) image.getHeight());
     }
-    
+
     // Cursor
-    
+
     @Override
     public void addCursor() {
         cursor.setVisible(false);
-        canvas.imageView.setCursor(Cursor.OPEN_HAND);  // !
+        canvas.fxcanvas.setCursor(Cursor.OPEN_HAND);  // !
         canvas.zoomGroup.getChildren().add(cursor);
     }
 
@@ -34,10 +34,10 @@ public class ImageCursor extends ARectangularCursor<ImageView> {
 
         cursor.setFitWidth(width);
         cursor.setFitHeight(height);
-        
+
         double w = width, h = height;
         double vX = 0, vY = 0, vW = width, vH = height;
-        
+
         // levá
         if (x < canvas.xLocation) {
             w =width - canvas.xLocation + x;
@@ -45,7 +45,7 @@ public class ImageCursor extends ARectangularCursor<ImageView> {
             vX = width - w;
             vW = w;
         }
-        
+
         // horní
         if (y < canvas.yLocation) {
             h = height - canvas.yLocation + y;
@@ -53,21 +53,21 @@ public class ImageCursor extends ARectangularCursor<ImageView> {
             vY = height - h;
             vH = h;
         }
-        
+
         // pravá, dolní
-        double rBound = canvas.xLocation + canvas.imageView.getFitWidth();
-        double dBound = canvas.yLocation + canvas.imageView.getFitHeight();
-        
+        double rBound = canvas.xLocation + canvas.fxcanvas.getWidth();
+        double dBound = canvas.yLocation + canvas.fxcanvas.getHeight();
+
         if (x + width  > rBound) {
             w = rBound - x;
             vW = w;
         }
-        
+
         if (y + height > dBound){
             h = dBound - y;
             vH = h;
         }
-        
+
         cursor.setFitWidth(Math.floor(w));
         cursor.setFitHeight(Math.floor(h));
         cursor.setViewport(new Rectangle2D(Math.floor(vX), Math.floor(vY),
@@ -76,5 +76,5 @@ public class ImageCursor extends ARectangularCursor<ImageView> {
         cursor.setY(Math.floor(y));
         cursor.setVisible(true);
     }
-    
+
 }

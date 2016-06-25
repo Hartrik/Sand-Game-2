@@ -3,8 +3,8 @@ package cz.hartrik.sg2.engine;
 
 /**
  * Velmi jednoduchý FPS counter.
- * 
- * @version 2014-03-02
+ *
+ * @version 2016-06-25
  * @author Patrik Harag
  */
 public class FPSCounter {
@@ -13,17 +13,17 @@ public class FPSCounter {
     private int FPS = 0;
     private long start = 0;
 
-    public void tick() {
+    public synchronized void tick(final long currentTimeMillis) {
         currentFPS++;
-        if (System.currentTimeMillis() - start >= 1000) {
+        if (currentTimeMillis - start >= 1000) {
             FPS = currentFPS;
             currentFPS = 0;
-            start = System.currentTimeMillis();
+            start = currentTimeMillis;
         }
     }
 
-    public int getFPS() {
+    public synchronized int getFPS() {
         return FPS;
     }
-    
+
 }

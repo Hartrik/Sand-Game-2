@@ -5,7 +5,7 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * Obdélníkový kurzor.
- * 
+ *
  * @version 2015-03-21
  * @author Patrik Harag
  */
@@ -26,9 +26,9 @@ public class RectangleCursor extends ARectangularCursor<Rectangle> {
         rectangle.setStrokeWidth(0.5);
         return rectangle;
     }
-    
+
     // Cursor
-    
+
     @Override
     public void onMove(double mX, double mY) {
         double x = mX + canvas.xLocation;
@@ -36,29 +36,29 @@ public class RectangleCursor extends ARectangularCursor<Rectangle> {
 
         cursor.setWidth(width);
         cursor.setHeight(height);
-        
+
         // levá
         if (x < canvas.xLocation) {
             cursor.setWidth(Math.floor(width - canvas.xLocation + x));
             x = canvas.xLocation;
         }
-        
+
         // horní
         if (y < canvas.yLocation) {
             cursor.setHeight(Math.floor(height - canvas.yLocation + y));
             y = canvas.yLocation;
         }
-        
+
         // pravá, dolní
-        double rBound = canvas.xLocation + canvas.imageView.getFitWidth();
-        double dBound = canvas.yLocation + canvas.imageView.getFitHeight();
-        
+        double rBound = canvas.xLocation + canvas.fxcanvas.getWidth();
+        double dBound = canvas.yLocation + canvas.fxcanvas.getHeight();
+
         if (x + width  > rBound) cursor.setWidth(Math.ceil(rBound - x));
         if (y + height > dBound) cursor.setHeight(Math.ceil(dBound - y));
-        
+
         cursor.setX(Math.floor(x));
         cursor.setY(Math.floor(y));
         cursor.setVisible(true);
     }
-    
+
 }

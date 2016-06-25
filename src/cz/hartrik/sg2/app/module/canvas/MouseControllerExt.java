@@ -4,7 +4,7 @@ package cz.hartrik.sg2.app.module.canvas;
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.jfx.JFXControls;
 import cz.hartrik.sg2.brush.manage.BrushManager;
-import cz.hartrik.sg2.engine.EngineSyncToolsMW;
+import cz.hartrik.sg2.engine.EngineSyncTools;
 import cz.hartrik.sg2.engine.JFXEngine;
 import cz.hartrik.sg2.tool.Draggable;
 import cz.hartrik.sg2.tool.Fillable;
@@ -13,7 +13,7 @@ import cz.hartrik.sg2.world.BrushInserter;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.element.Air;
 import java.util.function.Supplier;
-import javafx.scene.image.ImageView;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
@@ -25,22 +25,22 @@ import javafx.scene.input.MouseEvent;
  */
 public class MouseControllerExt extends MouseControllerPick {
 
-    protected final CanvasWithCursor canvas;
+    protected final CanvasWithCursor fxCanvas;
 
     protected boolean shiftEvent;
     protected boolean ctrlEvent;
     protected boolean altEvent;
 
-    public MouseControllerExt(ImageView imageView, JFXControls controls,
+    public MouseControllerExt(Canvas canvas, JFXControls controls,
             Supplier<JFXEngine<?>> engineSupplier,
             Supplier<ElementArea> areaSupplier,
-            Supplier<EngineSyncToolsMW> syncTools,
-            BrushManager brushManager, CanvasWithCursor canvas) {
+            Supplier<EngineSyncTools<?>> syncTools,
+            BrushManager brushManager, CanvasWithCursor fxCanvas) {
 
-        super(imageView, controls, engineSupplier, areaSupplier, syncTools,
+        super(canvas, controls, engineSupplier, areaSupplier, syncTools,
                 brushManager);
 
-        this.canvas = canvas;
+        this.fxCanvas = fxCanvas;
     }
 
     // on mouse...
@@ -52,11 +52,11 @@ public class MouseControllerExt extends MouseControllerPick {
         if (event.isShiftDown() && isSupportedForDrag(event.getButton())) {
             shiftEvent = true;
             savePos(event);
-            canvas.setCursor(new LineIndicator(canvas, lastX, lastY));
+            fxCanvas.setCursor(new LineIndicator(fxCanvas, lastX, lastY));
         } else if (event.isControlDown() && isSupportedForFill(event.getButton())) {
             ctrlEvent = true;
             savePos(event);
-            canvas.setCursor(new RectangleIndicator(canvas, lastX, lastY));
+            fxCanvas.setCursor(new RectangleIndicator(fxCanvas, lastX, lastY));
         } else {
             super.onMousePressed(event);
         }
@@ -123,10 +123,10 @@ public class MouseControllerExt extends MouseControllerPick {
     protected void altEvent(int x, int y, MouseButton button) {}
 
     protected void setDefaultCursor() {
-        canvas.removeCursor();
+        fxCanvas.removeCursor();
         Tool tool = controls.getTool(MouseButton.PRIMARY);
         if (tool instanceof Cursorable)
-            canvas.setCursor(((Cursorable) tool).createCursor(canvas));
+            fxCanvas.setCursor(((Cursorable) tool).createCursor(fxCanvas));
     }
 
     protected boolean isSupportedForDrag(MouseButton button) {

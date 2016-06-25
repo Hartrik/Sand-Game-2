@@ -54,7 +54,7 @@ public class FileServices implements Registerable {
         boolean rendererRunning = !controller.getEngine().isRendererStopped();
         boolean processorRunning = !controller.getEngine().isProcessorStopped();
         
-        controller.getSyncTools().stopBothThread(() -> {
+        controller.getSyncTools().stopBothAsync(() -> {
             Platform.runLater(() -> {
                 runnable.run();
                 if (rendererRunning) controller.getEngine().rendererStart();

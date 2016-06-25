@@ -9,21 +9,22 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.stage.Window;
 
 /**
  * Zajišťuje funkci snímku okna.
- * 
- * @version 2015-03-11
+ *
+ * @version 2016-06-25
  * @author Patrik Harag
  */
 public class ScreenshotService implements Registerable, Runnable {
-    
+
     private final Window window;
     private final FrameController controller;
 
@@ -31,23 +32,28 @@ public class ScreenshotService implements Registerable, Runnable {
         this.window = window;
         this.controller = controller;
     }
-    
+
     @Override
     public void run() {
         controller.getSyncTools().pauseBothLazy(() -> {
-            Image image = controller.getCanvas().getImageView().getImage();
+            Canvas canvas = controller.getCanvas().getFxCanvas();
+            WritableImage image = new WritableImage(
+                    (int) canvas.getWidth(), (int) canvas.getHeight());
+
+            canvas.snapshot(null, image);
+
             Path scrPath = QuickScreenshot.saveImage(image);
-            
+
             if (scrPath != null) {
                 Alert alert = new Alert(AlertType.NONE);
                 alert.initOwner(window);
                 alert.setTitle("Screenshot");
                 alert.setHeaderText("Screenshot byl úspěšně uložen");
                 alert.setContentText(scrPath.toString());
-                
+
                 ButtonType buttonOpen = new ButtonType("Otevřít složku");
                 ButtonType buttonOk = new ButtonType("Ok", ButtonData.OK_DONE);
-                
+
                 alert.getButtonTypes().setAll(buttonOpen, buttonOk);
                 alert.showAndWait()
                         .filter(result -> result == buttonOpen)
@@ -63,7 +69,7 @@ public class ScreenshotService implements Registerable, Runnable {
             }
         });
     }
-    
+
     private void open(Path scrPath) {
         try {
             File folder = scrPath.toFile().getParentFile();
@@ -72,12 +78,12 @@ public class ScreenshotService implements Registerable, Runnable {
             // nevadí
         }
     }
-    
+
     // registrační metoda
-    
+
     @Override
     public void register(ServiceManager manager) {
         manager.register(IOServices.SERVICE_SCREENSHOT, this);
     }
-    
+
 }

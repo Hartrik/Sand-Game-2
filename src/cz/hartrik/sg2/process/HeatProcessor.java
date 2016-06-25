@@ -1,5 +1,6 @@
 package cz.hartrik.sg2.process;
 
+import cz.hartrik.sg2.engine.ThreadFactoryName;
 import cz.hartrik.sg2.world.Direction;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.World;
@@ -8,15 +9,18 @@ import java.util.concurrent.*;
 /**
  * Prochází elementy a zároveň se stará o zpracování tepla.
  *
- * @version 2016-06-17
+ * @version 2016-06-25
  * @author Patrik Harag
  */
 public class HeatProcessor extends BasicProcessor {
 
+    private static final ThreadFactory TF
+            = new ThreadFactoryName("SG2 - heat processing [%03d]");
+
     private final int randDataCount = 100;
     private final int[][] randData;
 
-    private final ExecutorService exec = Executors.newFixedThreadPool(2);
+    private final ExecutorService exec = Executors.newFixedThreadPool(2, TF);
     private Future<?> future1;
     private Future<?> future2;
 
@@ -116,6 +120,11 @@ public class HeatProcessor extends BasicProcessor {
             else
                 world.setTemperature(x, y, lTemp);
         }
+    }
+
+    @Override
+    public void shutdown() {
+        exec.shutdown();
     }
 
 }

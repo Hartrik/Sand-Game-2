@@ -2,30 +2,31 @@
 package cz.hartrik.sg2.app.module.canvas;
 
 import javafx.event.EventHandler;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 /**
  * Umožňuje přiblížení {@link ImageView} uvnitř {@link ScrollPane} a použití
- * vlastního kurzoru. 
- * 
+ * vlastního kurzoru.
+ *
  * @version 2014-12-27
  * @author Patrik Harag
  */
-public class CanvasWithCursor extends Canvas {
+public class CanvasWithCursor extends SGCanvas {
 
     protected Cursor cursor = null;
     protected EventHandler<? super MouseEvent> onMove;
     protected EventHandler<? super MouseEvent> onOver;
-    
+
     private double lastX = -1d, lastY = -1d;
-    
-    public CanvasWithCursor(ScrollPane scrollPane, ImageView imageView) {
-        super(scrollPane, imageView);
+
+    public CanvasWithCursor(ScrollPane scrollPane, Canvas canvas) {
+        super(scrollPane, canvas);
     }
 
-    public void setCursor(Cursor cursor) {        
+    public void setCursor(Cursor cursor) {
         removeCursor();
 
         this.cursor = cursor;
@@ -38,28 +39,24 @@ public class CanvasWithCursor extends Canvas {
             lastY = event.getY();
             cursor.onMove(lastX, lastY);
         };
-        
+
         onOver = event -> {
             lastX = lastY = -1;
             cursor.onOver();
         };
-        
-        imageView.addEventHandler(MouseEvent.MOUSE_DRAGGED, onMove);
-        imageView.addEventHandler(MouseEvent.MOUSE_MOVED, onMove);
-        imageView.addEventHandler(MouseEvent.MOUSE_EXITED, onOver);
-        
-        // jinak by se nový kurzor nezobrazil, dokud by nedošlo k pohybu myší
-//        if (lastX != -1 && lastY != -1)
-//            cursor.onMove(lastX, lastY);
+
+        fxcanvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, onMove);
+        fxcanvas.addEventHandler(MouseEvent.MOUSE_MOVED, onMove);
+        fxcanvas.addEventHandler(MouseEvent.MOUSE_EXITED, onOver);
     }
 
     public void removeCursor() {
         if (cursor != null) {
             cursor.removeListeners();
             cursor.removeCursor();
-            imageView.removeEventHandler(MouseEvent.MOUSE_DRAGGED, onMove);
-            imageView.removeEventHandler(MouseEvent.MOUSE_MOVED, onMove);
-            imageView.removeEventHandler(MouseEvent.MOUSE_EXITED, onOver);
+            fxcanvas.removeEventHandler(MouseEvent.MOUSE_DRAGGED, onMove);
+            fxcanvas.removeEventHandler(MouseEvent.MOUSE_MOVED, onMove);
+            fxcanvas.removeEventHandler(MouseEvent.MOUSE_EXITED, onOver);
         }
     }
 

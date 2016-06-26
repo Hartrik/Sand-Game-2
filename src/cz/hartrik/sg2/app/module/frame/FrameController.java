@@ -163,7 +163,7 @@ public class FrameController extends FrameControllerTemplate implements Initiali
     };
 
     public void setUpCanvas(int width, int height) {
-        setUpCanvas(new ModularWorld(width, height, 50, BasicElement.AIR, sup), width, height);
+        setUpCanvas(new ModularWorld(width, height, 20, BasicElement.AIR, sup), width, height);
     }
 
     public void setUpCanvas(ModularWorld world) {

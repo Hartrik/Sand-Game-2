@@ -24,7 +24,7 @@ public final class SimpleProcessor extends BasicProcessor {
     }
 
     @Override
-    protected void iterate(int cyTop, int cyBottom) {
+    protected void iterate(int cyTop, int cyBottom, int runningCount) {
         for (int y = cyBottom; y >= cyTop; --y)
             for (int x : randData[xorRandom.nextInt(randDataCount)])
                 if (running[x / world.getChunkSize()]) nextPoint(x, y);

@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Abstraktní třída Processor.
  *
- * @version 2014-05-11
+ * @version 2016-06-26
  * @author Patrik Harag
  */
 public abstract class BasicProcessor implements Processor {
@@ -57,24 +57,31 @@ public abstract class BasicProcessor implements Processor {
             final int cyBottom = cyTop + world.getChunkSize() - 1;
 
             // zjistí horizontální chunky, které (ne)byly změněny
-            boolean somethingChanged = false;
+            int runningCount = 0;
+
             for (int cx = 0; cx < horChunkCount; cx++) {
                 Chunk chunk = world.getChunk(cx, cy);
                 if (chunk.isChanged()) {
-                    updated++;
-                    somethingChanged = true;
+                    runningCount++;
                     running[cx] = true;
-                    chunk.change(false); // a pokud se nezmění, tak bude v
-                } else {                  // příštím kole nečinný
+                    chunk.change(false);
+                    // a pokud se nezmění, tak už bude v dalším kole nečinný
+
+                } else {
+                    // jestliže je chunk nezměněný, tak ho stejně alespoň
+                    // zrychleně otestujeme a případně také projdeme
                     boolean test = testChunk(cx, cyTop, cyBottom);
+                    if (test) runningCount++;
                     running[cx] = test;
-                    if (test) somethingChanged = true;
                 }
             }
 
-            if (!somethingChanged) continue;
+            if (runningCount == 0)
+                continue;
 
-            iterate(cyTop, cyBottom);
+            updated += runningCount;
+
+            iterate(cyTop, cyBottom, runningCount);
 
             // kontrola chunků, které se nezměnily
             //  - v jednom kole se totiž nutně nemusí změnit vše co může a
@@ -88,7 +95,7 @@ public abstract class BasicProcessor implements Processor {
         this.updatedChunks = updated;
     }
 
-    protected abstract void iterate(int cyTop, int cyBottom);
+    protected abstract void iterate(int cyTop, int cyBottom, int runningCount);
 
     // testování
     // -----------------------------------------------------

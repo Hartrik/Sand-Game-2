@@ -15,13 +15,13 @@ import javafx.scene.image.WritablePixelFormat;
  * <p>
  * Vykresluje se vždy celé plátno, bez ohledu na aktivitu chunků.
  *
- * @version 2016-06-17
+ * @version 2016-06-26
  * @author Patrik Harag
  */
 public class JFXRenderer implements Renderer {
 
     protected Element[] elements;
-    protected final float[] temperature;
+    protected float[] temperature;
 
     protected final byte[] buffer;
     private final WritablePixelFormat<ByteBuffer> pixelFormat;
@@ -38,17 +38,6 @@ public class JFXRenderer implements Renderer {
 
         Arrays.fill(buffer, (byte) (255));
     }
-
-//    public JFXRenderer(
-//            Element[] elements, float[] temperature,
-//            byte[] buffer, WritablePixelFormat<ByteBuffer> pixelFormat) {
-//
-//        this.elements = elements;
-//        this.temperature = temperature;
-//
-//        this.buffer = buffer;
-//        this.pixelFormat = pixelFormat;
-//    }
 
     /**
      * Vykreslí celé plátno do bufferu.
@@ -91,6 +80,10 @@ public class JFXRenderer implements Renderer {
 
     public synchronized void setElements(Element[] elements) {
         this.elements = elements;
+    }
+
+    public synchronized void setTemperature(float[] temperature) {
+        this.temperature = temperature;
     }
 
 }

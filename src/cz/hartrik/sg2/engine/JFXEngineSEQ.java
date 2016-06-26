@@ -12,12 +12,13 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 
 /**
- * 
  *
- * @version 2016-06-25
+ *
+ * @version 2016-06-26
  * @author Patrik Harag
  * @param <P>
  */
+@SuppressWarnings("deprecation")
 public class JFXEngineSEQ <P extends Processor> implements JFXEngine<P> {
 
     private static final ThreadFactory mainThreadFactory
@@ -46,6 +47,9 @@ public class JFXEngineSEQ <P extends Processor> implements JFXEngine<P> {
 
     private final Canvas canvas;
 
+    final Element[] eBuffer;
+    final float[] tBuffer;
+
     public JFXEngineSEQ(World world, P processor, JFXRenderer renderer,
             Canvas canvas) {
 
@@ -58,11 +62,13 @@ public class JFXEngineSEQ <P extends Processor> implements JFXEngine<P> {
         this.pCounter = new FPSCounter();
 
         this.listener = new EngineListenerDef() {};
+        this.rendererAnimationTime = new RendererAnimation();
+
+        this.eBuffer = new Element[world.getElements().length];
+        this.tBuffer = new float[world.getTemperature().length];
 
         canvas.setWidth(world.getWidth());
         canvas.setHeight(world.getHeight());
-
-        this.rendererAnimationTime = new RendererAnimation();
     }
 
     // --- PROCESSOR ---
@@ -119,8 +125,6 @@ public class JFXEngineSEQ <P extends Processor> implements JFXEngine<P> {
     // hlavní vlákno
 
     private void setUpMainThread() {
-        final Element[] eBuffer = new Element[world.getElements().length];
-
         Runnable mainLoop = () -> {
             try {
                 while ((pStopped && rStopped) == false) {
@@ -135,8 +139,7 @@ public class JFXEngineSEQ <P extends Processor> implements JFXEngine<P> {
                         processQueue();
 
                         if (!rStopped) {
-                            System.arraycopy(world.getElements(), 0, eBuffer, 0, eBuffer.length);
-                            renderer.setElements(eBuffer);
+                            copyArrays();
 
                             Runnable r = this::rendererCycle;
                             renderFuture = rendererExec.submit(r);
@@ -158,6 +161,19 @@ public class JFXEngineSEQ <P extends Processor> implements JFXEngine<P> {
         mainFuture = mainExec.submit(mainLoop);
 
         rendererAnimationTime.start();
+    }
+
+    /**
+     * Zkopíruje pole elementů a pole s jejich teplotou do renrereru.
+     * Tato pole tak budou při vykreslování statická a nebude docházet k
+     * chybám při synchronizaci atd, a tedy ani k blikání.
+     */
+    private void copyArrays() {
+        System.arraycopy(world.getElements(), 0, eBuffer, 0, eBuffer.length);
+        renderer.setElements(eBuffer);
+
+        System.arraycopy(world.getTemperature(), 0, tBuffer, 0, tBuffer.length);
+        renderer.setTemperature(tBuffer);
     }
 
     private void processorCycle() {

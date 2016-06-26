@@ -21,6 +21,7 @@ import cz.hartrik.sg2.world.module.WorldModule;
 import cz.hartrik.sg2.world.module.WorldModuleManager;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -28,7 +29,7 @@ import javafx.scene.canvas.Canvas;
 /**
  * Kontroler GUI.
  *
- * @version 2016-06-25
+ * @version 2016-06-26
  * @author Patrik Harag
  */
 public class FrameController extends FrameControllerTemplate implements Initializable {
@@ -107,6 +108,27 @@ public class FrameController extends FrameControllerTemplate implements Initiali
         onSetUp.add(runnable);
     }
 
+    public boolean removeOnSetUp(Runnable runnable) {
+        return onSetUp.remove(runnable);
+    }
+
+    // engine state
+
+    private final EngineStateMonitor engineStateMonitor
+            = new EngineStateMonitor(this::getEngine);
+
+    public void addOnEngineStateChanged(Consumer<ProcessingState> consumer) {
+        engineStateMonitor.addOnEngineStateChanged(consumer);
+    }
+
+    public boolean removeOnEngineStateChanged(Consumer<ProcessingState> consumer) {
+        return engineStateMonitor.removeOnEngineStateChanged(consumer);
+    }
+
+    private void initEngineStateMonitor() {
+        engineStateMonitor.start();
+    }
+
     // brush manager
 
     private final ObservedBrushManagerBC brushManager = StandardBrushCollection.create(
@@ -148,6 +170,8 @@ public class FrameController extends FrameControllerTemplate implements Initiali
         controls.setPrimaryBrush(brushManager.getBrush(10));
         controls.setSecondaryBrush(brushManager.getBrush(1));
 
+        initEngineStateMonitor();
+
         new MouseControllerExt(fxCanvas, controls,
                 this::getEngine, this::getWorld, this::getSyncTools,
                 brushManager, canvas).init();
@@ -163,14 +187,10 @@ public class FrameController extends FrameControllerTemplate implements Initiali
     };
 
     public void setUpCanvas(int width, int height) {
-        setUpCanvas(new ModularWorld(width, height, 20, BasicElement.AIR, sup), width, height);
+        setUpCanvas(new ModularWorld(width, height, 20, BasicElement.AIR, sup));
     }
 
     public void setUpCanvas(ModularWorld world) {
-        setUpCanvas(world, world.getWidth(), world.getHeight());
-    }
-
-    protected void setUpCanvas(ModularWorld world, int width, int height) {
         boolean processorRunning = true;
 
         if (engine != null) {

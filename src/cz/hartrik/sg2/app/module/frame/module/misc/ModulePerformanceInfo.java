@@ -1,8 +1,8 @@
 package cz.hartrik.sg2.app.module.frame.module.misc;
 
-import cz.hartrik.common.reflect.TODO;
 import cz.hartrik.sg2.app.module.frame.Frame;
 import cz.hartrik.sg2.app.module.frame.FrameController;
+import cz.hartrik.sg2.app.module.frame.ProcessingState;
 import cz.hartrik.sg2.app.module.frame.StageModule;
 import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
 import cz.hartrik.sg2.engine.EngineListenerDef;
@@ -13,11 +13,12 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
 
 /**
- * @version 2016-06-21
+ * @version 2016-06-26
  * @author Patrik Harag
  */
-@TODO("projevit zastavení procesoru a rendereru")
 public class ModulePerformanceInfo implements StageModule<Frame, FrameController> {
+
+    private volatile boolean processorStopped = true;
 
     @Override
     public void init(Frame stage, FrameController controller,
@@ -37,13 +38,18 @@ public class ModulePerformanceInfo implements StageModule<Frame, FrameController
         grid.addRow(2, new Label("Cyklů za sekundu"), lCycles);
         grid.addRow(3, new Label("Aktivní chunky"),   lChunks);
 
-        controller.addOnSetUp(
-                () -> update(controller, lSizes, lFPS, lCycles, lChunks));
+        controller.addOnSetUp(() -> {
+            update(controller, lSizes, lFPS, lCycles, lChunks);
+        });
+
+        controller.addOnEngineStateChanged((state) -> {
+            processorStopped = (state == ProcessingState.STOPPED);
+        });
 
         controller.getLeftPanel().getChildren().addAll(grid, new Separator());
     }
 
-    // musí být zavoláno při každé změně ElementArea
+    // musí být zavoláno při každé změně plátna
     private void update(FrameController controller,
             Label lSizes, Label lFPS, Label lCycles, Label lChunks) {
 
@@ -65,9 +71,15 @@ public class ModulePerformanceInfo implements StageModule<Frame, FrameController
                 else return;
 
                 Platform.runLater(() -> {
-                    lChunks.setText(engine.getUpdatedChunksCount() + chunkStr);
-                    lCycles.setText(engine.getCurrentCycles() + "");
                     lFPS.setText(engine.getCurrentFPS() + "");
+
+                    if (processorStopped) {
+                        lChunks.setText("n/a");
+                        lCycles.setText("n/a");
+                    } else {
+                        lChunks.setText(engine.getUpdatedChunksCount() + chunkStr);
+                        lCycles.setText(engine.getCurrentCycles() + "");
+                    }
                 });
             }
         });

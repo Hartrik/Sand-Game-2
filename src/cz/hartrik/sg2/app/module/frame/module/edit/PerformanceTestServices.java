@@ -2,7 +2,6 @@
 package cz.hartrik.sg2.app.module.frame.module.edit;
 
 import cz.hartrik.common.Color;
-import cz.hartrik.common.random.RatioChance;
 import cz.hartrik.sg2.app.module.frame.FrameController;
 import cz.hartrik.sg2.app.module.frame.module.Registerable;
 import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
@@ -12,6 +11,7 @@ import cz.hartrik.sg2.brush.SourceableBrush;
 import cz.hartrik.sg2.brush.Wrapper;
 import cz.hartrik.sg2.engine.EngineListenerDef;
 import cz.hartrik.sg2.engine.ThreadFactoryName;
+import cz.hartrik.sg2.random.RatioChance;
 import cz.hartrik.sg2.tool.Rectangle;
 import cz.hartrik.sg2.world.BasicElement;
 import cz.hartrik.sg2.world.ModularWorld;

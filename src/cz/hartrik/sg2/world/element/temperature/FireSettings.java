@@ -2,8 +2,8 @@
 package cz.hartrik.sg2.world.element.temperature;
 
 import cz.hartrik.common.Checker;
-import cz.hartrik.common.random.Chance;
-import cz.hartrik.common.random.RatioChance;
+import cz.hartrik.sg2.random.Chance;
+import cz.hartrik.sg2.random.RatioChance;
 import java.io.Serializable;
 
 /**

@@ -2,9 +2,9 @@
 package cz.hartrik.sg2.world.element.fluid;
 
 import cz.hartrik.common.Color;
-import cz.hartrik.common.random.Chance;
-import cz.hartrik.common.random.RatioChance;
 import cz.hartrik.sg2.process.Tools;
+import cz.hartrik.sg2.random.Chance;
+import cz.hartrik.sg2.random.RatioChance;
 import cz.hartrik.sg2.world.BasicElement;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.World;

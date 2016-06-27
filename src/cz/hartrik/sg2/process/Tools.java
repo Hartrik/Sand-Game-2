@@ -1,8 +1,8 @@
 
 package cz.hartrik.sg2.process;
 
-import cz.hartrik.common.random.XORShiftRandom;
 import cz.hartrik.sg2.brush.manage.BrushManager;
+import cz.hartrik.sg2.random.XORShiftRandom;
 import cz.hartrik.sg2.world.Direction;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.World;

@@ -1,11 +1,11 @@
 package cz.hartrik.sg2.app.sandbox.element;
 
-import cz.hartrik.common.random.XORShiftRandom;
 import cz.hartrik.sg2.brush.BrushRandom;
 import cz.hartrik.sg2.brush.Controls;
 import cz.hartrik.sg2.brush.jfx.Thumbnailable;
 import cz.hartrik.sg2.brush.jfx.Thumbnails;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
+import cz.hartrik.sg2.random.XORShiftRandom;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.ElementArea;
 import java.util.function.IntUnaryOperator;

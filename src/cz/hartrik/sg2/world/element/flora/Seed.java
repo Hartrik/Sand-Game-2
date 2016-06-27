@@ -2,14 +2,14 @@
 package cz.hartrik.sg2.world.element.flora;
 
 import cz.hartrik.common.Color;
-import cz.hartrik.common.random.Chance;
 import cz.hartrik.sg2.process.Tools;
+import cz.hartrik.sg2.random.Chance;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.World;
 import cz.hartrik.sg2.world.element.Air;
 import cz.hartrik.sg2.world.element.FallingElement;
-import cz.hartrik.sg2.world.element.powder.Soil;
 import cz.hartrik.sg2.world.element.Organic;
+import cz.hartrik.sg2.world.element.powder.Soil;
 
 /**
  * Element představující semínko. Slouží k setí rostlin.

@@ -2,7 +2,7 @@
 package cz.hartrik.sg2.world.element.fluid;
 
 import cz.hartrik.common.Color;
-import cz.hartrik.common.random.Chance;
+import cz.hartrik.sg2.random.Chance;
 import java.util.function.Supplier;
 
 /**

@@ -2,10 +2,10 @@
 package cz.hartrik.sg2.brush;
 
 import cz.hartrik.common.Color;
-import cz.hartrik.common.random.RandomSuppliers;
-import cz.hartrik.common.random.XORShiftRandom;
 import cz.hartrik.common.reflect.TODO;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
+import cz.hartrik.sg2.random.RandomSuppliers;
+import cz.hartrik.sg2.random.XORShiftRandom;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.factory.ISingleInputFactory;
 import java.util.function.Supplier;

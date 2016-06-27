@@ -1,11 +1,11 @@
 
 package cz.hartrik.sg2.world.element.fluid;
 
-import cz.hartrik.sg2.world.element.powder.Salt;
 import cz.hartrik.common.Color;
-import cz.hartrik.common.random.Chance;
-import cz.hartrik.common.random.XORShiftRandom;
+import cz.hartrik.sg2.random.Chance;
+import cz.hartrik.sg2.random.XORShiftRandom;
 import cz.hartrik.sg2.world.Element;
+import cz.hartrik.sg2.world.element.powder.Salt;
 
 /**
  * Element představující slanou vodu.

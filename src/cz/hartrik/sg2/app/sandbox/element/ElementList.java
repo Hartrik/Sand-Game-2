@@ -3,10 +3,10 @@ package cz.hartrik.sg2.app.sandbox.element;
 
 import cz.hartrik.common.Color;
 import cz.hartrik.common.WebColors;
-import cz.hartrik.common.random.Chance;
-import cz.hartrik.common.random.RandomSupplier;
-import cz.hartrik.common.random.RandomSuppliers;
-import cz.hartrik.common.random.RatioChance;
+import cz.hartrik.sg2.random.Chance;
+import cz.hartrik.sg2.random.RandomSupplier;
+import cz.hartrik.sg2.random.RandomSuppliers;
+import cz.hartrik.sg2.random.RatioChance;
 import cz.hartrik.sg2.world.ArrayBuilderElement;
 import cz.hartrik.sg2.world.BasicElement;
 import cz.hartrik.sg2.world.Element;

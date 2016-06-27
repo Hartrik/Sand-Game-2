@@ -1,8 +1,8 @@
 
 package cz.hartrik.sg2.process;
 
-import cz.hartrik.common.random.XORShiftRandom;
 import cz.hartrik.sg2.engine.Processor;
+import cz.hartrik.sg2.random.XORShiftRandom;
 import cz.hartrik.sg2.world.Chunk;
 import cz.hartrik.sg2.world.World;
 import java.util.Random;

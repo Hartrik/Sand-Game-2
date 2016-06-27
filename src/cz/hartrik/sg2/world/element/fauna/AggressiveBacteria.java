@@ -2,8 +2,8 @@ package cz.hartrik.sg2.world.element.fauna;
 
 import cz.hartrik.common.Color;
 import cz.hartrik.common.Counter;
-import cz.hartrik.common.random.RatioChance;
 import cz.hartrik.sg2.process.Tools;
+import cz.hartrik.sg2.random.RatioChance;
 import cz.hartrik.sg2.world.Direction;
 import cz.hartrik.sg2.world.World;
 import cz.hartrik.sg2.world.element.Air;

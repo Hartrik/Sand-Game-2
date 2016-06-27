@@ -3,9 +3,9 @@ package cz.hartrik.sg2.app.sandbox.element;
 
 import cz.hartrik.common.Color;
 import cz.hartrik.common.io.Resources;
-import cz.hartrik.common.random.RandomSuppliers;
 import cz.hartrik.sg2.brush.BrushEffect;
 import cz.hartrik.sg2.brush.jfx.BrushCollectionBuilder;
+import cz.hartrik.sg2.random.RandomSuppliers;
 import cz.hartrik.sg2.world.element.fluid.Napalm;
 import cz.hartrik.sg2.world.element.powder.*;
 import cz.hartrik.sg2.world.element.solid.*;

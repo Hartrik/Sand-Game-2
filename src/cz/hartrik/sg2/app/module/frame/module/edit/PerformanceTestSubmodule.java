@@ -10,7 +10,7 @@ import javafx.scene.control.MenuItem;
 import static cz.hartrik.sg2.app.module.frame.module.edit.EditServices.*;
 
 /**
- * @version 2014-12-02
+ * @version 2016-06-26
  * @author Patrik Harag
  */
 public class PerformanceTestSubmodule extends MenuSubmodule<Frame, FrameController> {
@@ -22,18 +22,21 @@ public class PerformanceTestSubmodule extends MenuSubmodule<Frame, FrameControll
     @Override
     public void register(Frame stage, FrameController controller,
             ServiceManager manager) {
-        
+
         new PerformanceTestServices(controller).register(manager);
     }
 
     @Override
     public MenuItem[] createMenuItems(Frame stage, FrameController controller,
             ServiceManager manager) {
-        
+
         MenuItem iSandTest = new MenuItem("Test výkonu - písek");
         iSandTest.setOnAction((e) -> manager.run(SERVICE_TEST_SAND_FALL));
-        
-        return new MenuItem[] { iSandTest };
+
+        MenuItem iBenchmark = new MenuItem("Test výkonu - benchmark");
+        iBenchmark.setOnAction((e) -> manager.run(SERVICE_TEST_BENCHMARK));
+
+        return new MenuItem[] { iSandTest, iBenchmark };
     }
-    
+
 }

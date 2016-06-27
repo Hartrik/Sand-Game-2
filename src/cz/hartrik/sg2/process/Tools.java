@@ -11,7 +11,7 @@ import cz.hartrik.sg2.world.factory.FireFactoryImpl;
 /**
  * Základní nástroje používané při implementaci chování elementů.
  *
- * @version 2016-06-16
+ * @version 2016-06-27
  * @author Patrik Harag
  */
 public class Tools {
@@ -70,6 +70,10 @@ public class Tools {
             case 2:  return Direction.RIGHT;
             default: return Direction.LEFT;
         }
+    }
+
+    public XORShiftRandom random() {
+        return xorRandom;
     }
 
     // ostatní

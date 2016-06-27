@@ -30,9 +30,7 @@ public class JFXGrassBrush extends BrushRandom implements Thumbnailable {
 
     @Override
     public Element getElement(Element current) {
-        return elements.length > 1
-                ? elements[random.nextInt(elements.length)]
-                : elements[0];
+        return random.randomElement(elements);
     }
 
     @Override
@@ -49,7 +47,7 @@ public class JFXGrassBrush extends BrushRandom implements Thumbnailable {
 
     public static <T> T chooseRandom(int x, T[] array) {
         if (x < 0) return null;
-        return array[XORShiftRandom.nextInt(x, array.length)];
+        return array[XORShiftRandom.nextRandom(x, array.length)];
     }
 
     @Override

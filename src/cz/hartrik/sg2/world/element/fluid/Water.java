@@ -5,6 +5,7 @@ import cz.hartrik.common.Color;
 import cz.hartrik.sg2.process.Tools;
 import cz.hartrik.sg2.random.Chance;
 import cz.hartrik.sg2.random.RatioChance;
+import cz.hartrik.sg2.random.XORShiftRandom;
 import cz.hartrik.sg2.world.BasicElement;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.World;
@@ -12,7 +13,7 @@ import cz.hartrik.sg2.world.World;
 /**
  * Element představující vodu.
  *
- * @version 2016-06-17
+ * @version 2016-06-27
  * @author Patrik Harag
  */
 public class Water extends BoilingFluid implements Dryable {
@@ -20,6 +21,8 @@ public class Water extends BoilingFluid implements Dryable {
     private static final long serialVersionUID = 83715083867368_02_034L;
 
     public static final int BOILING_POINT = 100;
+
+    private final XORShiftRandom random = new XORShiftRandom();
 
     protected final Chance chance;
     protected Element[] vaporized = { BasicElement.AIR };
@@ -49,7 +52,7 @@ public class Water extends BoilingFluid implements Dryable {
 
     protected boolean vapor(int x, int y, Tools tools, World world, float degrees) {
         if (testVapor(degrees)) {
-            world.setAndChange(x, y, vaporized[tools.randomInt(vaporized.length)]);
+            world.setAndChange(x, y, tools.random().randomElement(vaporized));
             return true;
         }
         return false;
@@ -61,7 +64,7 @@ public class Water extends BoilingFluid implements Dryable {
 
         return((temp > 1500)
                 ? true
-                : RatioChance.nextBoolean((int) ((1500 - temp) * 3)));
+                : RatioChance.nextBoolean(random, (int) ((1500 - temp) * 3)));
     }
 
     @Override

@@ -43,7 +43,9 @@ public class AggressiveBacteria extends Bacteria {
 
         diffuse(x, y, tools, world);
 
-        if (airCounter.getValue() > 0 && RatioChance.nextBoolean(1000)) {
+        if (airCounter.getValue() > 0
+                && RatioChance.nextBoolean(tools.random(), 1000)) {
+
             world.setAndChange(x, y, world.getBackground());
             return false;
         }

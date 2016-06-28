@@ -1,54 +1,66 @@
 package cz.hartrik.sg2.app.module.frame.module.tools;
 
 
-import cz.hartrik.common.Exceptions;
 import cz.hartrik.sg2.app.module.frame.FrameController;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.util.StringConverter;
 
 /**
  * Abstraktní třída pro panel s nastavením štětce.
- * 
- * @version 2015-03-28
+ *
+ * @version 2016-06-28
  * @author Patrik Harag
  */
 public abstract class PanelTool {
-    
+
     protected final FrameController controller;
     protected final int min, max, def;
     protected Pane pane;
-    
+
     public PanelTool(int min, int max, int def, FrameController controller) {
         this.controller = controller;
         this.min = min;
         this.max = max;
         this.def = def;
     }
-    
-    protected class IntegerConverter extends StringConverter<Integer> {
-        
-        @Override
-        public String toString(Integer integer) {
-            return String.valueOf(integer);
-        }
 
-        @Override
-        public Integer fromString(String string) {
-            String filtered = string.replaceAll("\\D+","");
-            
-            int n = Exceptions.call(Integer::parseInt, filtered).orElse(def);
-            
-            if      (n > max) n = max;
-            else if (n < min) n = min;
-            
-            return n;
-        }
-    }
-    
+
     public abstract void updateTool();
-    
+
     public Pane getPane() {
         return pane;
     }
-    
+
+    protected static Spinner<Integer> createSpinner(int min, int max, int def) {
+        Spinner<Integer> spinner = new Spinner<>(min, max, def);
+        spinner.setEditable(true);
+        spinner.getValueFactory().setConverter(new StringConverterImpl(min, max, def));
+        spinner.focusedProperty().addListener((ov, o, n) -> {
+            if (!n) commitSpinner(spinner);
+        });
+        
+        return spinner;
+    }
+
+    /**
+     * Uloží aktuální hodnotu spinneru - stejné, jako když se zmáčkne ENTER.
+     *
+     * @param <T> typ spinneru
+     * @param spinner spinner
+     */
+    protected static <T> void commitSpinner(Spinner<T> spinner) {
+        if (!spinner.isEditable()) return;
+        String text = spinner.getEditor().getText();
+        SpinnerValueFactory<T> valueFactory = spinner.getValueFactory();
+        if (valueFactory != null) {
+            StringConverter<T> converter = valueFactory.getConverter();
+            if (converter != null) {
+                T value = converter.fromString(text);
+                valueFactory.setValue(value);
+            }
+        }
+    }
+
 }

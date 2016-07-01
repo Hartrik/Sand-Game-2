@@ -65,7 +65,7 @@ public class MouseControllerExt extends MouseControllerPick {
     @Override
     protected void onMouseReleased(MouseEvent event) {
         if (shiftEvent || ctrlEvent) {
-            apply((int) event.getX(), (int) event.getY(), event.getButton());
+            apply((int) event.getX(), (int) event.getY(), event.getButton(), false);
             shiftEvent = false;
             ctrlEvent = false;
         } else {
@@ -81,13 +81,13 @@ public class MouseControllerExt extends MouseControllerPick {
     // ostatní metody
 
     @Override
-    protected void apply(int x, int y, MouseButton button) {
+    protected void apply(int x, int y, MouseButton button, boolean drag) {
         if (shiftEvent)
             shiftEvent(x, y, button);
         else if (ctrlEvent)
             ctrlEvent(x, y, button);
         else
-            super.apply(x, y, button);
+            super.apply(x, y, button, drag);
     }
 
     protected void shiftEvent(int x, int y, MouseButton button) {

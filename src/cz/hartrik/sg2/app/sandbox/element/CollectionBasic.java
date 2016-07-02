@@ -17,7 +17,7 @@ import static cz.hartrik.sg2.app.sandbox.element.ElementList.*;
 /**
  * Základní kolekce štětců.
  *
- * @version 2016-06-17
+ * @version 2016-07-02
  * @author Patrik Harag
  */
 public class CollectionBasic {
@@ -25,7 +25,6 @@ public class CollectionBasic {
     static final String URL_WOOD = file("Texture - wooden planks.png");
     static final String URL_FIRE = file("Icon - hazard - F.png");
     static final String URL_IRON = file("Texture - iron.png");
-    static final String URL_PIPE = file("Icon - pipe.png");
     static final String URL_ROCK = file("Texture - dark rock.png");
     static final String URL_WATER = file("Icon - water.png");
     static final String URL_FILTER = file("Texture - filter.png");
@@ -118,14 +117,14 @@ public class CollectionBasic {
             .addRnd(71, WATER_SALT)
 
             // fauna, flora (100 - 129)
-            .add(new JFXGrassBrush(collectionBuilder.load(100),
-                    x -> 100 + x * x * 7, GRASS), true)
+            .addHidden(new JFXGrassBrush(collectionBuilder.load(100),
+                    x -> 100 + x * x * 7, GRASS))
 
-            .add(new JFXGrassBrush(collectionBuilder.load(101),
-                    x -> 100 + x * x * 8, WILD_GRASS), true)
+            .addHidden(new JFXGrassBrush(collectionBuilder.load(101),
+                    x -> 100 + x * x * 8, WILD_GRASS))
 
-            .add(new JFXGrassBrush(collectionBuilder.load(102),
-                    x -> 100 + x * x * x * 3, REED), true)
+            .addHidden(new JFXGrassBrush(collectionBuilder.load(102),
+                    x -> 100 + x * x * x * 3, REED))
 
             .add(new JFXSeedBrush(collectionBuilder.load(110), GRASS,
                     x -> 100 + x * x * 7, SEEDS))
@@ -136,7 +135,7 @@ public class CollectionBasic {
             .add(new JFXSeedBrush(collectionBuilder.load(112), REED,
                     x -> 100 + x * x * x * 3, REED_SEEDS))
 
-            .add(new BrushEffect(collectionBuilder.load(120),BACTERIA_FACT),
+            .add(new BrushEffect(collectionBuilder.load(120), BACTERIA_FACT),
                     URL_BACTERIA)
 
             .add(new BrushEffect(collectionBuilder.load(121), BACTERIA_A_FACT),
@@ -181,11 +180,6 @@ public class CollectionBasic {
                 .setElements(new PortalOut(RandomSuppliers.of(
                         new Color(179,  77, 26),
                         new Color(204, 102, 51)))).build()
-
-            .addSrc(230, URL_PIPE, 100) // 1/100 = 1 %
-            .addSrc(231, URL_PIPE, 40)  // 1/40  = 2.5 %
-            .addSrc(232, URL_PIPE, 10)  // ...
-            .addSrc(233, URL_PIPE, 1)
         ;
     }
 

@@ -36,6 +36,7 @@ public class StandardBrushCollection {
         BrushCollectionBuilder builder = new BrushCollectionBuilder(loader);
 
         CollectionBasic.createBrushes(builder);
+        CollectionSource.createBrushes(builder, brushManager);
         CollectionTest.createBrushes(builder, brushManager);
         CollectionThermalTools.createBrushes(builder, toolSupplier);
 

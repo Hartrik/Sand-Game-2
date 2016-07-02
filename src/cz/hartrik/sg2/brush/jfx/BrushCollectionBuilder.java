@@ -3,7 +3,6 @@ package cz.hartrik.sg2.brush.jfx;
 
 import cz.hartrik.common.Color;
 import cz.hartrik.sg2.brush.Brush;
-import cz.hartrik.sg2.brush.BrushSource;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
 import cz.hartrik.sg2.brush.manage.BrushInfoLoader;
 import cz.hartrik.sg2.brush.manage.BrushItem;
@@ -11,12 +10,13 @@ import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.factory.FactoryFunction;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import javafx.scene.image.Image;
 
 /**
  * Slouží k tvorbě kolekce štětců.
  *
- * @version 2014-05-22
+ * @version 2016-07-02
  * @author Patrik Harag
  */
 public class BrushCollectionBuilder {
@@ -92,14 +92,6 @@ public class BrushCollectionBuilder {
         return this;
     }
 
-    // - source
-
-    public BrushCollectionBuilder addSrc(int id, String url, int chance) {
-        final Image texture = new Image(url);
-        final BrushInfo brushInfo = loader.get(id);
-        return add(new BrushSource(brushInfo, chance), texture);
-    }
-
     // - simple
 
     public BrushSimpleBuilder addSim(int id) {
@@ -122,17 +114,41 @@ public class BrushCollectionBuilder {
     }
 
     public BrushCollectionBuilder add(Brush brush) {
-        return add(brush, false);
+        return add(new BrushItem(brush, false));
     }
 
-    public BrushCollectionBuilder add(Brush brush, boolean hidden) {
-        return add(new BrushItem(brush, hidden));
+    public BrushCollectionBuilder addHidden(Brush brush) {
+        return add(new BrushItem(brush, true));
     }
 
     public BrushCollectionBuilder add(BrushItem brush) {
         collection.add(brush);
 
         return this;
+    }
+
+    public BrushCollectionBuilder add(int id, Function<BrushInfo, Brush> func) {
+        return add(func.apply(loader.get(id)));
+    }
+
+    public BrushCollectionBuilder add(int id, Image img, Function<BrushInfo, Brush> func) {
+        return add(func.apply(loader.get(id)), img);
+    }
+
+    public BrushCollectionBuilder add(int id, String img, Function<BrushInfo, Brush> func) {
+        return add(id, new Image(img), func);
+    }
+
+    public BrushCollectionBuilder addHidden(int id, Function<BrushInfo, Brush> func) {
+        return addHidden(func.apply(loader.get(id)));
+    }
+
+    public BrushCollectionBuilder addHidden(int id, Image img, Function<BrushInfo, Brush> func) {
+        return addHidden(Thumbnails.addThumb(img, func.apply(loader.get(id))));
+    }
+
+    public BrushCollectionBuilder addHidden(int id, String img, Function<BrushInfo, Brush> func) {
+        return addHidden(id, new Image(img), func);
     }
 
 }

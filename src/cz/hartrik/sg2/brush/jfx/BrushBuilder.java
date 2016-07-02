@@ -54,7 +54,9 @@ public abstract class BrushBuilder {
                 ? Thumbnails.addGeneratedThumb(createBrush())
                 : Thumbnails.addThumb(image, createBrush());
 
-        return collectionBuilder.add(brush, hidden);
+        return (hidden)
+                ? collectionBuilder.addHidden(brush)
+                : collectionBuilder.add(brush);
     }
 
     protected abstract Brush createBrush();

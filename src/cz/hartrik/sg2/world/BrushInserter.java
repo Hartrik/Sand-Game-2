@@ -4,8 +4,8 @@ package cz.hartrik.sg2.world;
 import cz.hartrik.common.Checker;
 import cz.hartrik.common.Point;
 import cz.hartrik.sg2.brush.Brush;
-import cz.hartrik.sg2.brush.BrushEffect;
 import cz.hartrik.sg2.brush.Controls;
+import cz.hartrik.sg2.brush.EffectBrush;
 import cz.hartrik.sg2.brush.Wrapper;
 
 /**
@@ -35,7 +35,7 @@ public class BrushInserter<T extends ElementArea> implements Inserter<T> {
         if (inserter instanceof ElementAreaInserter)
             ((ElementAreaInserter) inserter).setControls(controls);
 
-        if (Wrapper.isInstance(brush, BrushEffect.class))
+        if (Wrapper.isInstance(brush, EffectBrush.class))
             inserter.setEraseTemperature(false);
     }
 

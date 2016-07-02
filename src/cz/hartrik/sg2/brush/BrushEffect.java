@@ -3,7 +3,6 @@ package cz.hartrik.sg2.brush;
 
 import cz.hartrik.common.Checker;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
-import cz.hartrik.sg2.world.BrushInserter;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.factory.IAdvancedBrushFactory;
@@ -11,16 +10,12 @@ import cz.hartrik.sg2.world.factory.ISingleInputFactory;
 import java.util.function.Predicate;
 
 /**
- * Štětec, který se hodí k ovlivňování vlastností stávajících elementů. <p>
+ * Štětec, který se hodí k ovlivňování vlastností stávajících elementů.
  *
- * Tento štětec má také zvláštní postavení u třídy {@link BrushInserter}, kde
- * je mu nastaveno {@link BrushInserter#setEraseTemperature(boolean)} na
- * {@code false}, na rozdíl od ostatních štětců.
- *
- * @version 2016-06-20
+ * @version 2016-07-02
  * @author Patrik Harag
  */
-public class BrushEffect extends ABrushBase {
+public class BrushEffect extends ABrushBase implements EffectBrush {
 
     private final ISingleInputFactory<Element, ? extends Element> factory;
     private final IAdvancedBrushFactory<? extends Element> advancedFactory;

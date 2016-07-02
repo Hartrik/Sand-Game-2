@@ -6,6 +6,7 @@ import cz.hartrik.sg2.random.Chance;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.World;
 import cz.hartrik.sg2.world.element.Air;
+import cz.hartrik.sg2.world.element.Metamorphic;
 import cz.hartrik.sg2.world.element.SolidElement;
 import java.io.Serializable;
 import java.util.function.Supplier;
@@ -14,10 +15,10 @@ import java.util.function.Supplier;
  * Element představující zdroj. Zdroj (source) je statický element, který okolo
  * sebe vytváří další určité elementy.
  *
- * @version 2015-11-19
+ * @version 2016-07-02
  * @author Patrik Harag
  */
-public class Source extends SolidElement {
+public class Source extends SolidElement implements Metamorphic<Sourceable> {
 
     private static final long serialVersionUID = 83715083867368_02_029L;
 
@@ -65,6 +66,13 @@ public class Source extends SolidElement {
     public boolean testAction(int x, int y, Tools tools, World world) {
         return tools.getDirVisitor()
                 .testAll(x, y, element -> element instanceof Air);
+    }
+
+    // Metamorphic
+
+    @Override
+    public Sourceable getBasicElement() {
+        return supplier.get();
     }
 
 }

@@ -1,7 +1,7 @@
 package cz.hartrik.sg2.app.module.io;
 
 import cz.hartrik.sg2.brush.Brush;
-import cz.hartrik.sg2.brush.BrushEffect;
+import cz.hartrik.sg2.brush.EffectBrush;
 import cz.hartrik.sg2.brush.Wrapper;
 import cz.hartrik.sg2.brush.manage.BrushManager;
 import cz.hartrik.sg2.world.Element;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 /**
  * ID štětců uložená v png obrázku, ukládají se pouze efektové štětce
- * ({@link BrushEffect}). <p>
+ * ({@link EffectBrush}). <p>
  *
  * Pro správné fungování musí být tato šablona načtena až po načtení
  * standardní šablony (efektové štětce musí být aplikovány přes ni).
@@ -41,7 +41,7 @@ public class ResourceEffectTemplate extends ResourceBrushTemplate {
     @Override
     protected BufferedImage createImage(ElementArea area, BrushManager bm) {
         cache = bm.getBrushesAll().stream()
-                .filter(b -> Wrapper.isInstance(b, BrushEffect.class))
+                .filter(b -> Wrapper.isInstance(b, EffectBrush.class))
                 .collect(Collectors.toList());
 
         BufferedImage image = super.createImage(area, bm);

@@ -33,7 +33,7 @@ public class HorizontalLine extends Line {
 
             @Override
             public boolean hasNext() {
-                return i < x2;
+                return i <= x2;
             }
 
             @Override

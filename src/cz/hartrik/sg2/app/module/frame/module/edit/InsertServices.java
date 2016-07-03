@@ -8,11 +8,12 @@ import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.Controls;
 import cz.hartrik.sg2.brush.jfx.JFXControls;
 import cz.hartrik.sg2.world.BrushInserter;
+import cz.hartrik.sg2.world.Region;
 
 import static cz.hartrik.sg2.app.module.frame.module.edit.EditServices.*;
 
 /**
- * @version 2016-06-16
+ * @version 2016-07-03
  * @author Patrik Harag
  */
 public class InsertServices implements Registerable {
@@ -30,7 +31,7 @@ public class InsertServices implements Registerable {
                 area -> area.getTools().fill(brush, controls));
     }
 
-    protected void boundWorld(Brush brush, Controls controls) {
+    protected void bound(Brush brush, Controls controls) {
         controller.getSyncTools().synchronize((area) -> {
             BrushInserter<?> inserter = area.getInserter().with(brush, controls);
 
@@ -77,6 +78,20 @@ public class InsertServices implements Registerable {
         });
     }
 
+    public void boundTop(Brush brush, Controls controls) {
+        controller.getSyncTools().synchronize(world -> {
+            Region firstLine = world.streamLines().findFirst().get();
+            firstLine.getTools().fill(brush, controls);
+        });
+    }
+
+    public void boundBottom(Brush brush, Controls controls) {
+        controller.getSyncTools().synchronize(world -> {
+            Region lastLine = world.streamLinesReversed().findFirst().get();
+            lastLine.getTools().fill(brush, controls);
+        });
+    }
+
     // služby
 
     public void clear() {
@@ -87,24 +102,29 @@ public class InsertServices implements Registerable {
         fill(controller.getControls().getPrimaryBrush(), controller.getControls());
     }
 
-    public void wBounds() {
+    public void boundBlackHole() {
         Brush brush = controller.getBrushManager().getBrush(202);
-        boundWorld(brush, controller.getControls());
+        bound(brush, controller.getControls());
     }
 
-    public void wBoundsCustom() {
+    public void bound() {
         JFXControls controls = controller.getControls();
-        boundWorld(controls.getPrimaryBrush(), controls);
+        bound(controls.getPrimaryBrush(), controls);
     }
 
-    public void cBounds() {
-        Brush brush = controller.getBrushManager().getBrush(10);
-        boundChunks(brush, controller.getControls());
-    }
-
-    public void cBoundsCustom() {
+    public void boundChunks() {
         JFXControls controls = controller.getControls();
         boundChunks(controls.getPrimaryBrush(), controls);
+    }
+
+    public void boundTop() {
+        JFXControls controls = controller.getControls();
+        boundTop(controls.getPrimaryBrush(), controls);
+    }
+
+    public void boundBottom() {
+        JFXControls controls = controller.getControls();
+        boundBottom(controls.getPrimaryBrush(), controls);
     }
 
     // registrační metoda
@@ -113,10 +133,11 @@ public class InsertServices implements Registerable {
     public void register(ServiceManager manager) {
         manager.register(SERVICE_EDIT_CLEAR, this::clear);
         manager.register(SERVICE_EDIT_FILL, this::fill);
-        manager.register(SERVICE_EDIT_BOUNDS_BH, this::wBounds);
-        manager.register(SERVICE_EDIT_BOUNDS, this::wBoundsCustom);
-        manager.register(SERVICE_EDIT_BOUNDS_CHUNK_W, this::cBounds);
-        manager.register(SERVICE_EDIT_BOUNDS_CHUNK, this::cBoundsCustom);
+        manager.register(SERVICE_EDIT_BOUNDS_BH, this::boundBlackHole);
+        manager.register(SERVICE_EDIT_BOUNDS, this::bound);
+        manager.register(SERVICE_EDIT_BOUNDS_TOP, this::boundTop);
+        manager.register(SERVICE_EDIT_BOUNDS_BOTTOM, this::boundBottom);
+        manager.register(SERVICE_EDIT_BOUNDS_CHUNK, this::boundChunks);
     }
 
 }

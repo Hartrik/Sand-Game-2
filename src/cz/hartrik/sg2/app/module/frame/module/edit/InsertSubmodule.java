@@ -13,7 +13,7 @@ import javafx.scene.input.KeyCombination;
 import static cz.hartrik.sg2.app.module.frame.module.edit.EditServices.*;
 
 /**
- * @version 2015-02-07
+ * @version 2016-07-03
  * @author Patrik Harag
  */
 public class InsertSubmodule extends MenuSubmodule<Frame, FrameController> {
@@ -43,24 +43,32 @@ public class InsertSubmodule extends MenuSubmodule<Frame, FrameController> {
         iFill.setOnAction((e) -> manager.run(SERVICE_EDIT_FILL));
         iFill.setAccelerator(KeyCombination.valueOf("shift+f"));
 
-        MenuItem iBoundB = new MenuItem("Ohraničit plátno");
-        iBoundB.setGraphic(img("icon - border - canvas.png"));
-        iBoundB.setOnAction((e) -> manager.run(SERVICE_EDIT_BOUNDS_BH));
+        MenuItem iBound = new MenuItem("Ohraničit plátno (vybraným štětcem)");
+        iBound.setGraphic(img("icon - border - canvas.png"));
+        iBound.setOnAction((e) -> manager.run(SERVICE_EDIT_BOUNDS));
+        iBound.setAccelerator(KeyCombination.valueOf("shift+b"));
 
-        MenuItem iBoundBC = new MenuItem("Ohraničit plátno (vlastním el.)");
-        iBoundBC.setGraphic(img("icon - border - canvas.png"));
-        iBoundBC.setOnAction((e) -> manager.run(SERVICE_EDIT_BOUNDS));
+        MenuItem iBoundBH = new MenuItem("Ohraničit plátno");
+        iBoundBH.setGraphic(img("icon - border - canvas.png"));
+        iBoundBH.setOnAction((e) -> manager.run(SERVICE_EDIT_BOUNDS_BH));
+        iBoundBH.setAccelerator(KeyCombination.valueOf("shift+d"));
 
-        MenuItem iBoundC = new MenuItem("Ohraničit chunky");
-        iBoundC.setGraphic(img("icon - border - chunk.png"));
-        iBoundC.setOnAction((e) -> manager.run(SERVICE_EDIT_BOUNDS_CHUNK_W));
+        MenuItem iBoundT = new MenuItem("Ohraničit horní okraj (vybraným štětcem)");
+        iBoundT.setGraphic(img("icon - border - top.png"));
+        iBoundT.setOnAction((e) -> manager.run(SERVICE_EDIT_BOUNDS_TOP));
+        iBoundT.setAccelerator(KeyCombination.valueOf("shift+u"));
 
-        MenuItem IBoundCC = new MenuItem("Ohraničit chunky (vlastním el.)");
+        MenuItem iBoundB = new MenuItem("Ohraničit dolní okraj (vybraným štětcem)");
+        iBoundB.setGraphic(img("icon - border - bottom.png"));
+        iBoundB.setOnAction((e) -> manager.run(SERVICE_EDIT_BOUNDS_BOTTOM));
+        iBoundB.setAccelerator(KeyCombination.valueOf("shift+l"));
+
+        MenuItem IBoundCC = new MenuItem("Ohraničit chunky (vybraným štětcen)");
         IBoundCC.setGraphic(img("icon - border - chunk.png"));
         IBoundCC.setOnAction((e) -> manager.run(SERVICE_EDIT_BOUNDS_CHUNK));
 
         return new MenuItem[] {
-            iClear, iFill, iBoundB, iBoundBC, iBoundC, IBoundCC
+            iClear, iFill, iBoundBH, iBound, iBoundT, iBoundB, IBoundCC
         };
     }
 

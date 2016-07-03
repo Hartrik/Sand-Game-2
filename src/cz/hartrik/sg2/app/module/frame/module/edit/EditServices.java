@@ -2,7 +2,7 @@
 package cz.hartrik.sg2.app.module.frame.module.edit;
 
 /**
- * @version 2016-06-26
+ * @version 2016-07-03
  * @author Patrik Harag
  */
 public class EditServices {
@@ -16,8 +16,9 @@ public class EditServices {
     public static final String SERVICE_EDIT_FILL = "edit-fill";
     public static final String SERVICE_EDIT_BOUNDS = "edit-bounds";
     public static final String SERVICE_EDIT_BOUNDS_BH = "edit-bounds/black-hole";
+    public static final String SERVICE_EDIT_BOUNDS_TOP = "edit-bounds-top";
+    public static final String SERVICE_EDIT_BOUNDS_BOTTOM = "edit-bounds-bottom";
     public static final String SERVICE_EDIT_BOUNDS_CHUNK = "edit-bounds-chunk";
-    public static final String SERVICE_EDIT_BOUNDS_CHUNK_W = "edit-bounds-chunk/wall";
 
     public static final String SERVICE_TEST_SAND_FALL = "test-sand-fall";
     public static final String SERVICE_TEST_BENCHMARK = "test-benchmark";

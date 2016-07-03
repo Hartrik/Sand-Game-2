@@ -26,7 +26,7 @@ import java.util.function.Supplier;
 import javafx.stage.Window;
 
 /**
- * @version 2016-06-21
+ * @version 2016-06-26
  * @author Patrik Harag
  */
 public class MainModules {
@@ -86,7 +86,7 @@ public class MainModules {
                     .add(new TemplatesSubmodule()),
 
             new MenuModule<Frame, FrameController>("Možnosti")
-                    .add(new EngineSpeedSubmodule(EngineSpeedSubmodule.Settings.BOTH))
+                    .add(new EngineSpeedSubmodule(EngineSpeedSubmodule.Settings.PROCESSOR))
                     .add(new RendererOptionsSubmodule())
                     .add(new NoBottomSubmodule()),
 

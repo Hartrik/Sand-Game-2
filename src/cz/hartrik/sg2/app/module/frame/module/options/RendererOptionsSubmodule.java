@@ -10,11 +10,12 @@ import java.util.function.Function;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCombination;
 
 /**
  * Modul pro nastavení vykreslování.
  *
- * @version 2016-05-23
+ * @version 2016-07-03
  * @author Patrik Harag
  */
 public class RendererOptionsSubmodule extends MenuSubmodule<Frame, FrameController> {
@@ -28,8 +29,13 @@ public class RendererOptionsSubmodule extends MenuSubmodule<Frame, FrameControll
             ServiceManager manager) {
 
         CheckMenuItem itemBlur = new CheckMenuItem("Motion blur");
+        itemBlur.setAccelerator(KeyCombination.valueOf("f5"));
+
         CheckMenuItem itemHC = new CheckMenuItem("Zvýraznit aktivní chunky");
+        itemHC.setAccelerator(KeyCombination.valueOf("f6"));
+
         CheckMenuItem itemHeatmap = new CheckMenuItem("Heatmap");
+        itemHeatmap.setAccelerator(KeyCombination.valueOf("f7"));
 
         itemBlur.setSelected(true);
 

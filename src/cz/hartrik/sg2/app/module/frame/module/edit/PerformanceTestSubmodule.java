@@ -33,10 +33,10 @@ public class PerformanceTestSubmodule extends MenuSubmodule<Frame, FrameControll
         MenuItem iSandTest = new MenuItem("Test výkonu - písek");
         iSandTest.setOnAction((e) -> manager.run(SERVICE_TEST_SAND_FALL));
 
-        MenuItem iBenchmark = new MenuItem("Test výkonu - benchmark");
-        iBenchmark.setOnAction((e) -> manager.run(SERVICE_TEST_BENCHMARK));
+//        MenuItem iBenchmark = new MenuItem("Test výkonu - benchmark");
+//        iBenchmark.setOnAction((e) -> manager.run(SERVICE_TEST_BENCHMARK));
 
-        return new MenuItem[] { iSandTest, iBenchmark };
+        return new MenuItem[] { iSandTest, /*iBenchmark*/ };
     }
 
 }

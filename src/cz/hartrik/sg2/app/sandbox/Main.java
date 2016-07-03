@@ -12,13 +12,14 @@ import javafx.stage.Stage;
 /**
  * Vstupní třída.
  *
- * @version 2015-02-20
+ * @version 2016-06-19
  * @author Patrik Harag
  */
 public class Main extends Application {
 
-    public static final String APP_NAME = "Sand Game 2 (2.02 Beta)";
-    public static final String APP_VERSION = "2.02 Beta";
+    public static final String APP_NAME = "Sand Game 2";
+    public static final String APP_VERSION = "2.03 Beta";
+    public static final String APP_TITLE = APP_NAME + " (" + APP_VERSION + ")";
     public static final String ICON = "icon - sg2.png";
 
     private static Frame frame;
@@ -40,7 +41,7 @@ public class Main extends Application {
     }
 
     public static void showFileName(Path path) {
-        frame.setTitle(Main.APP_NAME +
+        frame.setTitle(Main.APP_TITLE +
                 (path == null ? "" : " / " + path.getFileName()));
     }
 

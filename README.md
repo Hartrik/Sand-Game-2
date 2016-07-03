@@ -35,7 +35,7 @@ Plátno je možné uložit jako:
 
 - **soubor s příponou .sgs** – ukládání je řešeno formou serializace. Toto řešení s sebou ovšem nese nevýhody, jako větší paměťovou náročnost a občasnou nekompatibilitu mezi jednotlivými verzemi. Výhodou je, že je plátno zachováno přesně ve stavu, v jakém bylo uloženo. 
 
-- **soubor s příponou .sgb** – ukládají se pouze ID štětců, kterými byly jednotlivé elementy naneseny – vzniká tak jakási šablona, podle které se elementy příště nanesou. Neuchovává žádné stavy, jako je teplota, a nepodporuje některé speciální elementy (zdroje, bakterie). Kompatibilita s dalšími verzemi je zaručena.
+- **soubor s příponou .sgb** – ukládají se pouze ID štětců, kterými byly jednotlivé elementy naneseny – vzniká tak jakási šablona, podle které se elementy příště nanesou. Kompatibilita s dalšími verzemi je zaručena.
 
 ## Scriptování
 
@@ -48,7 +48,7 @@ Nechte se inspirovat [ukázkovými scripty](/scripts).
 
 ## Výkon
 
-Plátno je rozdělené do tzv. chunků – čtvercových oblastí o rozměrech 100×100 bodů. Ty umožňují rozlišit oblasti, ve kterých se nic nehýbe / neděje a tyto oblasti jsou poté uspány a tak dochází k šetření výkonu. Cílem je tedy mít **co nejméně aktivních chunků**.
+Plátno je rozdělené do tzv. chunků – čtvercových oblastí o rozměrech obvykle 20×20 bodů. Ty umožňují rozlišit oblasti, ve kterých se nic nehýbe / neděje a tyto oblasti jsou poté uspány a tak dochází k šetření výkonu. Cílem je tedy mít **co nejméně aktivních chunků**.
 
 Díky tomuto rozdělení je možné mít např. obrovskou plochu písku, která v klidovém stavu nevyžaduje téměř žádný výkon.
 

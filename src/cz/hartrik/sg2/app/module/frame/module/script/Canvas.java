@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 /**
  *
  * @since 2.01
- * @version 2015-11-20
+ * @version 2016-07-03
  * @author Patrik Harag
  */
 public class Canvas implements Region {
@@ -43,7 +43,7 @@ public class Canvas implements Region {
         if (valid(x, y))
             return world.get(x, y);
         else
-            throw new IndexOutOfBoundsException(x + " x " + y);
+            throw new IndexOutOfBoundsException(x + " × " + y);
     }
 
     // since 2.02
@@ -51,11 +51,24 @@ public class Canvas implements Region {
         return get(point.getX(), point.getY());
     }
 
+    // since 2.03
+    public float getTemperature(int x, int y) {
+        if (valid(x, y))
+            return world.getTemperature(x, y);
+        else
+            throw new IndexOutOfBoundsException(x + " × " + y);
+    }
+
+    // since 2.03
+    public float getTemperature(Point point) {
+        return getTemperature(point.getX(), point.getY());
+    }
+
     public void set(int x, int y, Element element) {
         if (valid(x, y))
             world.setAndChange(x, y, Checker.requireNonNull(element));
         else
-            throw new IndexOutOfBoundsException(x + " x " + y);
+            throw new IndexOutOfBoundsException(x + " × " + y);
     }
 
     // since 2.02
@@ -74,6 +87,20 @@ public class Canvas implements Region {
     // since 2.02
     public void set(Point point, Brush brush) {
         set(point.getX(), point.getY(), brush);
+    }
+
+    // since 2.03
+    public void setTemperature(int x, int y, float temperature) {
+        if (valid(x, y)) {
+            world.setTemperature(x, y, temperature);
+            world.getChunkAt(x, y).change();
+        } else
+            throw new IndexOutOfBoundsException(x + " × " + y);
+    }
+
+    // since 2.03
+    public void setTemperature(Point point, float temperature) {
+        setTemperature(point.getX(), point.getY(), temperature);
     }
 
     // since 2.02

@@ -1,10 +1,13 @@
 
 Turtle.create(ToolFactory.centeredSquare(1))
     .repeat(36)
-        .repeat(100)
-            .draw(canvas.getHeight() / 60)
-            .right(4)
-        .end()
+        .run(function(t) regularPolygon(t, 5, 150))  // pětiúhelník
         .right(10)
-        .center()
-    .end();
+    .end()
+
+function regularPolygon(turtle, numberOfSides, sideLength) {
+    turtle.repeat(numberOfSides)
+            .draw(sideLength)
+            .right(360 / numberOfSides)
+        .end()
+}

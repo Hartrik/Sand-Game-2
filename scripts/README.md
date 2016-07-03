@@ -1,4 +1,4 @@
-Složka obsahuje ukázkové scripty ke hře Sand Game 2 verze <b>2.02 Beta</b>.
+Složka obsahuje ukázkové scripty ke hře Sand Game 2 verze <b>2.03 Beta</b>.
 
 ## Popis API
 
@@ -23,6 +23,8 @@ Návratová hodnota  | Název metody
 `Element`  | `get(x, y)`
 `void`     | `set(x, y, element)`
 `void`     | `set(x, y, brush)`
+`float`    | `getTemperature(x, y)`
+`void`     | `setTemperature(x, y, temp)`
 `Tools`    | `getTools()`
 `Iterator` | `iterator()`
 `Stream`   | `stream()`

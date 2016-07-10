@@ -1,13 +1,11 @@
 
 package cz.hartrik.sg2.app.sandbox;
 
-import cz.hartrik.sg2.app.module.frame.Frame;
-import cz.hartrik.sg2.app.module.frame.FrameController;
-import cz.hartrik.sg2.app.module.frame.StageModule;
+import cz.hartrik.sg2.app.module.frame.module.ApplicationModule;
 import cz.hartrik.sg2.app.module.frame.module.CompoundMenuSubmodule;
 import cz.hartrik.sg2.app.module.frame.module.MenuModule;
 import cz.hartrik.sg2.app.module.frame.module.ModuleToolBarSimpleButton;
-import cz.hartrik.sg2.app.module.frame.module.TitleSubmodule;
+import cz.hartrik.sg2.app.module.frame.module.TitleMenuSubmodule;
 import cz.hartrik.sg2.app.module.frame.module.about.*;
 import cz.hartrik.sg2.app.module.frame.module.edit.*;
 import cz.hartrik.sg2.app.module.frame.module.io.*;
@@ -26,13 +24,12 @@ import java.util.function.Supplier;
 import javafx.stage.Window;
 
 /**
- * @version 2016-06-26
+ * @version 2016-07-10
  * @author Patrik Harag
  */
 public class MainModules {
 
-    @SuppressWarnings({"unchecked"})
-    public static StageModule<Frame, FrameController>[] modules() {
+    public static ApplicationModule[] modules() {
 
         // io
         Supplier<BrushManager> bmSupplier =
@@ -60,52 +57,52 @@ public class MainModules {
 
         // ...
 
-        return new StageModule[] {
+        return new ApplicationModule[] {
             new ModulePerformanceInfo(),
             new ModuleBrushThumbnails(32, 32),
             new ModuleBrushListFilterable(),
 
-            new MenuModule<Frame, FrameController>("Soubor")
-                    .add(new FileSubmodule(true, ioManager))
-                    .add(new CompoundMenuSubmodule<>(
-                            new StatsSubmodule(true),
-                            new ScreenshotSubmodule(true))),
+            new MenuModule("Soubor")
+                    .add(new FileSubmodule(ioManager))
+                    .add(new CompoundMenuSubmodule(
+                            new StatsSubmodule(),
+                            new ScreenshotSubmodule())),
 
-            new MenuModule<Frame, FrameController>("Úpravy")
-                    .add(new SizeChangeSubmodule(true))
-                    .add(new TransformSubmodule(true))
-                    .add(new InsertSubmodule(true))
-                    .add(new PerformanceTestSubmodule(true)),
+            new MenuModule("Úpravy")
+                    .add(new SizeChangeSubmodule())
+                    .add(new TransformSubmodule())
+                    .add(new EditSubmodule())
+                    .add(new PerformanceTestSubmodule()),
 
-            new MenuModule<Frame, FrameController>("Nástroje")
-                    .add(new TitleSubmodule("Základní tvary"))
+            new MenuModule("Nástroje")
+                    .add(new TitleMenuSubmodule("Základní tvary"))
                     .add(new ShapesSubmodule())
                     .add(new RandomizerSubmodule())
-                    .add(new TitleSubmodule("Šablony"))
-                    .add(new PasteSaveSubmodule(ioProvider, uiProvider))
+                    .add(new TitleMenuSubmodule("Šablony"))
+                    .add(new PasteSaveSubmodule(ioManager))
                     .add(new TemplatesSubmodule()),
 
-            new MenuModule<Frame, FrameController>("Možnosti")
+            new MenuModule("Možnosti")
                     .add(new EngineSpeedSubmodule(EngineSpeedSubmodule.Settings.PROCESSOR))
                     .add(new RendererOptionsSubmodule())
                     .add(new NoBottomSubmodule()),
 
             new MenuModuleScriptFolder("Scripty", scripts)
-                    .add(new CompoundMenuSubmodule<>(
+                    .add(new CompoundMenuSubmodule(
                             new OpenPathSubmodule(scripts, "Otevřít složku se scripty"),
                             new CreateScriptSubmodule(scripts))),
 
-            new MenuModule<Frame, FrameController>("Informace")
-                    .add(new AboutSubmodule(true)),
+            new MenuModule("Informace")
+                    .add(new AboutSubmodule()),
 
-//            new MenuModule<Frame, FrameController>("* Test")
+//            new MenuModule("* Test")
 //                    .add(new _TestSubModule()),
 
-            new ModuleToolBarProcessorSwitch(true),
-            new ModuleToolBarSizeChange(false),
+            new ModuleToolBarProcessorSwitch(),
+            new ModuleToolBarSizeChange(),
             new ModuleToolBarScale("Přiblížení:"),
             new ModuleToolBarSimpleButton("Naplnit", EditServices.SERVICE_EDIT_FILL),
-            new ModuleToolBarSimpleButton("Screenshot", IOServices.SERVICE_SCREENSHOT),
+            new ModuleToolBarSimpleButton("Screenshot", ScreenshotService.SERVICE_SCREENSHOT),
             new ModuleToolBarScriptDialog("Script"),
 
             new ModuleDragAndDropIO(ioManager),

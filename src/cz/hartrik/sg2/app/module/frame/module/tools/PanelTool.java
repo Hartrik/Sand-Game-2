@@ -1,7 +1,6 @@
 package cz.hartrik.sg2.app.module.frame.module.tools;
 
 
-import cz.hartrik.sg2.app.module.frame.FrameController;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.Pane;
@@ -10,22 +9,19 @@ import javafx.util.StringConverter;
 /**
  * Abstraktní třída pro panel s nastavením štětce.
  *
- * @version 2016-06-28
+ * @version 2016-07-10
  * @author Patrik Harag
  */
 public abstract class PanelTool {
 
-    protected final FrameController controller;
     protected final int min, max, def;
     protected Pane pane;
 
-    public PanelTool(int min, int max, int def, FrameController controller) {
-        this.controller = controller;
+    public PanelTool(int min, int max, int def) {
         this.min = min;
         this.max = max;
         this.def = def;
     }
-
 
     public abstract void updateTool();
 
@@ -40,7 +36,7 @@ public abstract class PanelTool {
         spinner.focusedProperty().addListener((ov, o, n) -> {
             if (!n) commitSpinner(spinner);
         });
-        
+
         return spinner;
     }
 

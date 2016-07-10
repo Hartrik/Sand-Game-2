@@ -1,10 +1,8 @@
 package cz.hartrik.sg2.app.module.frame.module.io;
 
 import cz.hartrik.common.ui.javafx.DragAndDropInitializer;
-import cz.hartrik.sg2.app.module.frame.Frame;
-import cz.hartrik.sg2.app.module.frame.FrameController;
-import cz.hartrik.sg2.app.module.frame.StageModule;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
+import cz.hartrik.sg2.app.module.frame.Application;
+import cz.hartrik.sg2.app.module.frame.module.ApplicationModule;
 import cz.hartrik.sg2.app.module.io.IOManager;
 import cz.hartrik.sg2.tool.ToolPasteTemplateOnce;
 import cz.hartrik.sg2.world.ModularWorld;
@@ -18,12 +16,12 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Window;
 
 /**
- * Umožní načtení uloženého plátna přetažením do oblasti plátna.
- * 
- * @version 2015-03-11
+ * Modul umožní načtení uloženého plátna přetažením do oblasti plátna.
+ *
+ * @version 2016-07-10
  * @author Patrik Harag
  */
-public class ModuleDragAndDropIO implements StageModule<Frame, FrameController> {
+public class ModuleDragAndDropIO implements ApplicationModule {
 
     private final IOManager<ModularWorld, Window> ioManager;
 
@@ -32,20 +30,20 @@ public class ModuleDragAndDropIO implements StageModule<Frame, FrameController> 
     }
 
     @Override
-    public void init(Frame stage, FrameController controller,
-            ServiceManager manager) {
-        
-        ioManager.setContext(stage);
-        
-        Node node = controller.getCanvas().getScrollPane();
+    public void init(Application app) {
+        Window owner = app.getStage();
+
+        ioManager.setContext(owner);
+
+        Node node = app.getController().getCanvas().getScrollPane();
         DragAndDropInitializer.initFileDragAndDrop(node, (paths) -> {
-            path(paths.get(0), stage, controller);
+            path(paths.get(0), owner, app);
         });
     }
 
-    protected void path(Path path, Frame stage, FrameController controller) {
+    protected void path(Path path, Window owner, Application application) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.initOwner(stage);
+        alert.initOwner(owner);
         alert.setTitle("Otevřít");
         alert.setHeaderText("Načtení uložené pozice");
         alert.setContentText("Rozhodni zda má dojít k otevření uložené pozice "
@@ -63,20 +61,22 @@ public class ModuleDragAndDropIO implements StageModule<Frame, FrameController> 
         Platform.runLater(() -> {
             ButtonType result = alert.showAndWait().get();
             if (result == buttonOpen)
-                open(path, stage, controller);
+                open(path, application);
             else if (result == buttonPaste)
-                paste(path, stage, controller);
+                paste(path, application);
         });
     }
 
-    protected void open(Path path, Frame stage, FrameController controller) {
-        ioManager.open(path).ifPresent(controller::setUpCanvas);
+    protected void open(Path path, Application app) {
+        ioManager.open(path).ifPresent(app::setUpCanvas);
     }
 
-    protected void paste(Path path, Frame stage, FrameController controller) {
-        ioManager.open(path).ifPresent(area -> {
+    protected void paste(Path path, Application app) {
+        // nepoužijeme ioManager.open, protože to by bylo považováno
+        // za změnu vybraného souboru s uloženou pozicí
+        ioManager.load(path).ifPresent((area) -> {
             ElementAreaTemplate template = new ElementAreaTemplate(area);
-            ToolPasteTemplateOnce.initWithCancel(template, controller.getControls());
+            ToolPasteTemplateOnce.initWithCancel(template, app.getControls());
         });
     }
 

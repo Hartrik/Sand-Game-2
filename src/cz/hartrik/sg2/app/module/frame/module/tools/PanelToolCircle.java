@@ -1,6 +1,5 @@
 package cz.hartrik.sg2.app.module.frame.module.tools;
 
-import cz.hartrik.sg2.app.module.frame.FrameController;
 import cz.hartrik.sg2.app.module.frame.module.script.ToolFactory;
 import cz.hartrik.sg2.brush.Controls;
 import javafx.geometry.Pos;
@@ -9,16 +8,18 @@ import javafx.scene.control.Spinner;
 import javafx.scene.layout.HBox;
 
 /**
- * @version 2016-06-28
+ * @version 2016-07-10
  * @author Patrik Harag
  */
 public class PanelToolCircle extends PanelTool {
 
+    private final Controls controls;
+
     private Spinner<Integer> sRadius;
 
-    public PanelToolCircle(int min, int max, int def, FrameController controller) {
-        super(min, max, def, controller);
-
+    public PanelToolCircle(int min, int max, int def, Controls controls) {
+        super(min, max, def);
+        this.controls = controls;
         init();
     }
 
@@ -40,7 +41,6 @@ public class PanelToolCircle extends PanelTool {
     }
 
     public void updateTool(int r) {
-        Controls controls = controller.getControls();
         ToolFactory factory = ToolFactory.getInstance();
         controls.setPrimaryTool(factory.centeredCircle(r));
         controls.setSecondaryTool(factory.centeredCircle(r));

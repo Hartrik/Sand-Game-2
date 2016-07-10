@@ -2,8 +2,7 @@ package cz.hartrik.sg2.app.module.frame.module.script;
 
 import cz.hartrik.common.ui.javafx.ExceptionDialog;
 import cz.hartrik.common.ui.javafx.OutputDialog;
-import cz.hartrik.sg2.app.module.frame.Frame;
-import cz.hartrik.sg2.app.module.frame.FrameController;
+import cz.hartrik.sg2.app.module.frame.Application;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -19,25 +18,23 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 /**
- * @version 2015-03-27
+ * @version 2016-07-10
  * @author Patrik Harag
  */
 public class JSExecuter {
-    
-    private final FrameController controller;
-    private final Map<String, Supplier<?>> bindings;
-    private final Frame stage;
 
-    public JSExecuter(Frame stage, FrameController controller) {
-        this.controller = controller;
-        this.bindings = JSPublicAPI.createBindings(controller);
-        this.stage = stage;
+    private final Application application;
+    private final Map<String, Supplier<?>> bindings;
+
+    public JSExecuter(Application application) {
+        this.application = application;
+        this.bindings = JSPublicAPI.createBindings(application);
     }
-    
+
     public void eval(Path script) {
-        controller.getSyncTools().pauseProcessor(() -> evalIn(script));
+        application.getSyncTools().pauseProcessor(() -> evalIn(script));
     }
-    
+
     private void evalIn(Path script) {
         final ScriptEngineManager manager = new ScriptEngineManager();
         final ScriptEngine engine = manager.getEngineByExtension("js");
@@ -47,27 +44,27 @@ public class JSExecuter {
                 .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
 
         engine.getBindings(ScriptContext.ENGINE_SCOPE).putAll(collect);
-        
+
         StringWriter out = new StringWriter();
         engine.getContext().setWriter(new PrintWriter(out));
-        
+
         try {
             engine.eval(JSPublicAPI.loadInitCode());
             engine.eval(load(script));
-            
+
         } catch (Exception ex) {
             ExceptionDialog dialog = new ExceptionDialog(ex);
-            dialog.initOwner(stage);
+            dialog.initOwner(application.getStage());
             dialog.setTitle("Chyba");
             dialog.setHeaderText("Došlo k chybě při spouštění scriptu");
             dialog.setContentText("Podrobnosti:");
             dialog.showAndWait();
         }
-        
+
         final String outString = out.getBuffer().toString();
         if (!outString.isEmpty()) {
             OutputDialog dialog = new OutputDialog(outString);
-            dialog.initOwner(stage);
+            dialog.initOwner(application.getStage());
             dialog.setTitle("Výstup");
             dialog.setHeaderText("Script \"" + script.getFileName()
                     + "\" za sebou zanechal textový výstup");
@@ -75,15 +72,9 @@ public class JSExecuter {
             dialog.showAndWait();
         }
     }
-    
+
     private String load(Path path) throws IOException {
-        
-        // return Files.lines(path).collect(Collectors.joining("\n"));
-        
-        // - tato metoda zřejmě neuzavírá proud, a proto soubor až do vypnutí
-        //   aplikace nelze ve Windows otevřít
-        
         return new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
     }
-    
+
 }

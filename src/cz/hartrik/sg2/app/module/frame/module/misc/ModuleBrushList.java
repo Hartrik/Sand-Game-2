@@ -1,9 +1,7 @@
 package cz.hartrik.sg2.app.module.frame.module.misc;
 
-import cz.hartrik.sg2.app.module.frame.Frame;
-import cz.hartrik.sg2.app.module.frame.FrameController;
-import cz.hartrik.sg2.app.module.frame.StageModule;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
+import cz.hartrik.sg2.app.module.frame.Application;
+import cz.hartrik.sg2.app.module.frame.module.ApplicationModule;
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.Controls;
 import cz.hartrik.sg2.brush.manage.BrushManager;
@@ -14,25 +12,26 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
- * @version 2015-04-06
+ * Modul přidávající seznam štětců.
+ *
+ * @version 2016-07-10
  * @author Patrik Harag
  */
-public class ModuleBrushList implements StageModule<Frame, FrameController> {
+public class ModuleBrushList implements ApplicationModule {
 
     @Override
-    public void init(Frame stage, FrameController controller,
-            ServiceManager manager) {
+    public void init(Application app) {
+        ListView<Brush> listView = createListView(
+                app.getBrushManager(), app.getControls());
 
-        final VBox panel = controller.getLeftPanel();
-        final ListView<Brush> listView = createListView(controller);
-
+        VBox panel = app.getController().getLeftPanel();
         panel.getChildren().add(listView);
+
         VBox.setVgrow(listView, Priority.ALWAYS);
     }
 
-    protected ListView<Brush> createListView(FrameController controller) {
-        final BrushManager brushManager = controller.getBrushManager();
-        final Controls controls = controller.getControls();
+    protected ListView<Brush> createListView(
+            BrushManager brushManager, Controls controls) {
 
         final ListView<Brush> listView = new ListView<>();
 

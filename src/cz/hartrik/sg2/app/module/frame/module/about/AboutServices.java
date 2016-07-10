@@ -1,45 +1,35 @@
 package cz.hartrik.sg2.app.module.frame.module.about;
 
 import cz.hartrik.sg2.app.module.dialog.about.AboutDialog;
-import cz.hartrik.sg2.app.module.frame.FrameController;
-import cz.hartrik.sg2.app.module.frame.module.Registerable;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
-import javafx.stage.Window;
+import cz.hartrik.sg2.app.module.frame.Application;
+import cz.hartrik.sg2.app.module.frame.service.Service;
+import cz.hartrik.sg2.app.module.frame.service.ServiceProvider;
 
 /**
- * @version 2015-04-07
+ * Poskytuje službu na vyvolání okna s informacemi o aplikaci.
+ *
+ * @version 2016-07-09
  * @author Patrik Harag
  */
-public class AboutServices implements Registerable {
-    
-     public static final String SERVICE_ABOUT_DIALOG = "about";
-    
-    protected final Window window;
-    protected final FrameController controller;
-    
+@ServiceProvider
+public class AboutServices {
+
+    public static final String SERVICE_ABOUT_DIALOG = "about";
+
     private AboutDialog dialog;
 
-    public AboutServices(Window window, FrameController frameController) {
-        this.window = window;
-        this.controller = frameController;
-    }
-    
     // služby
-    
-    public void aboutDialog() {
-        controller.getSyncTools().pauseBothLazy(() -> {
-            if (dialog == null)
-                dialog = new AboutDialog(window);
 
-            dialog.showAndWait();
+    @Service(SERVICE_ABOUT_DIALOG)
+    public void aboutDialog(Application app) {
+        app.getSyncTools().pauseBothLazy(() -> {
+            synchronized (this) {
+                if (dialog == null)
+                    dialog = new AboutDialog(app.getStage());
+
+                dialog.showAndWait();
+            }
         });
     }
-    
-    // registrační metoda
-    
-    @Override
-    public void register(ServiceManager manager) {
-        manager.register(SERVICE_ABOUT_DIALOG, this::aboutDialog);
-    }
-    
+
 }

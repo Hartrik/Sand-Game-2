@@ -1,66 +1,60 @@
 
 package cz.hartrik.sg2.app.module.frame.module.edit;
 
-import cz.hartrik.sg2.app.module.frame.FrameController;
-import cz.hartrik.sg2.app.module.frame.module.Registerable;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
+import cz.hartrik.sg2.app.module.frame.Application;
+import cz.hartrik.sg2.app.module.frame.service.Service;
+import cz.hartrik.sg2.app.module.frame.service.ServiceProvider;
 import cz.hartrik.sg2.world.ModularWorld;
 import javafx.application.Platform;
 
-import static cz.hartrik.sg2.app.module.frame.module.edit.EditServices.*;
-
 /**
- * @version 2016-06-25
+ * Poskytuje služby pro různé transformace plátna.
+ *
+ * @version 2016-07-10
  * @author Patrik Harag
  */
-public class TransformServices implements Registerable {
+@ServiceProvider
+public class TransformServices {
 
-    protected final FrameController controller;
-
-    public TransformServices(FrameController controller) {
-        this.controller = controller;
-    }
+    public static final String SERVICE_EDIT_FLIP_V = "edit-flip-vertically";
+    public static final String SERVICE_EDIT_FLIP_H = "edit-flip-horizontally";
+    public static final String SERVICE_EDIT_ROTATE_L = "edit-rotate-left";
+    public static final String SERVICE_EDIT_ROTATE_R = "edit-rotate-right";
 
     // služby
 
-    public void flipVertically() {
-        controller.getSyncTools().synchronize((area)
+    @Service(SERVICE_EDIT_FLIP_V)
+    public void flipVertically(Application app) {
+        app.getSyncTools().synchronize((area)
                 -> area.getTools().flipVertically());
     }
 
-    public void flipHorizontally() {
-        controller.getSyncTools().synchronize((area)
+    @Service(SERVICE_EDIT_FLIP_H)
+    public void flipHorizontally(Application app) {
+        app.getSyncTools().synchronize((area)
                 -> area.getTools().flipHorizontally());
     }
 
-    public void rotateLeft() {
-        controller.getSyncTools().synchronize((area) -> {
+    @Service(SERVICE_EDIT_ROTATE_L)
+    public void rotateLeft(Application app) {
+        app.getSyncTools().synchronize((area) -> {
             final ModularWorld world = area.getTools().rotateLeft();
 
             Platform.runLater(() -> {
-                controller.setUpCanvas(world);
+                app.setUpCanvas(world);
             });
         });
     }
 
-    public void rotateRight() {
-        controller.getSyncTools().synchronize((area) -> {
+    @Service(SERVICE_EDIT_ROTATE_R)
+    public void rotateRight(Application app) {
+        app.getSyncTools().synchronize((area) -> {
             final ModularWorld world = area.getTools().rotateRight();
 
             Platform.runLater(() -> {
-                controller.setUpCanvas(world);
+                app.setUpCanvas(world);
             });
         });
-    }
-
-    // registrační metoda
-
-    @Override
-    public void register(ServiceManager manager) {
-        manager.register(SERVICE_EDIT_FLIP_H, this::flipHorizontally);
-        manager.register(SERVICE_EDIT_FLIP_V, this::flipVertically);
-        manager.register(SERVICE_EDIT_ROTATE_L, this::rotateLeft);
-        manager.register(SERVICE_EDIT_ROTATE_R, this::rotateRight);
     }
 
 }

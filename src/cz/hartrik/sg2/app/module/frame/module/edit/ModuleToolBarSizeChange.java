@@ -1,37 +1,29 @@
 package cz.hartrik.sg2.app.module.frame.module.edit;
 
-import cz.hartrik.sg2.app.module.frame.Frame;
-import cz.hartrik.sg2.app.module.frame.FrameController;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
-import cz.hartrik.sg2.app.module.frame.module.ToolBarModule;
+import cz.hartrik.sg2.app.module.frame.Application;
+import cz.hartrik.sg2.app.module.frame.module.ApplicationModule;
+import cz.hartrik.sg2.app.module.frame.service.Require;
 import javafx.scene.control.Button;
 
 /**
- * @version 2014-12-02
+ * Modul přidávající do toolbaru tlačítko vyvolávající dialog pro změnu
+ * velikosti plátna.
+ *
+ * @version 2016-07-09
  * @author Patrik Harag
  */
-public class ModuleToolBarSizeChange
-        extends ToolBarModule<Frame, FrameController> {
-
-    public ModuleToolBarSizeChange(boolean register) {
-        super(register);
-    }
+@Require(SizeChangeService.class)
+public class ModuleToolBarSizeChange implements ApplicationModule {
 
     @Override
-    public void register(Frame stage, FrameController controller,
-            ServiceManager manager) {
-        
-        new SizeChangeService(stage, controller).register(manager);
-    }
+    public void init(Application app) {
 
-    @Override
-    public void setUp(Frame stage, FrameController controller,
-            ServiceManager manager) {
-        
         Button button = new Button("Změnit rozměry");
-        button.setOnAction((e) -> manager.run(EditServices.SERVICE_CHANGE_SIZE));
-        
-        controller.getToolBar().getItems().add(button);
+        button.setOnAction((e) -> {
+            app.getServiceManager().run(SizeChangeService.SERVICE_CHANGE_SIZE);
+        });
+
+        app.getController().getToolBar().getItems().add(button);
     }
 
 }

@@ -1,86 +1,80 @@
 package cz.hartrik.sg2.app.module.frame.module.options;
 
-import cz.hartrik.sg2.app.module.frame.FrameController;
-import cz.hartrik.sg2.app.module.frame.module.Registerable;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
+import cz.hartrik.sg2.app.module.frame.Application;
+import cz.hartrik.sg2.app.module.frame.service.Service;
+import cz.hartrik.sg2.app.module.frame.service.ServiceProvider;
 import cz.hartrik.sg2.engine.Engine;
 
-import static cz.hartrik.sg2.app.module.frame.module.options.OptionsServices.*;
-
 /**
- * @version 2014-12-22
+ * Poskytuje základní služby pro ovládání enginu.
+ *
+ * @version 2016-07-09
  * @author Patrik Harag
  */
-public class EnginePrimitivesServices implements Registerable {
-    
-    protected final FrameController controller;
+@ServiceProvider
+public class EnginePrimitivesServices {
 
-    public EnginePrimitivesServices(FrameController controller) {
-        this.controller = controller;
-    }
-    
-    // služby
-    
+    public static final String SERVICE_PROCESSOR_STOP = "processor-stop";
+    public static final String SERVICE_PROCESSOR_START = "processor-start";
+    public static final String SERVICE_PROCESSOR_SWITCH = "processor-switch";
+    public static final String SERVICE_RENDERER_STOP = "renderer-stop";
+    public static final String SERVICE_RENDERER_START = "renderer-start";
+    public static final String SERVICE_RENDERER_SWITCH = "renderer-switch";
+
     // - processor
-    
-    public void processorStart() {
-        Engine<?, ?> engine = controller.getEngine();
-        
+
+    @Service(SERVICE_PROCESSOR_START)
+    public void processorStart(Application app) {
+        Engine<?, ?> engine = app.getEngine();
+
         if (engine.isProcessorStopped())
             engine.processorStart();
     }
-    
-    public void processorStop() {
-        Engine<?, ?> engine = controller.getEngine();
-        
+
+    @Service(SERVICE_PROCESSOR_STOP)
+    public void processorStop(Application app) {
+        Engine<?, ?> engine = app.getEngine();
+
         if (!engine.isProcessorStopped())
             engine.processorStop();
     }
-    
-    public void processorSwitch() {
-        Engine<?, ?> engine = controller.getEngine();
-        
+
+    @Service(SERVICE_PROCESSOR_SWITCH)
+    public void processorSwitch(Application app) {
+        Engine<?, ?> engine = app.getEngine();
+
         if (engine.isProcessorStopped())
             engine.processorStart();
         else
             engine.processorStop();
     }
-    
+
     // - renderer
-    
-    public void rendererStart() {
-        Engine<?, ?> engine = controller.getEngine();
-        
+
+    @Service(SERVICE_RENDERER_START)
+    public void rendererStart(Application app) {
+        Engine<?, ?> engine = app.getEngine();
+
         if (engine.isRendererStopped())
             engine.rendererStart();
     }
-    
-    public void rendererStop() {
-        Engine<?, ?> engine = controller.getEngine();
-        
+
+    @Service(SERVICE_PROCESSOR_STOP)
+    public void rendererStop(Application app) {
+        Engine<?, ?> engine = app.getEngine();
+
         if (!engine.isRendererStopped())
             engine.rendererStop();
     }
-    
-    public void rendererSwitch() {
-        Engine<?, ?> engine = controller.getEngine();
-        
+
+    @Service(SERVICE_RENDERER_SWITCH)
+    public void rendererSwitch(Application app) {
+        Engine<?, ?> engine = app.getEngine();
+
         if (engine.isRendererStopped())
             engine.rendererStart();
         else
             engine.rendererStop();
     }
-    
-    // registrační metoda
-    
-    @Override
-    public void register(ServiceManager manager) {
-        manager.register(SERVICE_PROCESSOR_START, this::processorStart);
-        manager.register(SERVICE_PROCESSOR_STOP, this::processorStop);
-        manager.register(SERVICE_PROCESSOR_SWITCH, this::processorSwitch);
-        manager.register(SERVICE_RENDERER_START, this::rendererStart);
-        manager.register(SERVICE_RENDERER_STOP, this::rendererStop);
-        manager.register(SERVICE_RENDERER_SWITCH, this::rendererSwitch);
-    }
-    
+
 }

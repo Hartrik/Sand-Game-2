@@ -7,7 +7,7 @@ import java.util.Optional;
 import javafx.application.Platform;
 
 /**
- * @version 2015-03-07
+ * @version 2016-07-10
  * @author Patrik Harag
  * @param <T> typ ukládaných dat
  * @param <U> typ objektu, který je nutný pro výstup - např. hlavní okno, ke
@@ -32,9 +32,9 @@ public class IOManager<T, U> {
     }
 
     // metody
-    
+
     // --- path
-    
+
     public void setPath(Path path) {
         this.path = path;
         if (listener != null) {
@@ -49,15 +49,15 @@ public class IOManager<T, U> {
     public void clearPath() {
         setPath(null);
     }
-    
+
     // --- listener
-    
+
     public void setListener(IOManagerListener listener) {
         this.listener = listener;
     }
 
     // --- ostatní gettery a settery
-    
+
     protected UIProvider<U> getUIProvider() {
         return uiProvider;
     }
@@ -73,9 +73,9 @@ public class IOManager<T, U> {
     public void setContext(U context) {
         this.context = context;
     }
-    
+
     // --- operace
-    
+
     /**
      * Vyvolá dialogové okno pro výběr souboru a uloží data.
      *
@@ -107,10 +107,10 @@ public class IOManager<T, U> {
         }
 
         try {
-            getIOProvider().getProvider(path)
+            ioProvider.getProvider(path)
                     .orElseThrow(IOException::new)
                     .save(path, data);
-            
+
         } catch (IOException ex) {
             getUIProvider().onSaveIOException(ex, context);
         }
@@ -123,30 +123,35 @@ public class IOManager<T, U> {
 
     public Optional<T> open(Path path) {
         Checker.requireNonNull(path);
-        
-        T loaded = load(path);
-        if (loaded != null)
+
+        Optional<T> optional = load(path);
+        if (optional.isPresent())
             setPath(path);
 
-        return Optional.ofNullable(loaded);
+        return optional;
     }
 
-    protected T load(Path path) {
+    public Optional<T> load(Path path) {
         try {
-            return getIOProvider().getProvider(path)
-                    .orElseThrow(ParseException::new)
+            T world = ioProvider.getProvider(path)
+                    .orElseThrow(() -> new IOException("Unsupported file type"))
                     .load(path);
-        
+
+            return Optional.of(world);
+
         } catch (IOException ex) {
             // runLater - protože jinak by po celou dobu zobrazení dialogu
             // zůstala viditelná např. grafika D&D
-            Platform.runLater(() -> 
-                    getUIProvider().onLoadIOException(ex, context));
+            Platform.runLater(() -> {
+                getUIProvider().onLoadIOException(ex, context);
+            });
         } catch (ParseException ex) {
-            Platform.runLater(() -> 
-                    getUIProvider().onLoadParseException(ex, context));
+            Platform.runLater(() -> {
+                getUIProvider().onLoadParseException(ex, context);
+            });
         }
-        return null;
+
+        return Optional.empty();
     }
 
     /**
@@ -158,7 +163,7 @@ public class IOManager<T, U> {
     public boolean newFile() {
         boolean newFile = getUIProvider().newFile(context);
         if (newFile) clearPath();
-        
+
         return newFile;
     }
 
@@ -171,5 +176,5 @@ public class IOManager<T, U> {
     public IOProvider<T> getIoProvider() {
         return ioProvider;
     }
-    
+
 }

@@ -1,33 +1,24 @@
 
 package cz.hartrik.sg2.app.module.frame.module;
 
+import cz.hartrik.sg2.app.module.frame.Application;
 import javafx.scene.control.MenuItem;
 
 /**
- * @version 2014-09-23
+ * Rozhraní pro sub-modul modulu {@link MenuModule}.
+ * Slouží k přidávání položek do menu.
+ *
+ * @version 2016-07-10
  * @author Patrik Harag
- * @param <T> stage
- * @param <U> controller
  */
-public abstract class MenuSubmodule<T, U> {
-    
-    protected final boolean register;
+public interface MenuSubmodule {
 
-    public MenuSubmodule(boolean register) {
-        this.register = register;
-    }
-    
-    public MenuItem[] init(T stage, U controller, ServiceManager manager) {
-        if (register)
-            register(stage, controller, manager);
-        
-        return createMenuItems(stage, controller, manager);
-    }
-    
-    public abstract MenuItem[] createMenuItems(T stage, U controller, ServiceManager manager);
-    
-    public void register(T stage, U controller, ServiceManager manager) {
-        // mnohé ze submodulů nepotřebují registrovat služby
-    }
-    
+    /**
+     * Vytvoří položky do menu.
+     *
+     * @param app rozhraní aplikace
+     * @return položky do menu
+     */
+    MenuItem[] createMenuItems(Application app);
+
 }

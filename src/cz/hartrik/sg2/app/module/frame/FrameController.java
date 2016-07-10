@@ -4,7 +4,6 @@ package cz.hartrik.sg2.app.module.frame;
 import cz.hartrik.sg2.app.module.canvas.CanvasWithCursor;
 import cz.hartrik.sg2.app.module.canvas.Cursorable;
 import cz.hartrik.sg2.app.module.canvas.MouseControllerExt;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
 import cz.hartrik.sg2.app.module.frame.module.script.ToolFactory;
 import cz.hartrik.sg2.app.sandbox.element.StandardBrushCollection;
 import cz.hartrik.sg2.brush.jfx.JFXControls;
@@ -29,7 +28,7 @@ import javafx.scene.canvas.Canvas;
 /**
  * Kontroler GUI.
  *
- * @version 2016-06-26
+ * @version 2016-07-10
  * @author Patrik Harag
  */
 public class FrameController extends FrameControllerTemplate implements Initializable {
@@ -90,14 +89,6 @@ public class FrameController extends FrameControllerTemplate implements Initiali
 
     public JFXControls getControls() {
         return controls;
-    }
-
-    // service manager
-
-    private final ServiceManager serviceManager = new ServiceManager();
-
-    public ServiceManager getServiceManager() {
-        return serviceManager;
     }
 
     // on set-up services

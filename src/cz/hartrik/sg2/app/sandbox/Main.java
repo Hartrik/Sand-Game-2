@@ -2,20 +2,21 @@
 package cz.hartrik.sg2.app.sandbox;
 
 import cz.hartrik.common.io.Resources;
+import cz.hartrik.sg2.app.module.frame.Application;
+import cz.hartrik.sg2.app.module.frame.ApplicationBuilder;
 import cz.hartrik.sg2.app.module.frame.Frame;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
-import cz.hartrik.sg2.app.module.frame.module.io.IOServices;
+import cz.hartrik.sg2.app.module.frame.module.io.FileServices;
+import cz.hartrik.sg2.app.module.frame.service.ServiceManager;
 import java.nio.file.Path;
-import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
  * Vstupní třída.
  *
- * @version 2016-06-19
+ * @version 2016-07-10
  * @author Patrik Harag
  */
-public class Main extends Application {
+public class Main extends javafx.application.Application {
 
     public static final String APP_NAME = "Sand Game 2";
     public static final String APP_VERSION = "2.03 Beta";
@@ -28,13 +29,15 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         setUserAgentStylesheet(STYLESHEET_MODENA);
 
-        frame = new Frame(MainModules.modules());
+        Application app = ApplicationBuilder.build(MainModules.modules());
+
+        frame = app.getStage();
         frame.getIcons().add(Resources.image(ICON, Main.class));
 
-        ServiceManager sm = frame.getFrameController().getServiceManager();
+        ServiceManager sm = app.getServiceManager();
 
         // služby, které by měli být spuštěny před zobrazením
-        sm.run(IOServices.SERVICE_FILE_NEW);
+        sm.run(FileServices.SERVICE_FILE_NEW);
 
         // zobrazení
         frame.show();

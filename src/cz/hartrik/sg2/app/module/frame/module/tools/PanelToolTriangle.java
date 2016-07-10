@@ -1,6 +1,5 @@
 package cz.hartrik.sg2.app.module.frame.module.tools;
 
-import cz.hartrik.sg2.app.module.frame.FrameController;
 import cz.hartrik.sg2.app.module.frame.module.script.ToolFactory;
 import cz.hartrik.sg2.brush.Controls;
 import javafx.beans.value.ChangeListener;
@@ -11,17 +10,20 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * @version 2016-06-28
+ * @version 2016-07-10
  * @author Patrik Harag
  */
 public class PanelToolTriangle extends PanelTool {
+
+    private final Controls controls;
 
     private Spinner<Integer> sFirst;
     private Spinner<Integer> sSecond;
     private Spinner<Integer> sThird;
 
-    public PanelToolTriangle(int min, int max, int def, FrameController controller) {
-        super(min, max, def, controller);
+    public PanelToolTriangle(int min, int max, int def, Controls controls) {
+        super(min, max, def);
+        this.controls = controls;
         init();
     }
 
@@ -61,7 +63,6 @@ public class PanelToolTriangle extends PanelTool {
     }
 
     public void updateTool(double a, double b, double c) {
-        final Controls controls = controller.getControls();
         final ToolFactory factory = ToolFactory.getInstance();
         controls.setPrimaryTool(factory.centeredTriangle(a, b, c));
         controls.setSecondaryTool(factory.centeredTriangle(a, b, c));

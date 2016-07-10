@@ -1,57 +1,60 @@
 
 package cz.hartrik.sg2.app.module.frame.module;
 
-import cz.hartrik.sg2.app.module.frame.StageModule;
+import cz.hartrik.sg2.app.module.frame.Application;
 import java.util.ArrayList;
 import java.util.Collection;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
-import javafx.stage.Stage;
 
 /**
- * @version 2014-12-02
+ * Modul přidávající menu. Položky do menu jsou přidávány prostřednictvím
+ * sub-modulů. Mezi položky z různých sub-modulů jsou umístěny oddělovače.
+ *
+ * @version 2016-07-10
  * @author Patrik Harag
- * @param <T>
- * @param <U>
- * 
  */
-public class MenuModule <T extends Stage, U extends IContainsMenu> 
-        implements StageModule<T, U> {
-    
+public class MenuModule implements ApplicationModule, ApplicationCompoundModule {
+
     protected final String text;
-    protected final Collection<MenuSubmodule<T, U>> submodules;
-    
+    protected final Collection<MenuSubmodule> submodules;
+
     public MenuModule(String text) {
         this(text, new ArrayList<>());
     }
-    
-    public MenuModule(String text, Collection<MenuSubmodule<T, U>> submodules) {
+
+    public MenuModule(String text, Collection<MenuSubmodule> submodules) {
         this.text = text;
         this.submodules = submodules;
     }
-    
-    public MenuModule<T, U> add(MenuSubmodule<T, U> submodule) {
+
+    public MenuModule add(MenuSubmodule submodule) {
         submodules.add(submodule);
         return this;
     }
-    
+
     @Override
-    public void init(T stage, U controller, ServiceManager manager) {
-        
+    public void init(Application application) {
+
         Menu menu = new Menu(text);
         ObservableList<MenuItem> items = menu.getItems();
-        
+
         int counter = 0;
-        for (MenuSubmodule<T, U> mod : submodules) {
-            items.addAll(mod.init(stage, controller, manager));
-            
+        for (MenuSubmodule mod : submodules) {
+            items.addAll(mod.createMenuItems(application));
+
             if (counter++ < submodules.size() - 1)
                 items.add(new SeparatorMenuItem());
         }
-        
-        controller.getMenuBar().getMenus().add(menu);
+
+        application.getController().getMenuBar().getMenus().add(menu);
     }
-    
+
+    @Override
+    public Object[] getSubModules() {
+        return submodules.toArray();
+    }
+
 }

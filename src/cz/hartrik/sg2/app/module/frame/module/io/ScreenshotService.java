@@ -2,9 +2,10 @@
 package cz.hartrik.sg2.app.module.frame.module.io;
 
 import cz.hartrik.common.io.QuickScreenshot;
+import cz.hartrik.sg2.app.module.frame.Application;
 import cz.hartrik.sg2.app.module.frame.FrameController;
-import cz.hartrik.sg2.app.module.frame.module.Registerable;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
+import cz.hartrik.sg2.app.module.frame.service.Service;
+import cz.hartrik.sg2.app.module.frame.service.ServiceProvider;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -14,60 +15,58 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.stage.Window;
 
 /**
- * Zajišťuje funkci snímku okna.
+ * Poskytuje funkci snímání plátna.
  *
- * @version 2016-06-25
+ * @version 2016-07-10
  * @author Patrik Harag
  */
-public class ScreenshotService implements Registerable, Runnable {
+@ServiceProvider
+public class ScreenshotService {
 
-    private final Window window;
-    private final FrameController controller;
+    public static final String SERVICE_SCREENSHOT = "screenshot";
 
-    public ScreenshotService(Window window, FrameController controller) {
-        this.window = window;
-        this.controller = controller;
+    @Service(SERVICE_SCREENSHOT)
+    public void run(Application app) {
+        app.getSyncTools().pauseBothLazy(() -> {
+            Image screenshot = createScreenshot(app.getController());
+            Path scrPath = QuickScreenshot.saveImage(screenshot);
+
+            if (scrPath != null)
+                showResulDialog(app.getStage(), scrPath);
+            else
+                showErrorDialog(app.getStage());
+        });
     }
 
-    @Override
-    public void run() {
-        controller.getSyncTools().pauseBothLazy(() -> {
-            Canvas canvas = controller.getCanvas().getFxCanvas();
-            WritableImage image = new WritableImage(
-                    (int) canvas.getWidth(), (int) canvas.getHeight());
+    private void showResulDialog(Window owner, Path screenshotPath) {
+        Alert alert = new Alert(AlertType.NONE);
+        alert.initOwner(owner);
+        alert.setTitle("Screenshot");
+        alert.setHeaderText("Screenshot byl úspěšně uložen");
+        alert.setContentText(screenshotPath.toString());
 
-            canvas.snapshot(null, image);
+        ButtonType buttonOpen = new ButtonType("Otevřít složku");
+        ButtonType buttonOk = new ButtonType("Ok", ButtonData.OK_DONE);
 
-            Path scrPath = QuickScreenshot.saveImage(image);
+        alert.getButtonTypes().setAll(buttonOpen, buttonOk);
+        alert.showAndWait()
+                .filter(result -> result == buttonOpen)
+                .ifPresent(result -> open(screenshotPath));
+    }
 
-            if (scrPath != null) {
-                Alert alert = new Alert(AlertType.NONE);
-                alert.initOwner(window);
-                alert.setTitle("Screenshot");
-                alert.setHeaderText("Screenshot byl úspěšně uložen");
-                alert.setContentText(scrPath.toString());
-
-                ButtonType buttonOpen = new ButtonType("Otevřít složku");
-                ButtonType buttonOk = new ButtonType("Ok", ButtonData.OK_DONE);
-
-                alert.getButtonTypes().setAll(buttonOpen, buttonOk);
-                alert.showAndWait()
-                        .filter(result -> result == buttonOpen)
-                        .ifPresent(result -> open(scrPath));
-            } else {
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.initOwner(window);
-                alert.setTitle("Chyba!");
-                alert.setHeaderText("Chyba při ukládání screenshotu");
-                alert.setContentText(
-                        "Došlo k neočekávané chybě při ukládání screenshotu.");
-                alert.showAndWait();
-            }
-        });
+    private void showErrorDialog(Window owner) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.initOwner(owner);
+        alert.setTitle("Chyba!");
+        alert.setHeaderText("Chyba při ukládání screenshotu");
+        alert.setContentText(
+                "Došlo k neočekávané chybě při ukládání screenshotu.");
+        alert.showAndWait();
     }
 
     private void open(Path scrPath) {
@@ -79,11 +78,13 @@ public class ScreenshotService implements Registerable, Runnable {
         }
     }
 
-    // registrační metoda
+    public static Image createScreenshot(FrameController controller) {
+        Canvas canvas = controller.getCanvas().getFxCanvas();
+        WritableImage image = new WritableImage(
+                (int) canvas.getWidth(), (int) canvas.getHeight());
 
-    @Override
-    public void register(ServiceManager manager) {
-        manager.register(IOServices.SERVICE_SCREENSHOT, this);
+        canvas.snapshot(null, image);
+        return image;
     }
 
 }

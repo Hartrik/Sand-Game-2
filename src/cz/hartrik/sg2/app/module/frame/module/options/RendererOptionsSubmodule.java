@@ -1,9 +1,8 @@
 package cz.hartrik.sg2.app.module.frame.module.options;
 
-import cz.hartrik.sg2.app.module.frame.Frame;
+import cz.hartrik.sg2.app.module.frame.Application;
 import cz.hartrik.sg2.app.module.frame.FrameController;
 import cz.hartrik.sg2.app.module.frame.module.MenuSubmodule;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
 import cz.hartrik.sg2.engine.*;
 import cz.hartrik.sg2.world.ChunkedArea;
 import java.util.function.Function;
@@ -18,15 +17,11 @@ import javafx.scene.input.KeyCombination;
  * @version 2016-07-03
  * @author Patrik Harag
  */
-public class RendererOptionsSubmodule extends MenuSubmodule<Frame, FrameController> {
-
-    public RendererOptionsSubmodule() {
-        super(true);
-    }
+public class RendererOptionsSubmodule implements MenuSubmodule {
 
     @Override
-    public MenuItem[] createMenuItems(Frame stage, FrameController controller,
-            ServiceManager manager) {
+    public MenuItem[] createMenuItems(Application app) {
+        FrameController controller = app.getController();
 
         CheckMenuItem itemBlur = new CheckMenuItem("Motion blur");
         itemBlur.setAccelerator(KeyCombination.valueOf("f5"));

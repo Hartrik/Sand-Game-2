@@ -1,49 +1,41 @@
 package cz.hartrik.sg2.app.module.frame.module.options;
 
 import cz.hartrik.common.io.Resources;
-import cz.hartrik.sg2.app.module.frame.Frame;
+import cz.hartrik.sg2.app.module.frame.Application;
 import cz.hartrik.sg2.app.module.frame.FrameController;
 import cz.hartrik.sg2.app.module.frame.ProcessingState;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
-import cz.hartrik.sg2.app.module.frame.module.ToolBarModule;
+import cz.hartrik.sg2.app.module.frame.module.ApplicationModule;
+import cz.hartrik.sg2.app.module.frame.service.Require;
+import cz.hartrik.sg2.app.module.frame.service.ServiceManager;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
+ * Modul, který do toolbaru přidá start/stop tlačítko.
  *
- * @version 2016-06-26
+ * @version 2016-07-09
  * @author Patrik Harag
  */
-public class ModuleToolBarProcessorSwitch
-        extends ToolBarModule<Frame, FrameController> {
+@Require(EnginePrimitivesServices.class)
+public class ModuleToolBarProcessorSwitch implements ApplicationModule {
 
     private final Image ICON_PAUSE = Resources.image("icon - pause.png", getClass());
     private final Image ICON_START = Resources.image("icon - start.png", getClass());
 
-    public ModuleToolBarProcessorSwitch(boolean register) {
-        super(register);
-    }
-
     @Override
-    public void register(Frame stage, FrameController controller,
-            ServiceManager manager) {
-
-        new EnginePrimitivesServices(controller).register(manager);
-    }
-
-    @Override
-    public void setUp(Frame stage, FrameController controller,
-            ServiceManager manager) {
+    public void init(Application app) {
+        FrameController controller = app.getController();
+        ServiceManager manager = app.getServiceManager();
 
         Button button = new Button();
         button.setPrefWidth(50);
 
         button.setOnAction((e) -> {
-            manager.run(OptionsServices.SERVICE_PROCESSOR_SWITCH);
+            manager.run(EnginePrimitivesServices.SERVICE_PROCESSOR_SWITCH);
 
             // pokud by došlo k nějaké chybě... renderer by měl jinak běžet
-            manager.run(OptionsServices.SERVICE_RENDERER_START);
+            manager.run(EnginePrimitivesServices.SERVICE_RENDERER_START);
         });
 
         controller.addOnEngineStateChanged((state) -> {

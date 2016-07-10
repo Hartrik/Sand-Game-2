@@ -1,5 +1,6 @@
 package cz.hartrik.sg2.app.module.frame.module;
 
+import cz.hartrik.sg2.app.module.frame.Application;
 import java.util.Arrays;
 import javafx.scene.control.MenuItem;
 
@@ -7,35 +8,30 @@ import javafx.scene.control.MenuItem;
  * Obalí několik <i>menu modulů</i> do jednoho, tím vznikne jeden modul.
  * Hlavní důvod ke sloučení několika <i>menu modulů</i> do jednoho je ten,
  * že mezi položkami v menu jednotlivých modulů nebudou oddělovače.
- * 
- * @version 2014-11-29
+ *
+ * @version 2016-07-10
  * @author Patrik Harag
- * @param <T> stage
- * @param <U> controller
  */
-public class CompoundMenuSubmodule<T, U> extends MenuSubmodule<T, U> {
-    
-    private final MenuSubmodule<T, U>[] submodules;
+public class CompoundMenuSubmodule
+        implements MenuSubmodule, ApplicationCompoundModule {
+
+    private final MenuSubmodule[] submodules;
 
     @SafeVarargs
-    public CompoundMenuSubmodule(MenuSubmodule<T, U>... submodules) {
-        super(true);
+    public CompoundMenuSubmodule(MenuSubmodule... submodules) {
         this.submodules = submodules;
     }
 
     @Override
-    public MenuItem[] createMenuItems(T stage, U controller, ServiceManager manager) {
+    public MenuItem[] createMenuItems(Application application) {
         return Arrays.stream(submodules)
-                .flatMap(submodule -> Arrays.stream(
-                        submodule.createMenuItems(stage, controller, manager)))
+                .flatMap(m -> Arrays.stream(m.createMenuItems(application)))
                 .toArray(MenuItem[]::new);
     }
 
     @Override
-    public void register(T stage, U controller, ServiceManager manager) {
-        for (MenuSubmodule<T, U> submodule : submodules)
-            if (submodule.register)
-                submodule.register(stage, controller, manager);
+    public Object[] getSubModules() {
+        return submodules;
     }
-    
+
 }

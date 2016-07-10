@@ -2,10 +2,10 @@
 package cz.hartrik.sg2.app.module.frame.module.edit;
 
 import cz.hartrik.common.io.Resources;
-import cz.hartrik.sg2.app.module.frame.Frame;
-import cz.hartrik.sg2.app.module.frame.FrameController;
+import cz.hartrik.sg2.app.module.frame.Application;
 import cz.hartrik.sg2.app.module.frame.module.MenuSubmodule;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
+import cz.hartrik.sg2.app.module.frame.service.Require;
+import cz.hartrik.sg2.app.module.frame.service.ServiceManager;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
@@ -13,25 +13,17 @@ import javafx.scene.input.KeyCombination;
 import static cz.hartrik.sg2.app.module.frame.module.edit.EditServices.*;
 
 /**
- * @version 2016-07-03
+ * Sub-modul do menu, přidávající základní editační nástroje.
+ *
+ * @version 2016-07-10
  * @author Patrik Harag
  */
-public class InsertSubmodule extends MenuSubmodule<Frame, FrameController> {
-
-    public InsertSubmodule(boolean register) {
-        super(register);
-    }
+@Require(EditServices.class)
+public class EditSubmodule implements MenuSubmodule {
 
     @Override
-    public void register(Frame stage, FrameController controller,
-            ServiceManager manager) {
-
-        new InsertServices(controller).register(manager);
-    }
-
-    @Override
-    public MenuItem[] createMenuItems(Frame stage, FrameController controller,
-            ServiceManager manager) {
+    public MenuItem[] createMenuItems(Application app) {
+        ServiceManager manager = app.getServiceManager();
 
         MenuItem iClear = new MenuItem("Vyčistit");
         iClear.setGraphic(img("icon - clear.png"));

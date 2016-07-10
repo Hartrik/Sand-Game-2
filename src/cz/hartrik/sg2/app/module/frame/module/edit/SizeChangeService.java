@@ -2,31 +2,28 @@ package cz.hartrik.sg2.app.module.frame.module.edit;
 
 import cz.hartrik.common.Pair;
 import cz.hartrik.sg2.app.module.dialog.size.ChangeSizeDialog;
-import cz.hartrik.sg2.app.module.frame.FrameController;
-import cz.hartrik.sg2.app.module.frame.module.Registerable;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
+import cz.hartrik.sg2.app.module.frame.Application;
+import cz.hartrik.sg2.app.module.frame.service.Service;
+import cz.hartrik.sg2.app.module.frame.service.ServiceProvider;
 import cz.hartrik.sg2.engine.Engine;
 import cz.hartrik.sg2.world.ModularWorld;
-import javafx.stage.Window;
 
 /**
- * @version 2016-06-21
+ * Poskytuje službu pro změnu velikosti plátna.
+ *
+ * @version 2016-07-10
  * @author Patrik Harag
  */
-public class SizeChangeService implements Registerable {
+@ServiceProvider
+public class SizeChangeService {
 
-    protected final Window window;
-    protected final FrameController controller;
-
-    public SizeChangeService(Window window, FrameController frameController) {
-        this.window = window;
-        this.controller = frameController;
-    }
+    public static final String SERVICE_CHANGE_SIZE = "change-canvas-size";
 
     // služby
 
-    public void changeSize() {
-        final Engine<?, ?> engine = controller.getEngine();
+    @Service(SERVICE_CHANGE_SIZE)
+    public void changeSize(Application app) {
+        final Engine<?, ?> engine = app.getEngine();
 
         boolean rendererStopped = engine.isRendererStopped();
         boolean processorStopped = engine.isProcessorStopped();
@@ -34,9 +31,9 @@ public class SizeChangeService implements Registerable {
         engine.processorStop();
         engine.rendererStop();
 
-        final ModularWorld world = controller.getWorld();
+        final ModularWorld world = app.getWorld();
 
-        ChangeSizeDialog dialog = new ChangeSizeDialog(window,
+        ChangeSizeDialog dialog = new ChangeSizeDialog(app.getStage(),
                 world.getWidth(), world.getHeight(), world.getChunkSize());
 
         dialog.showAndWait();
@@ -44,16 +41,13 @@ public class SizeChangeService implements Registerable {
         Pair<Integer, Integer> size = dialog.getSize();
         int chunkSize = dialog.getChunkSize();
 
-        if (size != null && (size.getFirst() != world.getWidth()
-                || size.getSecond() != world.getHeight()
-                || chunkSize != world.getChunkSize())) {
-
+        if (needsUpdate(size, chunkSize, world)) {
             ModularWorld resized = world.getTools().resize(
                     size.getFirst(), size.getSecond(), chunkSize);
 
-            controller.setUpCanvas(resized);
+            app.setUpCanvas(resized);
 
-            if (!processorStopped) controller.getEngine().processorStart();
+            if (!processorStopped) app.getEngine().processorStart();
 
         } else {
             if (!rendererStopped) engine.rendererStart();
@@ -61,11 +55,12 @@ public class SizeChangeService implements Registerable {
         }
     }
 
-    // registrační metoda
+    private boolean needsUpdate(
+            Pair<Integer, Integer> size, int chunkSize, ModularWorld world) {
 
-    @Override
-    public void register(ServiceManager manager) {
-        manager.register(EditServices.SERVICE_CHANGE_SIZE, this::changeSize);
+        return (size != null) && (size.getFirst() != world.getWidth()
+                || size.getSecond() != world.getHeight()
+                || chunkSize != world.getChunkSize());
     }
 
 }

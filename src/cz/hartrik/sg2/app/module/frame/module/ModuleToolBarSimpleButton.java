@@ -1,40 +1,33 @@
 package cz.hartrik.sg2.app.module.frame.module;
 
-import cz.hartrik.sg2.app.module.frame.Frame;
-import cz.hartrik.sg2.app.module.frame.FrameController;
+import cz.hartrik.sg2.app.module.frame.Application;
 import javafx.scene.control.Button;
 
 /**
- * @version 2014-12-22
+ * Přidá do toolbaru tlačítko spouštějící požadovanou službu.
+ * <b>Nedokáže však určit, zda je daná služby dostupná.</b>
+ *
+ * @version 2016-07-10
  * @author Patrik Harag
  */
-public class ModuleToolBarSimpleButton extends ToolBarModule<Frame, FrameController> {
+public class ModuleToolBarSimpleButton implements ApplicationModule {
 
-    protected final String text;
-    private final String[] services;
-    
-    public ModuleToolBarSimpleButton(String text, String... services) {
-        super(false);
+    private final String text;
+    private final String service;
+
+    public ModuleToolBarSimpleButton(String text, String service) {
         this.text = text;
-        this.services = services;
+        this.service = service;
     }
 
     @Override
-    public void register(Frame stage, FrameController controller,
-            ServiceManager manager) {
-    }
-
-    @Override
-    public void setUp(Frame stage, FrameController controller,
-            ServiceManager manager) {
-        
+    public void init(Application app) {
         Button button = new Button(text);
         button.setOnAction((e) -> {
-            for (String service : services)
-                manager.run(service);
+            app.getServiceManager().run(service);
         });
-        
-        controller.getToolBar().getItems().add(button);
+
+        app.getController().getToolBar().getItems().add(button);
     }
-    
+
 }

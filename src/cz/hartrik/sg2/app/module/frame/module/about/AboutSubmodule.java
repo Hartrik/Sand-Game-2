@@ -1,44 +1,33 @@
 package cz.hartrik.sg2.app.module.frame.module.about;
 
-import cz.hartrik.common.io.Resources;
 import cz.hartrik.sg2.app.module.dialog.about.AboutDialog;
-import cz.hartrik.sg2.app.module.frame.Frame;
-import cz.hartrik.sg2.app.module.frame.FrameController;
+import cz.hartrik.sg2.app.module.frame.Application;
 import cz.hartrik.sg2.app.module.frame.module.MenuSubmodule;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
+import cz.hartrik.sg2.app.module.frame.service.Require;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 
 /**
- * @version 2015-02-07
+ * Sub-modul přidávající do menu položku, která zobrazuje okno s informacemi o
+ * aplikaci.
+ *
+ * @version 2016-07-10
  * @author Patrik Harag
  */
-public class AboutSubmodule extends MenuSubmodule<Frame, FrameController> {
-
-    public AboutSubmodule(boolean register) {
-        super(register);
-    }
+@Require(AboutServices.class)
+public class AboutSubmodule implements MenuSubmodule {
 
     @Override
-    public void register(Frame stage, FrameController controller,
-            ServiceManager manager) {
-        
-        new AboutServices(stage, controller).register(manager);
-    }
+    public MenuItem[] createMenuItems(Application app) {
 
-    @Override
-    public MenuItem[] createMenuItems(Frame stage, FrameController controller,
-            ServiceManager manager) {
-        
-        Image icon = Resources.image(AboutDialog.ICON, AboutDialog.class);
-        
         MenuItem item = new MenuItem("O programu");
-        item.setOnAction((e) -> manager.run(AboutServices.SERVICE_ABOUT_DIALOG));
+        item.setGraphic(new ImageView(AboutDialog.ICON.get()));
         item.setAccelerator(KeyCombination.keyCombination("F1"));
-        item.setGraphic(new ImageView(icon));
-        
+        item.setOnAction((e) -> {
+            app.getServiceManager().run(AboutServices.SERVICE_ABOUT_DIALOG);
+        });
+
         return new MenuItem[] { item };
     }
 

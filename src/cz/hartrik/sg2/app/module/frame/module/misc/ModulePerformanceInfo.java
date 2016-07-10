@@ -1,10 +1,9 @@
 package cz.hartrik.sg2.app.module.frame.module.misc;
 
-import cz.hartrik.sg2.app.module.frame.Frame;
+import cz.hartrik.sg2.app.module.frame.Application;
 import cz.hartrik.sg2.app.module.frame.FrameController;
 import cz.hartrik.sg2.app.module.frame.ProcessingState;
-import cz.hartrik.sg2.app.module.frame.StageModule;
-import cz.hartrik.sg2.app.module.frame.module.ServiceManager;
+import cz.hartrik.sg2.app.module.frame.module.ApplicationModule;
 import cz.hartrik.sg2.engine.EngineListenerDef;
 import cz.hartrik.sg2.engine.JFXEngine;
 import javafx.application.Platform;
@@ -13,16 +12,18 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
 
 /**
- * @version 2016-06-26
+ * Modul zobrazující informace o enginu a rozměrech plátna.
+ *
+ * @version 2016-07-10
  * @author Patrik Harag
  */
-public class ModulePerformanceInfo implements StageModule<Frame, FrameController> {
+public class ModulePerformanceInfo implements ApplicationModule {
 
     private volatile boolean processorStopped = true;
 
     @Override
-    public void init(Frame stage, FrameController controller,
-            ServiceManager manager) {
+    public void init(Application application) {
+        FrameController controller = application.getController();
 
         final Label lSizes  = new Label("0");
         final Label lFPS    = new Label("0");
@@ -39,7 +40,7 @@ public class ModulePerformanceInfo implements StageModule<Frame, FrameController
         grid.addRow(3, new Label("Aktivní chunky"),   lChunks);
 
         controller.addOnSetUp(() -> {
-            update(controller, lSizes, lFPS, lCycles, lChunks);
+            update(application, lSizes, lFPS, lCycles, lChunks);
         });
 
         controller.addOnEngineStateChanged((state) -> {
@@ -50,13 +51,13 @@ public class ModulePerformanceInfo implements StageModule<Frame, FrameController
     }
 
     // musí být zavoláno při každé změně plátna
-    private void update(FrameController controller,
+    private void update(Application app,
             Label lSizes, Label lFPS, Label lCycles, Label lChunks) {
 
-        final JFXEngine<?> engine = controller.getEngine();
-        final int height = controller.getWorld().getHeight();
-        final int width  = controller.getWorld().getWidth();
-        final String chunkStr = " / " + (controller.getWorld().getChunkCount());
+        final JFXEngine<?> engine = app.getEngine();
+        final int height = app.getWorld().getHeight();
+        final int width  = app.getWorld().getWidth();
+        final String chunkStr = " / " + (app.getWorld().getChunkCount());
 
         lSizes.setText(width + " x " + height + " (" + (width * height) + ")");
 

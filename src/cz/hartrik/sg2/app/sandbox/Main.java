@@ -2,11 +2,11 @@
 package cz.hartrik.sg2.app.sandbox;
 
 import cz.hartrik.common.io.Resources;
-import cz.hartrik.sg2.app.module.frame.Application;
-import cz.hartrik.sg2.app.module.frame.ApplicationBuilder;
-import cz.hartrik.sg2.app.module.frame.Frame;
-import cz.hartrik.sg2.app.module.frame.module.io.FileServices;
-import cz.hartrik.sg2.app.module.frame.service.ServiceManager;
+import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.ApplicationBuilder;
+import cz.hartrik.sg2.app.Frame;
+import cz.hartrik.sg2.app.module.io.FileServices;
+import cz.hartrik.sg2.app.service.ServiceManager;
 import java.nio.file.Path;
 import javafx.stage.Stage;
 

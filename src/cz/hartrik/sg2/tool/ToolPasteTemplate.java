@@ -1,9 +1,9 @@
 package cz.hartrik.sg2.tool;
 
-import cz.hartrik.sg2.app.module.canvas.Cursor;
-import cz.hartrik.sg2.app.module.canvas.Cursorable;
-import cz.hartrik.sg2.app.module.canvas.ImageCursor;
-import cz.hartrik.sg2.app.module.canvas.CanvasWithCursor;
+import cz.hartrik.sg2.app.extension.canvas.Cursor;
+import cz.hartrik.sg2.app.extension.canvas.Cursorable;
+import cz.hartrik.sg2.app.extension.canvas.ImageCursor;
+import cz.hartrik.sg2.app.extension.canvas.CanvasWithCursor;
 import cz.hartrik.sg2.world.BrushInserter;
 import cz.hartrik.sg2.world.template.TemplateWPreview;
 

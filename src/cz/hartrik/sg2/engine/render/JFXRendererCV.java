@@ -1,5 +1,5 @@
 
-package cz.hartrik.sg2.engine;
+package cz.hartrik.sg2.engine.render;
 
 import cz.hartrik.common.Color;
 import cz.hartrik.sg2.world.ChunkedArea;

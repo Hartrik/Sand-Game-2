@@ -1,4 +1,4 @@
-package cz.hartrik.sg2.process;
+package cz.hartrik.sg2.engine.process;
 
 import cz.hartrik.sg2.engine.ThreadFactoryName;
 import cz.hartrik.sg2.world.Direction;

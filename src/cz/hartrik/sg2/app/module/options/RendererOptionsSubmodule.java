@@ -3,7 +3,7 @@ package cz.hartrik.sg2.app.module.options;
 import cz.hartrik.sg2.app.Application;
 import cz.hartrik.sg2.app.FrameController;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
-import cz.hartrik.sg2.engine.*;
+import cz.hartrik.sg2.engine.render.*;
 import cz.hartrik.sg2.world.ChunkedArea;
 import java.util.function.Function;
 import javafx.beans.value.ChangeListener;

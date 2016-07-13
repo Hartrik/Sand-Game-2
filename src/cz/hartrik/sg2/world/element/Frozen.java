@@ -1,7 +1,7 @@
 package cz.hartrik.sg2.world.element;
 
 import cz.hartrik.common.Color;
-import cz.hartrik.sg2.process.Tools;
+import cz.hartrik.sg2.engine.process.Tools;
 import cz.hartrik.sg2.random.Chance;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.World;

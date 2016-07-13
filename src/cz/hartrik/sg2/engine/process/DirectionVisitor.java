@@ -1,5 +1,5 @@
 
-package cz.hartrik.sg2.process;
+package cz.hartrik.sg2.engine.process;
 
 import cz.hartrik.sg2.world.Direction;
 import cz.hartrik.sg2.world.Element;

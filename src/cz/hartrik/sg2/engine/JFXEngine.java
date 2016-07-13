@@ -1,6 +1,8 @@
 
 package cz.hartrik.sg2.engine;
 
+import cz.hartrik.sg2.engine.render.JFXRenderer;
+
 /**
  * Engine vykreslující do plátna frameworku JavaFX.
  *

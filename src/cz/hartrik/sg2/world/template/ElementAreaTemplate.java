@@ -1,6 +1,6 @@
 package cz.hartrik.sg2.world.template;
 
-import cz.hartrik.sg2.engine.JFXRenderer;
+import cz.hartrik.sg2.engine.render.JFXRenderer;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.Inserter;
 import javafx.scene.image.Image;

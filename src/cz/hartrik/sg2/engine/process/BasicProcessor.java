@@ -1,5 +1,5 @@
 
-package cz.hartrik.sg2.process;
+package cz.hartrik.sg2.engine.process;
 
 import cz.hartrik.sg2.engine.Processor;
 import cz.hartrik.sg2.random.XORShiftRandom;

@@ -1,6 +1,6 @@
 package cz.hartrik.sg2.world.element.solid;
 
-import cz.hartrik.sg2.process.Tools;
+import cz.hartrik.sg2.engine.process.Tools;
 import cz.hartrik.sg2.world.World;
 import cz.hartrik.sg2.world.element.powder.Powder;
 import cz.hartrik.sg2.world.element.temperature.Burnable;

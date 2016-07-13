@@ -4,7 +4,7 @@ package cz.hartrik.sg2.app.sandbox.element;
 import cz.hartrik.sg2.brush.jfx.BrushCollectionBuilder;
 import cz.hartrik.sg2.brush.manage.BrushInfoLoader;
 import cz.hartrik.sg2.brush.manage.BrushManager;
-import cz.hartrik.sg2.process.Tools;
+import cz.hartrik.sg2.engine.process.Tools;
 import java.util.function.IntUnaryOperator;
 import java.util.function.Supplier;
 

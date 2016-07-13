@@ -1,10 +1,10 @@
 
 package cz.hartrik.sg2.app.sandbox.element;
 
-import cz.hartrik.sg2.brush.BrushTemperature;
 import cz.hartrik.common.io.Resources;
+import cz.hartrik.sg2.brush.BrushTemperature;
 import cz.hartrik.sg2.brush.jfx.BrushCollectionBuilder;
-import cz.hartrik.sg2.process.Tools;
+import cz.hartrik.sg2.engine.process.Tools;
 import java.util.function.Supplier;
 import javafx.scene.image.Image;
 

@@ -2,8 +2,8 @@
 package cz.hartrik.sg2.world.element.powder;
 
 import cz.hartrik.common.Color;
-import cz.hartrik.sg2.process.GravityTools;
-import cz.hartrik.sg2.process.Tools;
+import cz.hartrik.sg2.engine.process.GravityTools;
+import cz.hartrik.sg2.engine.process.Tools;
 import cz.hartrik.sg2.world.World;
 
 /**

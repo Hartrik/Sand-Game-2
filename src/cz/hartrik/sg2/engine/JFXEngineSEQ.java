@@ -1,5 +1,6 @@
 package cz.hartrik.sg2.engine;
 
+import cz.hartrik.sg2.engine.render.JFXRenderer;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.World;
 import java.util.Queue;

@@ -1,7 +1,7 @@
 
 package cz.hartrik.sg2.engine;
 
-import cz.hartrik.sg2.process.Tools;
+import cz.hartrik.sg2.engine.process.Tools;
 
 /**
  * Rozhraní pro procesor - třída, která v určitém pořadí prochází elementy.

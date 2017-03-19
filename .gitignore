@@ -1,4 +1,4 @@
-/saves/
-/build/
-/nbproject/private/
-/dist/
+/.gradle
+/.idea
+/build
+/saves

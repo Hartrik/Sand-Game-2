@@ -1,0 +1,10 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+# We need at least JDK 8u40
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer

@@ -19,7 +19,7 @@ public @interface Require {
      * Anotace umožňující implementaci {@link Repeatable}.
      */
     @Retention(RetentionPolicy.RUNTIME)
-    @Target({ ElementType.ANNOTATION_TYPE })
+    @Target({ ElementType.TYPE })
     @Documented
     public @interface RequireRepeatable {
         Require[] value();

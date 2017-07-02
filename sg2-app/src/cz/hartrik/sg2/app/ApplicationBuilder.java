@@ -55,13 +55,9 @@ public class ApplicationBuilder {
         while (!stack.isEmpty()) {
             Object object = stack.pop();
 
-            if (object.getClass().isAnnotationPresent(Require.class)) {
-                Require[] annotations = object.getClass()
-                        .getAnnotationsByType(Require.class);
-
-                for (Require annotation : annotations) {
-                    requiredProviders.add(annotation.value());
-                }
+            Require[] annotations = object.getClass().getAnnotationsByType(Require.class);
+            for (Require annotation : annotations) {
+                requiredProviders.add(annotation.value());
             }
 
             if (object.getClass().isAnnotationPresent(ServiceProvider.class)) {

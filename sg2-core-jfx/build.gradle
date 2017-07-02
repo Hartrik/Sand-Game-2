@@ -1,0 +1,25 @@
+
+dependencies {
+    compile project(':sg2-core')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+        resources {
+            srcDirs 'src', 'src-resources'
+            excludes ['**/*.java']
+        }
+    }
+    test {
+        java {
+            srcDir 'test'
+        }
+        resources {
+            srcDirs 'test', 'test-resources'
+            excludes ['**/*.java']
+        }
+    }
+}

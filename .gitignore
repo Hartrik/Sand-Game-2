@@ -1,4 +1,6 @@
 /.gradle
 /.idea
+/.temp
 /build
+/*/build
 /saves

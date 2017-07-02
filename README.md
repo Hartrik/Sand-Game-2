@@ -4,7 +4,7 @@
 
 **Sand Game 2** je tvořivá hra typu *falling-sand*, ve které máte k dispozici elementy a prázdné plátno, a je jen na Vás, jak si s nimi pohrajete.
 
-![preview](/preview.png)
+![preview](.github/preview.png)
 
 ## Ovládání
 

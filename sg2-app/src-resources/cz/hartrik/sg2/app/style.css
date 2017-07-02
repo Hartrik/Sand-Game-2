@@ -1,0 +1,44 @@
+
+/* hlavní okno, náhledy štětců */
+.border-light {
+    -fx-border-width: 1;
+    -fx-border-style: solid;
+    -fx-border-color: #d3d3d3;
+}
+
+.canvas-background { 
+    -fx-background-color: rgb(220, 220, 220); /* Caspian */
+    -fx-base: rgb(210, 210, 210);             /* Modena  */
+}
+
+.label-brush-name  {}
+
+.tool-bar .button {
+    /* hor. prav. dol. lev. */
+    -fx-padding: 2px 8px 2px 8px;
+}
+
+/* text */
+.bold        { -fx-font-weight: bold; }
+.label-title { -fx-font-weight: bold; -fx-font-size: 14; }
+
+/* odsazení */
+.padding-panel         { -fx-padding: 10 10 10 10; }
+.padding-bottom-small  { -fx-padding:  0  0  5  0; }
+.padding-bottom-normal { -fx-padding:  0  0 10  0; }
+.padding-bottom-big    { -fx-padding:  0  0 20  0; }
+
+
+/***********************************************
+    MENU
+************************************************/
+
+
+.custom-menu-item, .custom-menu-item .label {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+.custom-menu-item .slider .axis {
+    -fx-tick-label-fill: derive(black, 70%);
+}

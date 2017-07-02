@@ -1,0 +1,4 @@
+
+include 'sg2-app'
+include 'sg2-core'
+include 'sg2-core-jfx'

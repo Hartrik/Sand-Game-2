@@ -1,0 +1,36 @@
+
+/* text */
+.bold         { -fx-font-weight: bold; }
+.label-title  { -fx-font-weight: bold; -fx-font-size: 14; }
+
+/* odsazení */
+.padding-panel         { -fx-padding: 10 10 10 10; }
+.padding-bottom-small  { -fx-padding:  0  0  5  0; }
+.padding-bottom-normal { -fx-padding:  0  0 10  0; }
+.padding-bottom-big    { -fx-padding:  0  0 20  0; }
+
+/* box s nastavením velikosti chunků */
+#boxChunkSize {
+    -fx-background-color: #eaeaea;
+    -fx-background-radius: 10;
+    -fx-spacing: 10;
+    -fx-padding: 10 10 10 10;
+}
+
+.attention {
+    -fx-text-fill: red;
+    -fx-padding: 0 0 0 10;
+}
+
+/* box s nastavením rozměrů plátna */
+#boxCanvasSize {
+    -fx-background-color: #eaeaea;
+    -fx-background-radius: 10;
+    -fx-spacing: 10;
+    -fx-padding: 10 10 10 10;
+}
+
+#labelSize {
+    -fx-font-weight: bold;
+    -fx-text-fill: #0000FF;
+}

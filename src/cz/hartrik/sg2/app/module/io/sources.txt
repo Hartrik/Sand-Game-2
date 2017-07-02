@@ -1,4 +1,0 @@
-
-icon - open.png                 Linkware; http://www.visualpharm.com
-icon - save.png                 GNU Lesser General Public License; Oxygen Team
-icon - new file.png             Linkware; http://www.virtuallnk.com (zesvětleno)

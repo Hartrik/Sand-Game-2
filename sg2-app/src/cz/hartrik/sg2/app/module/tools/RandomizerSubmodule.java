@@ -3,7 +3,7 @@ package cz.hartrik.sg2.app.module.tools;
 import cz.hartrik.sg2.app.Application;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.app.module.script.ToolFactory;
-import cz.hartrik.sg2.brush.Controls;
+import cz.hartrik.sg2.brush.jfx.JFXControls;
 import cz.hartrik.sg2.tool.Randomizer;
 import cz.hartrik.sg2.tool.Shape;
 import cz.hartrik.sg2.tool.Tool;
@@ -24,7 +24,7 @@ public class RandomizerSubmodule implements MenuSubmodule {
     @Override
     public MenuItem[] createMenuItems(Application app) {
 
-        Controls controls = app.getControls();
+        JFXControls controls = app.getControls();
         ToolFactory factory = ToolFactory.getInstance();
 
         this.listener = (o, ov, selected) -> {

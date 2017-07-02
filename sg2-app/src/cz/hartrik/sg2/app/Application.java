@@ -2,7 +2,7 @@ package cz.hartrik.sg2.app;
 
 import cz.hartrik.common.reflect.TODO;
 import cz.hartrik.sg2.app.service.ServiceManager;
-import cz.hartrik.sg2.brush.Controls;
+import cz.hartrik.sg2.brush.jfx.JFXControls;
 import cz.hartrik.sg2.brush.manage.BrushManager;
 import cz.hartrik.sg2.engine.EngineSyncTools;
 import cz.hartrik.sg2.engine.JFXEngine;
@@ -40,7 +40,7 @@ public class Application {
         return serviceManager;
     }
 
-    public Controls getControls() {
+    public JFXControls getControls() {
         return controller.getControls();
     }
 

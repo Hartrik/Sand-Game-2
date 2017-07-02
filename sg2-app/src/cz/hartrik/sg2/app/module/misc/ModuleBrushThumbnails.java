@@ -6,6 +6,7 @@ import cz.hartrik.sg2.app.module.ApplicationModule;
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.Controls;
 import cz.hartrik.sg2.brush.Controls.Button;
+import cz.hartrik.sg2.brush.jfx.JFXControls;
 import cz.hartrik.sg2.brush.jfx.Thumbnailable;
 import cz.hartrik.sg2.world.Element;
 import javafx.geometry.Pos;
@@ -35,7 +36,7 @@ public class ModuleBrushThumbnails implements ApplicationModule {
     @Override
     public void init(Application app) {
         final FrameController controller = app.getController();
-        final Controls controls = controller.getControls();
+        final JFXControls controls = controller.getControls();
 
         final ImageView primaryBrushThumb = new ImageView();
         final ImageView secondaryBrushThumb = new ImageView();

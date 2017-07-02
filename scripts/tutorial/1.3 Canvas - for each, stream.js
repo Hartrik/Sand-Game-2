@@ -8,10 +8,10 @@
 
 var solids = 0;
 
-for each (element in canvas) {
+canvas.forEach(function(element) {
     if (Elements.isSolid(element))
         solids++;
-}
+});
 
 print("Našli jsme " + solids + " pevných elementů.");
 
@@ -19,7 +19,7 @@ print("Našli jsme " + solids + " pevných elementů.");
 // použití Stream API
 
 var fluid = canvas.stream()
-                  .filter(function(e) Elements.isFluid(e))
+                  .filter(function(e) { return Elements.isFluid(e) })
                   .count();
 
 print("Našli jsme " + fluid + " kapalných elementů.");

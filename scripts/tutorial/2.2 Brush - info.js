@@ -3,14 +3,14 @@
 
 var brushes = brushManager.getBrushes();
 
-for each (var brush in brushes) {
+brushes.forEach(function(brush) {
     var info = brush.getInfo();
-    
+
     var id      = info.getId();
     var name    = info.getName();
     var desc    = info.getDescription();
     var labels  = info.getLabels();
     var aliases = info.getAliases();
-    
+
     print(id + "\t" + name);
-}
+});

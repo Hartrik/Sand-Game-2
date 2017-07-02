@@ -1,5 +1,5 @@
 // naplní plátno pískem
 
-var tools = canvas.getTools()
+var tools = canvas.getTools();
 
-tools.fill(brush("písek"))
+tools.fill(brush("písek"));

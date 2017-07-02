@@ -3,5 +3,5 @@
 var primaryBrush = controls.getPrimaryBrush();
 var secondaryBrush = controls.getSecondaryBrush();
 
-controls.setPrimaryBrush(secondaryBrush)
-controls.setSecondaryBrush(primaryBrush)
+controls.setPrimaryBrush(secondaryBrush);
+controls.setSecondaryBrush(primaryBrush);

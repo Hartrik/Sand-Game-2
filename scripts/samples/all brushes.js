@@ -13,7 +13,7 @@ canvas.getTools().fill(brush("zeď"));
 
 var i = 0;
 
-for each (var next in brushes) {
+brushes.forEach(function(next) {
 
     var x = i % H_COUNT;
     var y = Math.floor(i / H_COUNT);
@@ -25,4 +25,4 @@ for each (var next in brushes) {
     canvas.take(rectangle, rx + 1, ry + 1).getTools().fill(next);
 
     i++;
-}
+});

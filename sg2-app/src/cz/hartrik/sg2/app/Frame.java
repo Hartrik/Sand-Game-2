@@ -26,12 +26,12 @@ public class Frame extends Stage {
         fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
         Parent root;
         try {
-            root = (Parent) fxmlLoader.load(location.openStream());
+            root = fxmlLoader.load(location.openStream());
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
 
-        this.frameController = (FrameController) fxmlLoader.getController();
+        this.frameController = fxmlLoader.getController();
 
         setScene(new Scene(root, 1100, 650));
         setOnCloseRequest((e) -> System.exit(0));

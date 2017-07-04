@@ -18,7 +18,7 @@ import cz.hartrik.sg2.world.element.solid.GluedPowder;
  */
 public class CollectionTest {
 
-    static final String URL_WIP = path("Icon - WIP.png");
+    static final String URL_WIP = path("icon - WIP.png");
 
     private static String path(String fileName) {
         return Resources.absolutePath(fileName, CollectionTest.class);

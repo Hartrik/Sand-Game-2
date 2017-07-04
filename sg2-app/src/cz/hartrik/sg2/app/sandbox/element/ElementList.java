@@ -18,7 +18,6 @@ import cz.hartrik.sg2.world.element.gas.*;
 import cz.hartrik.sg2.world.element.powder.*;
 import cz.hartrik.sg2.world.element.solid.*;
 import cz.hartrik.sg2.world.element.temperature.*;
-import cz.hartrik.sg2.world.element.Organic;
 import cz.hartrik.sg2.world.factory.*;
 import java.util.function.Supplier;
 

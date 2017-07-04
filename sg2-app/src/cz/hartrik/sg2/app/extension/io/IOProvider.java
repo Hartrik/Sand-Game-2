@@ -14,12 +14,12 @@ import java.util.Optional;
  */
 public interface IOProvider<T> {
     
-    public List<FileTypeIOProvider<T>> getProviders();
+    List<FileTypeIOProvider<T>> getProviders();
     
-    public Optional<FileTypeIOProvider<T>> getProvider(Path path);
+    Optional<FileTypeIOProvider<T>> getProvider(Path path);
     
-    public Optional<FileTypeIOProvider<T>> getProvider(String extension);
+    Optional<FileTypeIOProvider<T>> getProvider(String extension);
     
-    public String[] getExtensions();
+    String[] getExtensions();
     
 }

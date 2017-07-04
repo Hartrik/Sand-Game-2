@@ -16,6 +16,6 @@ public interface ApplicationModule {
      *
      * @param app rozhraní aplikace
      */
-    public void init(Application app);
+    void init(Application app);
 
 }

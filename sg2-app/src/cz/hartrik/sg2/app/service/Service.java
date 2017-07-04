@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * Anotace sloužící k označení metody, která je službou.
  * Metoda označení touto anotací musí mít jeden parametr typu
- * {@link cz.hartrik.sg2.app.module.frame.Application}.
+ * {@link cz.hartrik.sg2.app.Application}.
  * Třída definující služby musí být označena anotací {@link ServiceProvider}.
  *
  * @see ServiceProvider

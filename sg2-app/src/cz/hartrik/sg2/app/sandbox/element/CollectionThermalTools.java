@@ -16,8 +16,8 @@ import javafx.scene.image.Image;
  */
 public class CollectionThermalTools {
 
-    static final String URL_TEMP_UP   = path("Icon - temperature up.png");
-    static final String URL_TEMP_DOWN = path("Icon - temperature down.png");
+    static final String URL_TEMP_UP   = path("icon - temperature up.png");
+    static final String URL_TEMP_DOWN = path("icon - temperature down.png");
 
     private static String path(String fileName) {
         return Resources.absolutePath(fileName, CollectionThermalTools.class);

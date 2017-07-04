@@ -21,7 +21,7 @@ public @interface Require {
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ ElementType.TYPE })
     @Documented
-    public @interface RequireRepeatable {
+    @interface RequireRepeatable {
         Require[] value();
     }
 

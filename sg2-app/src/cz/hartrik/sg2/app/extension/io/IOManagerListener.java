@@ -4,7 +4,7 @@ package cz.hartrik.sg2.app.extension.io;
 import java.nio.file.Path;
 
 /**
- * Rozhraní pro zachycení změn v {@link IIOManager}.
+ * Rozhraní pro zachycení změn v {@link IOManager}.
  * 
  * @version 2014-04-16
  * @author Patrik Harag
@@ -12,6 +12,6 @@ import java.nio.file.Path;
 @FunctionalInterface
 public interface IOManagerListener {
     
-    public void pathChanged(Path path);
+    void pathChanged(Path path);
     
 }

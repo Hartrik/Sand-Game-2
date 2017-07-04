@@ -6,6 +6,7 @@ import cz.hartrik.sg2.app.module.ApplicationModule;
 import cz.hartrik.sg2.app.service.Require;
 import cz.hartrik.sg2.app.service.ServiceManager;
 import cz.hartrik.sg2.app.service.ServiceProvider;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Stack;
@@ -67,9 +68,7 @@ public class ApplicationBuilder {
             if (object instanceof ApplicationCompoundModule) {
                 ApplicationCompoundModule acm = (ApplicationCompoundModule) object;
                 Object[] subModules = acm.getSubModules();
-                for (Object subModule : subModules) {
-                    stack.add(subModule);
-                }
+                Collections.addAll(stack, subModules);
             }
         }
         return requiredProviders;

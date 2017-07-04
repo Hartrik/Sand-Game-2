@@ -16,7 +16,7 @@ import cz.hartrik.sg2.brush.manage.BrushManager;
  */
 public class CollectionSource {
 
-    static final String URL_PIPE = path("Icon - pipe.png");
+    static final String URL_PIPE = path("icon - pipe.png");
 
     private static String path(String fileName) {
         return Resources.absolutePath(fileName, CollectionSource.class);

@@ -11,6 +11,6 @@ import cz.hartrik.sg2.tool.Tool;
  */
 public interface Cursorable extends Tool {
     
-    public Cursor createCursor(CanvasWithCursor canvas);
+    Cursor createCursor(CanvasWithCursor canvas);
     
 }

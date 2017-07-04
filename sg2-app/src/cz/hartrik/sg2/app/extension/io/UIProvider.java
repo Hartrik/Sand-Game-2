@@ -12,14 +12,14 @@ package cz.hartrik.sg2.app.extension.io;
  */
 public interface UIProvider<T> {
     
-    public void onSaveIOException(Exception e, T context);
+    void onSaveIOException(Exception e, T context);
     
-    public void onLoadIOException(Exception e, T context);
+    void onLoadIOException(Exception e, T context);
     
-    public void onLoadParseException(ParseException e, T context);
+    void onLoadParseException(ParseException e, T context);
     
-    public boolean newFile(T context);
+    boolean newFile(T context);
     
-    public IFileChooser<T> getFileChooser();
+    IFileChooser<T> getFileChooser();
     
 }

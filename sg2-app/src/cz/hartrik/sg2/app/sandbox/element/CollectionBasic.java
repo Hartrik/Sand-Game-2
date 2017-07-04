@@ -22,20 +22,20 @@ import static cz.hartrik.sg2.app.sandbox.element.ElementList.*;
  */
 public class CollectionBasic {
 
-    static final String URL_WOOD = file("Texture - wooden planks.png");
-    static final String URL_FIRE = file("Icon - hazard - F.png");
-    static final String URL_IRON = file("Texture - iron.png");
-    static final String URL_ROCK = file("Texture - dark rock.png");
-    static final String URL_WATER = file("Icon - water.png");
-    static final String URL_FILTER = file("Texture - filter.png");
-    static final String URL_FABRIC = file("Texture - fabric.png");
-    static final String URL_SPONGE = file("Texture - sponge.png");
-    static final String URL_CARBON = file("Texture - carbon.png");
-    static final String URL_BACTERIA = file("Icon - bacteria.png");
-    static final String URL_BACTERIA_A = file("Icon - bacteria A.png");
-    static final String URL_REF_Metal = file("Texture - iron alloy.png");
-    static final String URL_BRICK_WALL = file("Texture - brick.png");
-    static final String URL_STONE_WALL = file("Texture - stone wall.jpg");
+    static final String URL_WOOD = file("texture - wooden planks.png");
+    static final String URL_FIRE = file("icon - hazard - F.png");
+    static final String URL_IRON = file("texture - iron.png");
+    static final String URL_ROCK = file("texture - dark rock.png");
+    static final String URL_WATER = file("icon - water.png");
+    static final String URL_FILTER = file("texture - filter.png");
+    static final String URL_FABRIC = file("texture - fabric.png");
+    static final String URL_SPONGE = file("texture - sponge.png");
+    static final String URL_CARBON = file("texture - carbon.png");
+    static final String URL_BACTERIA = file("icon - bacteria.png");
+    static final String URL_BACTERIA_A = file("icon - bacteria A.png");
+    static final String URL_REF_Metal = file("texture - iron alloy.png");
+    static final String URL_BRICK_WALL = file("texture - brick.png");
+    static final String URL_STONE_WALL = file("texture - stone wall.jpg");
 
     private static String file(String fileName) {
         return Resources.absolutePath(fileName, CollectionBasic.class);

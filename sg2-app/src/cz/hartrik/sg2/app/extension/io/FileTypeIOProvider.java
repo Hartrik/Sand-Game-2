@@ -12,12 +12,12 @@ import java.nio.file.Path;
  */
 public interface FileTypeIOProvider<T> {
 
-    public String getInfo();
+    String getInfo();
 
-    public String getExtension();
+    String getExtension();
 
-    public void save(Path path, T data) throws IOException;
+    void save(Path path, T data) throws IOException;
 
-    public T load(Path path) throws IOException, ParseException;
+    T load(Path path) throws IOException, ParseException;
 
 }

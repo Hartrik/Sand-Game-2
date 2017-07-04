@@ -79,7 +79,7 @@ public class JFXUIProvider<T extends Window> implements UIProvider<T> {
                 "Opravdu si přejete vytvořit nový soubor?\n"
                 + "Neuložená data budou smazána.");
 
-        return alert.showAndWait().get() == ButtonType.OK;
+        return alert.showAndWait().map(b -> b == ButtonType.OK).orElse(false);
     }
 
 }

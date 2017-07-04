@@ -12,8 +12,8 @@ import java.nio.file.Path;
  */
 public interface IFileChooser<T> {
     
-    public Path openFile(T context);
+    Path openFile(T context);
     
-    public Path saveFile(T context);
+    Path saveFile(T context);
     
 }

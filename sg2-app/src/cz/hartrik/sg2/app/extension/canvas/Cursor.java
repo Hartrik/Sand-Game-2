@@ -8,20 +8,20 @@ package cz.hartrik.sg2.app.extension.canvas;
  * @author Patrik Harag
  */
 public interface Cursor {
-    
+
     /**  Nastaví nějakou komponentu, která bude sloužit jako kurzor. */
-    public void addCursor();
+    void addCursor();
     /** Odstraní kurzor. */
-    public void removeCursor();
+    void removeCursor();
     
     /** Nastaví dodatečné posluchače. */
-    public void addListeners();
+    void addListeners();
     /** Odebere přidané posluchače. */
-    public void removeListeners();
+    void removeListeners();
     
     /** Posune kurzor na pozici. */
-    public void onMove(double mX, double mY);
+    void onMove(double mX, double mY);
     /** Skryje kurzor - je mimo plátno. */
-    public void onOver();
+    void onOver();
     
 }

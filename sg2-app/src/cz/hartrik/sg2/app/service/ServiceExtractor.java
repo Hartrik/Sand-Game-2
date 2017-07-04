@@ -12,7 +12,7 @@ import java.util.Map;
  * @version 2016-07-09
  * @author Patrik Harag
  */
-public class ServiceExtractor {
+class ServiceExtractor {
 
     private ServiceExtractor() {}
 
@@ -22,7 +22,7 @@ public class ServiceExtractor {
      * @param provider poskytovatel služeb
      * @return slovník obsahující názvy služeb a spustitelné služby
      */
-    public static Map<String, ExecutableService> extract(Object provider) {
+    static Map<String, ExecutableService> extract(Object provider) {
         Map<String, ExecutableService> map = new LinkedHashMap<>();
 
         for (Method method : provider.getClass().getMethods()) {
@@ -33,8 +33,7 @@ public class ServiceExtractor {
             String name = annotation.value();
 
             ExecutableService service = asService(provider, method);
-            if (service != null)
-                map.put(name, service);
+            map.put(name, service);
         }
 
         return map;

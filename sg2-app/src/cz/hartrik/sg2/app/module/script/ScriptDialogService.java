@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 /**
  * Poskytuje službu scriptovacího dialogu.
  *
- * @version 2016-07-10
+ * @version 2017-07-05
  * @author Patrik Harag
  */
 @ServiceProvider
@@ -49,14 +49,15 @@ public class ScriptDialogService {
                 .build();
 
         CodeEditor cd = new CodeEditor("text", fullTemplate);
-        Map<String, Supplier<?>> map = JSPublicAPI.createBindings(app);
-        String def = JSPublicAPI.defaultCode();
+        JSPublicAPI api = new JSPublicAPI(app);
+        Map<String, Supplier<?>> map = api.getBindings();
+        String def = api.defaultCode();
 
         MyScriptDialog dialog = new MyScriptDialog(cd, owner, map, "js", def);
         dialog.setWidth(700);
         dialog.setMinHeight(500);
         dialog.setTitle("Vlastní script");
-        dialog.setPreCode(JSPublicAPI.loadInitCode());
+        dialog.setPreCode(api.loadInitCode());
 
         return dialog;
     }

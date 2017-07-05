@@ -5,18 +5,32 @@ import cz.hartrik.sg2.app.Application;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
- * @version 2015-03-27
+ * @version 2017-07-05
  * @author Patrik Harag
  */
 public class JSPublicAPI {
 
-    public static Map<String, Supplier<?>> createBindings(Application app) {
+    private final Application app;
 
-        final Map<String, Supplier<?>> map = new HashMap<>();
-        map.put("canvas", () -> new Canvas(app.getWorld(),
-                                           app.getControls()));
+    private Map<String, Supplier<?>> bindings;
+
+    public JSPublicAPI(Application app) {
+        this.app = app;
+    }
+
+    public synchronized Map<String, Supplier<?>> getBindings() {
+        if (bindings == null) {
+            bindings = createBindings();
+        }
+        return createBindings();
+    }
+
+    private Map<String, Supplier<?>> createBindings() {
+        Map<String, Supplier<?>> map = new HashMap<>();
+        map.put("canvas", () -> new Canvas(app.getWorld(), app.getControls()));
 
         map.put("serviceManager", app::getServiceManager);
         map.put("brushManager", app::getBrushManager);
@@ -24,18 +38,32 @@ public class JSPublicAPI {
 
         // since 2.02
         map.put("ToolFactory", ToolFactory::getInstance);
-        map.put("Turtle", () -> new TurtleFactory(app.getWorld(),
-                                                  app.getControls()));
+        map.put("Turtle", () -> new TurtleFactory(app.getWorld(), app.getControls()));
+
         return map;
     }
 
-    public static String loadInitCode() {
+    public String loadInitCode() {
         return Resources.text(JSPublicAPI.class.getResourceAsStream("init.js"));
     }
 
-    public static String defaultCode() {
-        return "// Bindings:\n"
-             + "//   canvas, brushManager, serviceManager, controls" + "\n\n";
+    public String defaultCode() {
+        Map<String, Supplier<?>> bindings = getBindings();
+
+        String globals = bindings.keySet().stream()
+                .filter(key -> Character.isLowerCase(key.charAt(0)))
+                .sorted()
+                .collect(Collectors.joining(", "));
+
+        String classes = bindings.keySet().stream()
+                .filter(key -> Character.isUpperCase(key.charAt(0)))
+                .sorted()
+                .collect(Collectors.joining(", "));
+
+        return "// Globals:\n"
+             + "//   " + globals + "\n"
+             + "// Classes:\n"
+             + "//   " + classes + "\n\n";
     }
 
 }

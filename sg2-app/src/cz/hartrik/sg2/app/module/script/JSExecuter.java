@@ -10,7 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import javafx.util.Pair;
 import javax.script.ScriptContext;
@@ -18,17 +17,17 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 /**
- * @version 2016-07-10
+ * @version 2017-07-05
  * @author Patrik Harag
  */
 public class JSExecuter {
 
     private final Application application;
-    private final Map<String, Supplier<?>> bindings;
+    private final JSPublicAPI api;
 
     public JSExecuter(Application application) {
         this.application = application;
-        this.bindings = JSPublicAPI.createBindings(application);
+        this.api = new JSPublicAPI(application);
     }
 
     public void eval(Path script) {
@@ -39,9 +38,9 @@ public class JSExecuter {
         final ScriptEngineManager manager = new ScriptEngineManager();
         final ScriptEngine engine = manager.getEngineByExtension("js");
 
-        Map<String, Object> collect = bindings.entrySet().stream()
+        Map<String, Object> collect = api.getBindings().entrySet().stream()
                 .map(entry -> new Pair<>(entry.getKey(), entry.getValue().get()))
-                .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
 
         engine.getBindings(ScriptContext.ENGINE_SCOPE).putAll(collect);
 
@@ -49,7 +48,7 @@ public class JSExecuter {
         engine.getContext().setWriter(new PrintWriter(out));
 
         try {
-            engine.eval(JSPublicAPI.loadInitCode());
+            engine.eval(api.loadInitCode());
             engine.eval(load(script));
 
         } catch (Exception ex) {

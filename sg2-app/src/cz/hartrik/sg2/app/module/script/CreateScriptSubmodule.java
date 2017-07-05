@@ -24,7 +24,7 @@ import javafx.stage.Window;
  * Přidá do menu položku, která po kliknutí zobrazí filechooser k vytvoření
  * nového scriptu.
  *
- * @version 2016-07-10
+ * @version 2017-07-05
  * @author Patrik Harag
  */
 public class CreateScriptSubmodule implements MenuSubmodule {
@@ -52,7 +52,7 @@ public class CreateScriptSubmodule implements MenuSubmodule {
                 File file = chooserSave.showSaveDialog(app.getStage());
                 if (file == null) return;
 
-                if (create(file.toPath(), app.getStage()))
+                if (create(app, file.toPath(), app.getStage()))
                     editScript(file);
             });
         });
@@ -60,8 +60,9 @@ public class CreateScriptSubmodule implements MenuSubmodule {
         return new MenuItem[] { item };
     }
 
-    private boolean create(Path path, Window owner) {
-        byte[] data = JSPublicAPI.defaultCode().getBytes(StandardCharsets.UTF_8);
+    private boolean create(Application app, Path path, Window owner) {
+        JSPublicAPI api = new JSPublicAPI(app);
+        byte[] data = api.defaultCode().getBytes(StandardCharsets.UTF_8);
         OpenOption[] options = { StandardOpenOption.CREATE,
                                  StandardOpenOption.WRITE };
         try {

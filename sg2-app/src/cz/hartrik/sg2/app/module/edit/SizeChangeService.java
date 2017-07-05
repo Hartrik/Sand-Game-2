@@ -1,8 +1,9 @@
+
 package cz.hartrik.sg2.app.module.edit;
 
 import cz.hartrik.common.Pair;
-import cz.hartrik.sg2.app.extension.dialog.size.ChangeSizeDialog;
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.extension.dialog.size.ChangeSizeDialog;
 import cz.hartrik.sg2.app.service.Service;
 import cz.hartrik.sg2.app.service.ServiceProvider;
 import cz.hartrik.sg2.engine.Engine;

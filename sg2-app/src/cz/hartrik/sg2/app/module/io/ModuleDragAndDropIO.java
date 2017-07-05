@@ -1,10 +1,12 @@
+
 package cz.hartrik.sg2.app.module.io;
 
 import cz.hartrik.common.ui.javafx.DragAndDropInitializer;
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.extension.canvas.ToolPasteTemplateOnce;
-import cz.hartrik.sg2.app.module.ApplicationModule;
 import cz.hartrik.sg2.app.extension.io.IOManager;
+import cz.hartrik.sg2.app.module.ApplicationModule;
 import cz.hartrik.sg2.world.ModularWorld;
 import cz.hartrik.sg2.world.template.ElementAreaTemplate;
 import java.nio.file.Path;
@@ -44,14 +46,12 @@ public class ModuleDragAndDropIO implements ApplicationModule {
     protected void path(Path path, Window owner, Application application) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.initOwner(owner);
-        alert.setTitle("Otevřít");
-        alert.setHeaderText("Načtení uložené pozice");
-        alert.setContentText("Rozhodni zda má dojít k otevření uložené pozice "
-                + "nebo k jejímu vložení do stávajícího plátna.\n"
-                + "Při otevření budou neuložené změny ztraceny!");
+        alert.setTitle(Strings.get("module.io.d&d.title"));
+        alert.setHeaderText(Strings.get("module.io.d&d.header"));
+        alert.setContentText(Strings.get("module.io.d&d.content"));
 
-        ButtonType buttonOpen = new ButtonType("Otevřít");
-        ButtonType buttonPaste = new ButtonType("Vložit");
+        ButtonType buttonOpen = new ButtonType(Strings.get("module.io.open"));
+        ButtonType buttonPaste = new ButtonType(Strings.get("module.io.paste"));
         ButtonType buttonClose = ButtonType.CLOSE;
 
         alert.getButtonTypes().setAll(buttonOpen, buttonPaste, buttonClose);

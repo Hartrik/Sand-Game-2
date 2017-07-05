@@ -1,7 +1,8 @@
+
 package cz.hartrik.sg2.app.module.io;
 
-import cz.hartrik.sg2.app.extension.dialog.stats.StatsDialog;
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.extension.dialog.stats.StatsDialog;
 import cz.hartrik.sg2.app.service.Service;
 import cz.hartrik.sg2.app.service.ServiceProvider;
 import cz.hartrik.sg2.world.ElementArea;

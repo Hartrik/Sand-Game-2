@@ -1,6 +1,8 @@
+
 package cz.hartrik.sg2.app.module.tools;
 
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
@@ -24,9 +26,9 @@ public class ShapesSubmodule implements MenuSubmodule {
         PanelTool rc = new PanelToolCircle(1, 75, 5, app.getControls());
         PanelTool rt = new PanelToolTriangle(1, 75, 10, app.getControls());
 
-        final String RECT = "Obdélník";
-        final String CIRCLE = "Kruh";
-        final String TRIANGLE = "Trojúhelík";
+        final String RECT = Strings.get("module.tools.rect");
+        final String CIRCLE = Strings.get("module.tools.circle");
+        final String TRIANGLE = Strings.get("module.tools.triangle");
 
         ComboBox<String> comboBox = new ComboBox<>();
         comboBox.getItems().setAll(RECT, CIRCLE, TRIANGLE);

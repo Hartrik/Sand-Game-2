@@ -1,6 +1,7 @@
 
 package cz.hartrik.sg2.app.extension.io;
 
+import cz.hartrik.sg2.app.Strings;
 import java.io.File;
 import java.nio.file.Path;
 import javafx.stage.FileChooser;
@@ -10,13 +11,13 @@ import javafx.stage.Window;
 /**
  * 
  * 
- * @version 2015-01-12
+ * @version 2017-07-05
  * @author Patrik Harag
  */
 public class JFXMultiFileChooser implements IFileChooser<Window> {
     
-    private static final String SAVE_TITLE = "Uložit soubor";
-    private static final String OPEN_TITLE = "Načíst soubor";
+    private static final String SAVE_TITLE = Strings.get("extension.io.dialog-save");
+    private static final String OPEN_TITLE = Strings.get("extension.io.dialog-open");
     
     private final FileChooser chooserSave;
     private final FileChooser chooserOpen;
@@ -36,7 +37,7 @@ public class JFXMultiFileChooser implements IFileChooser<Window> {
                 .toArray(String[]::new);
         
         chooserOpen.getExtensionFilters().add(
-                new ExtensionFilter("Všechny podporované formáty", filters));
+                new ExtensionFilter(Strings.get("extension.io.type.all"), filters));
         
         for (FileTypeIOProvider<?> provider : ioProvider.getProviders()) {
             final ExtensionFilter filter = new ExtensionFilter(

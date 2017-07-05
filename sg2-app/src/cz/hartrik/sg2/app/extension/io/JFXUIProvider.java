@@ -2,6 +2,7 @@
 package cz.hartrik.sg2.app.extension.io;
 
 import cz.hartrik.common.ui.javafx.ExceptionDialog;
+import cz.hartrik.sg2.app.Strings;
 import java.io.FileNotFoundException;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -11,7 +12,7 @@ import javafx.stage.Window;
 /**
  * Zajišťuje uživatelské rozhraní v JavaFX.
  * 
- * @version 2015-03-11
+ * @version 2017-07-05
  * @author Patrik Harag
  * @param <T> kontext
  */
@@ -32,13 +33,13 @@ public class JFXUIProvider<T extends Window> implements UIProvider<T> {
     public void onSaveIOException(Exception e, T context) {
         ExceptionDialog dialog = new ExceptionDialog(e);
         dialog.initOwner(context);
-        dialog.setTitle("Chyba při ukládání");
-        dialog.setHeaderText("Chyba při ukládání");
+        dialog.setTitle(Strings.get("extension.io.err-save.title"));
+        dialog.setHeaderText(Strings.get("extension.io.err-save.header"));
 
         if (e instanceof FileNotFoundException)
-            dialog.setContentText("Na tuto pozici není možné soubor uložit.");
+            dialog.setContentText(Strings.get("extension.io.err-save.content.fnf"));
         else
-            dialog.setContentText("Došlo k neočekávané chybě při ukládání.");
+            dialog.setContentText(Strings.get("extension.io.err-save.content"));
         
         dialog.showAndWait();
     }
@@ -47,13 +48,13 @@ public class JFXUIProvider<T extends Window> implements UIProvider<T> {
     public void onLoadIOException(Exception e, T context) {
         ExceptionDialog dialog = new ExceptionDialog(e);
         dialog.initOwner(context);
-        dialog.setTitle("Chyba při načítání");
-        dialog.setHeaderText("Chyba při načítání");
+        dialog.setTitle(Strings.get("extension.io.err-load.title"));
+        dialog.setHeaderText(Strings.get("extension.io.err-load.header"));
         
         if (e instanceof FileNotFoundException)
-            dialog.setContentText("Cesta nevede k žádnému souboru.");
+            dialog.setContentText(Strings.get("extension.io.err-load.content.fnf"));
         else
-            dialog.setContentText("Došlo k neočekávané chybě při načítání souboru.");
+            dialog.setContentText(Strings.get("extension.io.err-load.content"));
         
         dialog.showAndWait();
     }
@@ -62,9 +63,9 @@ public class JFXUIProvider<T extends Window> implements UIProvider<T> {
     public void onLoadParseException(ParseException e, T context) {
         ExceptionDialog dialog = new ExceptionDialog(e);
         dialog.initOwner(context);
-        dialog.setTitle("Chyba při načítání");
-        dialog.setHeaderText("Chyba při načítání");
-        dialog.setContentText("Došlo k neočekávané chybě při parsování souboru");
+        dialog.setTitle(Strings.get("extension.io.err-load.title"));
+        dialog.setHeaderText(Strings.get("extension.io.err-load.header"));
+        dialog.setContentText(Strings.get("extension.io.err-load.content.parse"));
         dialog.showAndWait();
     }
 
@@ -73,11 +74,9 @@ public class JFXUIProvider<T extends Window> implements UIProvider<T> {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.initOwner(context);
         
-        alert.setTitle("Nový soubor");
-        alert.setHeaderText("Vytvořit nový soubor");
-        alert.setContentText(
-                "Opravdu si přejete vytvořit nový soubor?\n"
-                + "Neuložená data budou smazána.");
+        alert.setTitle(Strings.get("extension.io.new.title"));
+        alert.setHeaderText(Strings.get("extension.io.new.header"));
+        alert.setContentText(Strings.get("extension.io.new.content"));
 
         return alert.showAndWait().map(b -> b == ButtonType.OK).orElse(false);
     }

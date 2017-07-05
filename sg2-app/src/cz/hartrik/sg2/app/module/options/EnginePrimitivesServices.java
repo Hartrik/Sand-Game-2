@@ -1,3 +1,4 @@
+
 package cz.hartrik.sg2.app.module.options;
 
 import cz.hartrik.sg2.app.Application;
@@ -59,7 +60,7 @@ public class EnginePrimitivesServices {
             engine.rendererStart();
     }
 
-    @Service(SERVICE_PROCESSOR_STOP)
+    @Service(SERVICE_RENDERER_STOP)
     public void rendererStop(Application app) {
         Engine<?, ?> engine = app.getEngine();
 

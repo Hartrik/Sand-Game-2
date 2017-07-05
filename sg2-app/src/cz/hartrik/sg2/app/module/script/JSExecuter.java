@@ -1,8 +1,10 @@
+
 package cz.hartrik.sg2.app.module.script;
 
 import cz.hartrik.common.ui.javafx.ExceptionDialog;
 import cz.hartrik.common.ui.javafx.OutputDialog;
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.Strings;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -18,7 +20,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 /**
- * @version 2016-07-10
+ * @version 2017-07-05
  * @author Patrik Harag
  */
 public class JSExecuter {
@@ -41,7 +43,7 @@ public class JSExecuter {
 
         Map<String, Object> collect = bindings.entrySet().stream()
                 .map(entry -> new Pair<>(entry.getKey(), entry.getValue().get()))
-                .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
 
         engine.getBindings(ScriptContext.ENGINE_SCOPE).putAll(collect);
 
@@ -55,9 +57,9 @@ public class JSExecuter {
         } catch (Exception ex) {
             ExceptionDialog dialog = new ExceptionDialog(ex);
             dialog.initOwner(application.getStage());
-            dialog.setTitle("Chyba");
-            dialog.setHeaderText("Došlo k chybě při spouštění scriptu");
-            dialog.setContentText("Podrobnosti:");
+            dialog.setTitle(Strings.get("module.script.err-exe.title"));
+            dialog.setHeaderText(Strings.get("module.script.err-exe.header"));
+            dialog.setContentText(Strings.get("module.script.err-exe.content"));
             dialog.showAndWait();
         }
 
@@ -65,10 +67,9 @@ public class JSExecuter {
         if (!outString.isEmpty()) {
             OutputDialog dialog = new OutputDialog(outString);
             dialog.initOwner(application.getStage());
-            dialog.setTitle("Výstup");
-            dialog.setHeaderText("Script \"" + script.getFileName()
-                    + "\" za sebou zanechal textový výstup");
-            dialog.setContentText("Výstup:");
+            dialog.setTitle(Strings.get("module.script.out.title"));
+            dialog.setHeaderText(Strings.get("module.script.out.header", script.getFileName()));
+            dialog.setContentText(Strings.get("module.script.out.content"));
             dialog.showAndWait();
         }
     }

@@ -1,6 +1,8 @@
+
 package cz.hartrik.sg2.app.module.io;
 
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.app.service.Require;
 import javafx.scene.control.MenuItem;
@@ -18,7 +20,7 @@ public class StatsSubmodule implements MenuSubmodule {
     @Override
     public MenuItem[] createMenuItems(Application app) {
 
-        MenuItem iStats = new MenuItem("Zobrazit statistiky");
+        MenuItem iStats = new MenuItem(Strings.get("module.io.stats"));
         iStats.setAccelerator(KeyCombination.valueOf("ctrl+t"));
         iStats.setOnAction((e) -> {
             app.getServiceManager().run(StatsService.SERVICE_STATS);

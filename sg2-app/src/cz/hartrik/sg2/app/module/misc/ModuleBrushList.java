@@ -1,3 +1,4 @@
+
 package cz.hartrik.sg2.app.module.misc;
 
 import cz.hartrik.sg2.app.Application;

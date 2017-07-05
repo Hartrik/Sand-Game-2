@@ -1,6 +1,8 @@
+
 package cz.hartrik.sg2.app.module.options;
 
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.app.service.Require;
 import cz.hartrik.sg2.app.service.ServiceManager;
@@ -20,7 +22,7 @@ public class NoBottomSubmodule implements MenuSubmodule {
     @Override
     public MenuItem[] createMenuItems(Application app) {
 
-        CheckMenuItem item = new CheckMenuItem("Propadávání elementů dnem plátna");
+        CheckMenuItem item = new CheckMenuItem(Strings.get("module.options.no-bottom"));
         item.selectedProperty().addListener((ob, old, selected) -> {
             ServiceManager manager = app.getServiceManager();
 

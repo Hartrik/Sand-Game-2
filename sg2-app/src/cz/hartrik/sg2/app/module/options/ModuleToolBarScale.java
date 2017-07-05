@@ -1,7 +1,9 @@
+
 package cz.hartrik.sg2.app.module.options;
 
 import cz.hartrik.sg2.app.Application;
 import cz.hartrik.sg2.app.FrameController;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.module.ApplicationModule;
 import cz.hartrik.sg2.app.service.ServiceManager;
 import javafx.scene.control.Label;
@@ -12,25 +14,21 @@ import javafx.scene.text.Font;
  * Modul přidá do toolbaru slider pro změnu přiblížení a zaregistruje službu pro
  * reset přiblížení.
  *
- * @version 2016-07-10
+ * @version 2017-07-05
  * @author Patrik Harag
  */
 public class ModuleToolBarScale implements ApplicationModule {
 
     public static final String SERVICE_SCALE_RESET = "scale-reset";
 
-    private final String text;
     private final double min, max;
     private final double initial;
 
-    public ModuleToolBarScale(String text) {
-        this(text, 1.0, 10.0, 1.0);
+    public ModuleToolBarScale() {
+        this(1.0, 10.0, 1.0);
     }
 
-    public ModuleToolBarScale(String text,
-            double min, double max, double initial) {
-
-        this.text = text;
+    public ModuleToolBarScale(double min, double max, double initial) {
         this.min = min;
         this.max = max;
         this.initial = initial;
@@ -41,7 +39,7 @@ public class ModuleToolBarScale implements ApplicationModule {
         FrameController controller = app.getController();
         ServiceManager manager = app.getServiceManager();
 
-        final Label lDescription = new Label(text);
+        final Label lDescription = new Label(Strings.get("module.misc.scale"));
         final Label lScaleFactor = new Label(format(initial));
         lScaleFactor.setFont(Font.font("Courier New", 11));
 

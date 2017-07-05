@@ -1,3 +1,4 @@
+
 package cz.hartrik.sg2.app.module.script;
 
 import cz.hartrik.jfxeditor.dialog.ScriptDialog;
@@ -30,8 +31,7 @@ public class ModuleToolBarScriptDialog implements ApplicationModule {
 
         Button button = new Button(text, icon);
         button.setOnAction((e) -> {
-            app.getServiceManager().run(
-                    ScriptDialogService.SERVICE_SHOW_SCRIPT_DIALOG);
+            app.getServiceManager().run(ScriptDialogService.SERVICE_SHOW_SCRIPT_DIALOG);
         });
 
         app.getController().getToolBar().getItems().add(button);

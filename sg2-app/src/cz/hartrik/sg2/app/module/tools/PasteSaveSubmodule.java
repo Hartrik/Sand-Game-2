@@ -1,11 +1,13 @@
+
 package cz.hartrik.sg2.app.module.tools;
 
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.extension.canvas.ToolPasteTemplateOnce;
+import cz.hartrik.sg2.app.extension.io.IOManager;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.app.service.Service;
 import cz.hartrik.sg2.app.service.ServiceProvider;
-import cz.hartrik.sg2.app.extension.io.IOManager;
 import cz.hartrik.sg2.brush.Controls;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.template.ElementAreaTemplate;
@@ -34,7 +36,7 @@ public class PasteSaveSubmodule implements MenuSubmodule {
     @Override
     public MenuItem[] createMenuItems(Application app) {
 
-        MenuItem menuItem = new MenuItem("Vložit z uložené pozice");
+        MenuItem menuItem = new MenuItem(Strings.get("module.tools.paste"));
         menuItem.setOnAction(event -> {
             app.getServiceManager().run(SERVICE_PASTE_FROM_SAVE);
         });

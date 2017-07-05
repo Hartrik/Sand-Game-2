@@ -1,7 +1,9 @@
+
 package cz.hartrik.sg2.app.module.options;
 
 import cz.hartrik.sg2.app.Application;
 import cz.hartrik.sg2.app.FrameController;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.engine.render.*;
 import cz.hartrik.sg2.world.ChunkedArea;
@@ -23,13 +25,13 @@ public class RendererOptionsSubmodule implements MenuSubmodule {
     public MenuItem[] createMenuItems(Application app) {
         FrameController controller = app.getController();
 
-        CheckMenuItem itemBlur = new CheckMenuItem("Motion blur");
+        CheckMenuItem itemBlur = new CheckMenuItem(Strings.get("module.options.motion-blur"));
         itemBlur.setAccelerator(KeyCombination.valueOf("f5"));
 
-        CheckMenuItem itemHC = new CheckMenuItem("Zvýraznit aktivní chunky");
+        CheckMenuItem itemHC = new CheckMenuItem(Strings.get("module.options.hl-chunks"));
         itemHC.setAccelerator(KeyCombination.valueOf("f6"));
 
-        CheckMenuItem itemHeatmap = new CheckMenuItem("Heatmap");
+        CheckMenuItem itemHeatmap = new CheckMenuItem(Strings.get("module.options.heatmap"));
         itemHeatmap.setAccelerator(KeyCombination.valueOf("f7"));
 
         itemBlur.setSelected(true);

@@ -1,3 +1,4 @@
+
 package cz.hartrik.sg2.app.module.about;
 
 import cz.hartrik.sg2.app.extension.dialog.about.AboutDialog;

@@ -3,9 +3,10 @@ package cz.hartrik.sg2.app.module.io;
 
 import cz.hartrik.common.io.Resources;
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.Strings;
+import cz.hartrik.sg2.app.extension.io.IOManager;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.app.service.ServiceManager;
-import cz.hartrik.sg2.app.extension.io.IOManager;
 import cz.hartrik.sg2.world.ModularWorld;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
@@ -38,19 +39,19 @@ public class FileSubmodule implements MenuSubmodule {
 
         ioManager.setContext(app.getStage());
 
-        MenuItem iNew = new MenuItem("Nový", img("icon - new file.png"));
+        MenuItem iNew = new MenuItem(Strings.get("module.io.new"), img("icon - new file.png"));
         iNew.setOnAction((e) -> manager.run(SERVICE_FILE_NEW));
         iNew.setAccelerator(KeyCombination.valueOf("ctrl+n"));
 
-        MenuItem iOpen = new MenuItem("Otevřít", img("icon - open.png"));
+        MenuItem iOpen = new MenuItem(Strings.get("module.io.open"), img("icon - open.png"));
         iOpen.setOnAction((e) -> manager.run(SERVICE_FILE_OPEN));
         iOpen.setAccelerator(KeyCombination.valueOf("ctrl+o"));
 
-        MenuItem iSave = new MenuItem("Uložit", img("icon - save.png"));
+        MenuItem iSave = new MenuItem(Strings.get("module.io.save"), img("icon - save.png"));
         iSave.setOnAction((e) -> manager.run(SERVICE_FILE_SAVE));
         iSave.setAccelerator(KeyCombination.valueOf("ctrl+s"));
 
-        MenuItem iSaveAs = new MenuItem("Uložit jako", img("icon - save.png"));
+        MenuItem iSaveAs = new MenuItem(Strings.get("module.io.save-as"), img("icon - save.png"));
         iSaveAs.setOnAction((e) -> manager.run(SERVICE_FILE_SAVE_AS));
         iSaveAs.setAccelerator(KeyCombination.valueOf("ctrl+shift+s"));
 

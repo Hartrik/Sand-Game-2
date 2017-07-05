@@ -1,3 +1,4 @@
+
 package cz.hartrik.sg2.app.module.misc;
 
 import cz.hartrik.sg2.app.Application;
@@ -31,7 +32,7 @@ public class ModuleBrushListFilterable extends ModuleBrushList {
                 app.getBrushManager(), app.getControls());
 
         TextField textField = new TextField();
-        textField.setPromptText("Filtrovat...");
+        textField.setPromptText("...");
         textField.setOnKeyReleased((KeyEvent keyEvent) -> {
             if (keyEvent.getCode() == KeyCode.ESCAPE)
                 textField.setText("");

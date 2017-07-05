@@ -1,6 +1,8 @@
+
 package cz.hartrik.sg2.app.module.tools;
 
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.app.module.script.ToolFactory;
 import cz.hartrik.sg2.brush.jfx.JFXControls;
@@ -32,7 +34,7 @@ public class RandomizerSubmodule implements MenuSubmodule {
                 controls.setPrimaryTool(factory.randomizer((Shape) selected));
         };
 
-        CheckMenuItem item = new CheckMenuItem("Povolit randomizaci");
+        CheckMenuItem item = new CheckMenuItem(Strings.get("module.tools.randomizer"));
         item.setSelected(false);
         item.selectedProperty().addListener((o, ov, selected) -> {
             if (ov == selected) return;

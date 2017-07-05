@@ -3,6 +3,7 @@ package cz.hartrik.sg2.app.extension.dialog.about;
 
 import cz.hartrik.common.io.LazyResources;
 import cz.hartrik.common.ui.javafx.FXMLControlledStage;
+import cz.hartrik.sg2.app.Strings;
 import java.net.URL;
 import java.util.function.Supplier;
 import javafx.scene.image.Image;
@@ -12,7 +13,7 @@ import javafx.stage.Window;
 /**
  * Dialog o programu.
  *
- * @version 2016-07-10
+ * @version 2017-07-05
  * @author Patrik Harag
  */
 public class AboutDialog extends FXMLControlledStage<AboutController> {
@@ -24,9 +25,9 @@ public class AboutDialog extends FXMLControlledStage<AboutController> {
             ICON_NAME, AboutDialog.class);
 
     public AboutDialog(Window owner) {
-        super(URL);
+        super(URL, Strings.getResourceBundle());
 
-        setTitle("O programu");
+        setTitle(Strings.get("extension.about.title"));
         initOwner(owner);
         initModality(Modality.APPLICATION_MODAL);
         getIcons().setAll(ICON.get());

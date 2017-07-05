@@ -1,5 +1,7 @@
+
 package cz.hartrik.sg2.app.extension.io;
 
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.world.ElementArea;
 import java.util.*;
 
@@ -24,7 +26,7 @@ public class ZipIOBrushTemplate <T extends ElementArea> extends ZipIO<T> {
 
     @Override
     public String getInfo() {
-        return "Šablona";
+        return Strings.get("extension.io.type.sgb");
     }
 
     @Override

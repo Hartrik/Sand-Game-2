@@ -1,3 +1,4 @@
+
 package cz.hartrik.sg2.app.module.script;
 
 import cz.hartrik.jfxeditor.CodeEditor;

@@ -1,8 +1,10 @@
+
 package cz.hartrik.sg2.app.module.misc;
 
 import cz.hartrik.sg2.app.Application;
 import cz.hartrik.sg2.app.FrameController;
 import cz.hartrik.sg2.app.ProcessingState;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.module.ApplicationModule;
 import cz.hartrik.sg2.engine.EngineListenerDef;
 import cz.hartrik.sg2.engine.JFXEngine;
@@ -34,12 +36,13 @@ public class ModulePerformanceInfo implements ApplicationModule {
         grid.setHgap(10);
         grid.setVgap(2);
 
-        grid.addRow(0, new Label("Rozměry"),          lSizes);
-        grid.addRow(1, new Label("FPS"),              lFPS);
-        grid.addRow(2, new Label("Cyklů za sekundu"), lCycles);
-        grid.addRow(3, new Label("Aktivní chunky"),   lChunks);
+        grid.addRow(0, new Label(Strings.get("module.misc.perf.sizes")), lSizes);
+        grid.addRow(1, new Label(Strings.get("module.misc.perf.fps")), lFPS);
+        grid.addRow(2, new Label(Strings.get("module.misc.perf.cycles")), lCycles);
+        grid.addRow(3, new Label(Strings.get("module.misc.perf.chunks")), lChunks);
 
         controller.addOnSetUp(() -> {
+            // musí být zavoláno při každé změně plátna
             update(application, lSizes, lFPS, lCycles, lChunks);
         });
 
@@ -50,7 +53,6 @@ public class ModulePerformanceInfo implements ApplicationModule {
         controller.getLeftPanel().getChildren().addAll(grid, new Separator());
     }
 
-    // musí být zavoláno při každé změně plátna
     private void update(Application app,
             Label lSizes, Label lFPS, Label lCycles, Label lChunks) {
 

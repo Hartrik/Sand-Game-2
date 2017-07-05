@@ -22,7 +22,7 @@ import javafx.scene.layout.Pane;
 /**
  * Jedna buňka v {@link javafx.scene.control.ListView}.
  *
- * @version 2014-12-26
+ * @version 2017-07-05
  * @author Patrik Harag
  */
 public class BrushCell extends ListCell<Brush> {
@@ -76,18 +76,18 @@ public class BrushCell extends ListCell<Brush> {
 
     private void installTooltip(Node node, BrushInfo info) {
         String tooltip = "id: " + info.getId();
-        
+
         // štítky
         final Set<String> labels = info.getLabels();
         if (!labels.isEmpty())
-            tooltip += "\nštítky: "
-                    + labels.stream().collect(Collectors.joining(", "));
-        
+            tooltip += "\n"
+                    + labels.stream().collect(Collectors.joining(", ", "[", "]"));
+
         // popis
         final String description = info.getDescription();
         if (!description.isEmpty())
             tooltip += "\n\n" + description;
-        
+
         Tooltip.install(node, new Tooltip(tooltip));
     }
     

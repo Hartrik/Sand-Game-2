@@ -2,6 +2,7 @@
 package cz.hartrik.sg2.app.module.io;
 
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.app.service.Require;
 import javafx.scene.control.MenuItem;
@@ -19,7 +20,7 @@ public class ScreenshotSubmodule implements MenuSubmodule {
     @Override
     public MenuItem[] createMenuItems(Application app) {
 
-        MenuItem item = new MenuItem("Rychlý screenshot");
+        MenuItem item = new MenuItem(Strings.get("module.io.scr"));
         item.setAccelerator(KeyCombination.valueOf("ctrl+p"));
         item.setOnAction(e -> {
             app.getServiceManager().run(ScreenshotService.SERVICE_SCREENSHOT);

@@ -1,7 +1,9 @@
+
 package cz.hartrik.sg2.app.module.options;
 
 import cz.hartrik.sg2.app.Application;
 import cz.hartrik.sg2.app.FrameController;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.engine.JFXEngine;
 import javafx.geometry.Insets;
@@ -44,7 +46,7 @@ public class EngineSpeedSubmodule implements MenuSubmodule {
         final VBox box = new VBox(10);
 
         if (settings == Settings.RENDERER || settings == Settings.BOTH) {
-            Label lMaxFPS = new Label("Maximální FPS");
+            Label lMaxFPS = new Label(Strings.get("module.options.max-fps"));
             lMaxFPS.setPrefWidth(150);
 
             sMaxFPS = new Slider(5, 100, 55);
@@ -63,7 +65,7 @@ public class EngineSpeedSubmodule implements MenuSubmodule {
         }
 
         if (settings == Settings.PROCESSOR || settings == Settings.BOTH) {
-            Label lMaxC = new Label("Maximální počet cyklů/s");
+            Label lMaxC = new Label(Strings.get("module.options.max-cycles"));
             lMaxC.setPrefWidth(150);
 
             sMaxC = new Slider(5, 1000, 200);
@@ -81,7 +83,7 @@ public class EngineSpeedSubmodule implements MenuSubmodule {
                 -> controller.getEngine().setMaxCycles(n.intValue()));
         }
 
-        Label lInfo = new Label("(přibližné hodnoty)");
+        Label lInfo = new Label(Strings.get("module.options.max-info"));
         lInfo.setFont(Font.font(null, FontPosture.ITALIC, 10)); // default fam.
         lInfo.setPadding(new Insets(-10, 0, 0, 0));
 

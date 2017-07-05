@@ -1,3 +1,4 @@
+
 package cz.hartrik.sg2.app.module.options;
 
 import cz.hartrik.common.io.Resources;

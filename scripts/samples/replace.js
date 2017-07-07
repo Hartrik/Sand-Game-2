@@ -1,5 +1,5 @@
-// nahradí všechny elemeny nanesené primárním štětcem elementy
-// sekundárního štětce
+// Replaces elements placed using primary brush by elements placed
+// using secondary brush
 
 var primaryBrush = controls.getPrimaryBrush();
 var secondaryBrush = controls.getSecondaryBrush();

@@ -1,7 +1,7 @@
 
 Turtle.create(ToolFactory.centeredSquare(1))
     .repeat(36)
-        .run(function(t) { regularPolygon(t, 5, 150) })  // pětiúhelník
+        .run(function(t) { regularPolygon(t, 5, 150) })  // pentagon
         .right(10)
     .end();
 

@@ -4,10 +4,11 @@ function snowflake(i, gap, turtle) {
     var height = 2 * width / Math.sqrt(3);
     var size = width / Math.pow(3.0, i);
     
-    // přibližně...
+    // center (approximately)
     turtle.setX((canvas.getWidth() - width)/2 + gap);
     turtle.setY(canvas.getHeight() - ((canvas.getHeight() - height)/2 + gap/2));
 
+    // draw
     turtle.run(function(t) { drawPart(i, size, t) })
           .left(-120)
           .run(function(t) { drawPart(i, size, t) })

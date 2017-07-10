@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 public class StandardBrushCollection {
 
     static final int VERSION = 2;
-    static final String PROPERTIES = "cz.hartrik.sg2.app.sandbox.element.Brushes";
+    static final String PROPERTIES = "cz.hartrik.sg2.app.sandbox.element.brushes";
 
     /**
      * Načte a přidá správci celou kolekci štětců.

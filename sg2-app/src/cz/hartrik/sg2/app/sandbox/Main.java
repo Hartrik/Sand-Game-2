@@ -15,14 +15,18 @@ import javafx.stage.Stage;
 /**
  * Vstupní třída.
  *
- * @version 2017-07-06
+ * @version 2017-07-10
  * @author Patrik Harag
  */
 public class Main extends javafx.application.Application {
 
     public static final String APP_NAME = "Sand Game 2";
     public static final String APP_VERSION = "2.03 Beta";
+    public static final String APP_VERSION_DATE = "2016-07-03";
     public static final String APP_TITLE = APP_NAME + " (" + APP_VERSION + ")";
+    public static final String APP_AUTHOR = "© 2016 Patrik Harag\npatrik.harag@gmail.com";
+    public static final String APP_WEB = "https://github.com/Hartrik/Sand-Game-2";
+
     public static final String ICON = "icon - sg2.png";
 
     private static Frame frame;

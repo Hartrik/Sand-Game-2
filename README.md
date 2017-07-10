@@ -14,7 +14,7 @@
 [![GitHub Release][b-release-img]][b-release-link]
 
 **Sand Game 2** is a *falling sand* game where you are given an empty canvas and
-a wide range of various elements which allows you to place and mix them as you like.
+a wide range of various elements. Try to build something cool!
 
 **Features**
 - many elements and tools
@@ -50,7 +50,7 @@ Shape and size can be changed in `menu > tools`.
 Several prepared templates can be found in `menus > tools`.
 Insertion can be canceled using *RMB*.
 
-Saved canvases can also be inserted as a templates.
+Saved canvases can also be inserted as templates.
 
 ### Editing tools
 
@@ -73,7 +73,7 @@ There are two file formats:
 
 ## Scripting
 
-You can write scripts in JavaScript and manipulate with the canvas programmatically.
+You can write scripts in JavaScript and manipulate the canvas programmatically.
 
 If you put directory named “scripts” into the working directory you will be able
 to run all scripts from the menu. The second option is a build-in editor.

@@ -1,11 +1,11 @@
-Složka obsahuje ukázky práce se želví grafikou.
-Všechny obrazce se vykreslují primárním štětcem.
+This directory contains example usage of turtle graphics.  
+Outputs depends on selected primary brush.
 
-|                                                |                                                |
-|----------------------------------------------- | ---------------------------------------------- |
-|  1![01](/scripts/turtle graphics/shape 01.png) |  2![02](/scripts/turtle graphics/shape 02.png) |
-|  3![03](/scripts/turtle graphics/shape 03.png) |  4![04](/scripts/turtle graphics/shape 04.png) |
-|  5![05](/scripts/turtle graphics/shape 05.png) |  6![06](/scripts/turtle graphics/shape 06.png) |
-|  7![07](/scripts/turtle graphics/shape 07.png) |  8![08](/scripts/turtle graphics/shape 08.png) |
-|  9![09](/scripts/turtle graphics/shape 09.png) | 10![10](/scripts/turtle graphics/shape 10.png) |
-| 11![11](/scripts/turtle graphics/shape 11.png) |                                                |
+|                         |                         |
+|------------------------ | ----------------------- |
+|  1![01](shape%2001.png) |  2![02](shape%2002.png) |
+|  3![03](shape%2003.png) |  4![04](shape%2004.png) |
+|  5![05](shape%2005.png) |  6![06](shape%2006.png) |
+|  7![07](shape%2007.png) |  8![08](shape%2008.png) |
+|  9![09](shape%2009.png) | 10![10](shape%2010.png) |
+| 11![11](shape%2011.png) |                         |

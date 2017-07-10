@@ -1,12 +1,7 @@
 
-// Třída ToolFactory poskytuje metody pro tvorbu nástrojů - především tvarů.
-// Tvary se mohou umísťovat buď klasicky - podle levého horního rohu, nebo
-// podle středu - označeny přefixem "centered".
+// ToolFactory provides methods for creating tools - especially shapes
 
 /*
- * SEZNAM VŠECH METOD (ve verzi 2.02 Beta)
- * ==================
- * 
  * square(int side)
  * centeredSquare(int side)
  * 
@@ -35,7 +30,7 @@
  */
 
 
-// příklad vytvoření rovnostranného trojúhelníku
+// example:
 
 var triangle = ToolFactory.triangle(20, 20, 20);
 

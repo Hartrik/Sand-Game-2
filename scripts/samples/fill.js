@@ -1,5 +1,5 @@
-// naplní plátno pískem
+// Fills the canvas with sand
 
 var tools = canvas.getTools();
 
-tools.fill(brush("písek"));
+tools.fill(brush(40));

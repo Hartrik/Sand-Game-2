@@ -1,3 +1,4 @@
+
 package cz.hartrik.sg2.app.extension.io;
 
 import java.io.IOException;

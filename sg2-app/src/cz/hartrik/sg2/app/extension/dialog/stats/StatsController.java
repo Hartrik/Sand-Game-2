@@ -3,6 +3,7 @@ package cz.hartrik.sg2.app.extension.dialog.stats;
 
 import cz.hartrik.common.ui.javafx.TableInitializer;
 import cz.hartrik.sg2.world.ChunkedArea;
+import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.element.Air;
 import java.net.URL;
@@ -21,7 +22,7 @@ import javafx.stage.Stage;
 /**
  * Controller ovládající panel se statistikami plátna
  *
- * @version 2016-06-21
+ * @version 2017-07-05
  * @author Patrik Harag
  */
 public class StatsController implements Initializable {
@@ -39,20 +40,18 @@ public class StatsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new TableInitializer<>(table)
-            .addStringColumn("Class", v -> v.clazz.getName())
-            .addInnerColumn("Výskyt na plátně")
-                .addIntegerColumn(55, 55, "ks", v -> v.count)
-                .addStringColumn(55, 55, "%",
-                        v -> String.format("%.2f", v.countRate))
+            .addStringColumn(rb.getString("extension.stats.table.class"), v -> v.clazz.getName())
+            .addInnerColumn(rb.getString("extension.stats.table.occurrences"))
+                .addIntegerColumn(55, 55, rb.getString("extension.stats.table.pieces"), v -> v.count)
+                .addStringColumn(55, 55, "%", v -> String.format("%.2f", v.countRate))
                 .cancelInner()
-            .addInnerColumn("Počet instancí")
-                .addIntegerColumn(55, 55, "ks", v -> v.instances)
-                .addStringColumn(55, 55, "%",
-                        v -> String.format("%.2f", v.instancesRate))
+            .addInnerColumn(rb.getString("extension.stats.table.instances"))
+                .addIntegerColumn(55, 55, rb.getString("extension.stats.table.pieces"), v -> v.instances)
+                .addStringColumn(55, 55, "%", v -> String.format("%.2f", v.instancesRate))
                 .cancelInner();
 
         // text při prázdné tabulce
-        table.setPlaceholder(new Text("Žádné položky"));
+        table.setPlaceholder(new Text(rb.getString("extension.stats.table.placeholder")));
     }
 
     @FXML
@@ -79,10 +78,10 @@ public class StatsController implements Initializable {
         updateTable(area);
     }
 
-    public void updateTable(ElementArea area) {
+    private void updateTable(ElementArea area) {
         // množina tříd
         Set<Class<?>> classes = area.stream()
-                                    .map(element -> element.getClass())
+                                    .map(Element::getClass)
                                     .collect(Collectors.toSet());
         // spočítání výskytu...
         List<ElementStats> collect = classes.stream()

@@ -24,7 +24,7 @@ import java.util.*;
  * používat pro vnitřní potřebu (např. k duplikaci elementů, ukládání...).
  * </p>
  *
- * @version 2016-06-20
+ * @version 2017-07-08
  * @author Patrik Harag
  */
 public class BrushManager {
@@ -72,9 +72,19 @@ public class BrushManager {
     }
 
     public Brush getBrush(String name) {
-        return getBrushesAll().stream()
+        Optional<Brush> brush = getBrushesAll().stream()
                 .filter(b -> b.getInfo().getName().equalsIgnoreCase(name))
-                .findFirst().orElseThrow(() -> new NoSuchElementException(name));
+                .findFirst();
+
+        if (brush.isPresent())
+            return brush.get();
+
+        // použití aliasů
+        return getBrushesAll().stream()
+                .filter(b -> b.getInfo().getAliases().stream()
+                        .anyMatch(a -> a.equalsIgnoreCase(name)))
+                .findFirst()
+                    .orElseThrow(() -> new NoSuchElementException(name));
     }
 
     public List<Brush> getProducers(Element element) {

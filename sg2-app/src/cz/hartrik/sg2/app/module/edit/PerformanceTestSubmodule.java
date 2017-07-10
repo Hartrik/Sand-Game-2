@@ -2,6 +2,7 @@
 package cz.hartrik.sg2.app.module.edit;
 
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.app.service.Require;
 import cz.hartrik.sg2.app.service.ServiceManager;
@@ -20,12 +21,12 @@ public class PerformanceTestSubmodule implements MenuSubmodule {
     public MenuItem[] createMenuItems(Application app) {
         ServiceManager manager = app.getServiceManager();
 
-        MenuItem iSandTest = new MenuItem("Test výkonu - písek");
+        MenuItem iSandTest = new MenuItem(Strings.get("module.edit.benchmark-1"));
         iSandTest.setOnAction((e) -> {
             manager.run(PerformanceTestServices.SERVICE_TEST_SAND_FALL);
         });
 
-        MenuItem iBenchmark = new MenuItem("Test výkonu - benchmark");
+        MenuItem iBenchmark = new MenuItem(Strings.get("module.edit.benchmark-2"));
         iBenchmark.setOnAction((e) -> {
             manager.run(PerformanceTestServices.SERVICE_TEST_BENCHMARK);
         });

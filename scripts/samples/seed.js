@@ -1,8 +1,8 @@
-// zaseje trávu všude, kde je to možné
+// Sows grass everywhere
 
 var air = canvas.getBackground();
-var soilBrush = brush("hlína");
-var seedBrush = brush("semínka trávy");
+var soilBrush = brush(41);
+var seedBrush = brush(110);
 
 canvas.forEach(function(element, x, y) {
     if (y == 0 || y == canvas.getHeight()) return;

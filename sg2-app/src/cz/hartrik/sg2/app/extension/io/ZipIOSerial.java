@@ -1,6 +1,7 @@
 
 package cz.hartrik.sg2.app.extension.io;
 
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.world.ElementArea;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class ZipIOSerial<T extends ElementArea> extends ZipIO<T> {
 
     @Override
     public String getInfo() {
-        return "Serializovaná data";
+        return Strings.get("extension.io.type.sgs");
     }
 
     @Override

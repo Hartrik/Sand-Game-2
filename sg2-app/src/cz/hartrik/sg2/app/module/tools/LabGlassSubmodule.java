@@ -1,8 +1,10 @@
+
 package cz.hartrik.sg2.app.module.tools;
 
 import cz.hartrik.common.Color;
 import cz.hartrik.common.io.Resources;
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.extension.canvas.ToolPasteTemplateOnce;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.brush.Controls;
@@ -22,7 +24,7 @@ import javafx.scene.input.KeyCombination;
 /**
  * Sub-modul do menu, který vytvoří položky s šablonami laboratorního vybavení.
  *
- * @version 2016-07-10
+ * @version 2017-07-05
  * @author Patrik Harag
  */
 public class LabGlassSubmodule implements MenuSubmodule {
@@ -32,16 +34,36 @@ public class LabGlassSubmodule implements MenuSubmodule {
         Controls controls = app.getControls();
 
         return new MenuItem[] {
-                createItem(controls, "lg 1",   "Zkumavka",           "1"),
-                createItem(controls, "lg 2-1", "Baňka - kuželová 1", "2"),
-                createItem(controls, "lg 2-2", "Baňka - kuželová 2", "3"),
-                createItem(controls, "lg 3-1", "Baňka - kulatá 1",   "4"),
-                createItem(controls, "lg 3-2", "Baňka - kulatá 2",   "5"),
-                createItem(controls, "lg 3-3", "Baňka - kulatá 3",   "6"),
+                createItem(controls, "lg 1",   "1"),
+                createItem(controls, "lg 2-1", "2"),
+                createItem(controls, "lg 2-2", "3"),
+                createItem(controls, "lg 3-1", "4"),
+                createItem(controls, "lg 3-2", "5"),
+                createItem(controls, "lg 3-3", "6"),
         };
     }
 
-    protected MenuItem createItem(Controls controls,
+    private MenuItem createItem(Controls controls, String name, String accelerator) {
+        String key = "module.tools.template." + name.replace(' ', '.');
+        String title = Strings.get(key);
+
+        return createItem(controls, name, title, accelerator);
+    }
+
+    private MenuItem createItem(Controls controls,
+            String name, String title, String accelerator) {
+
+        Function<Color, Element> function = c -> (c.getFloatAlpha() > 0.5f)
+                ? new RefractoryMetal(c)
+                : null;
+
+        Supplier<TemplateWPreview> supp = () ->
+               new ImageColorTemplate(template(name), function);
+
+        return createItem(controls, title, icon(name), accelerator, supp);
+    }
+
+    private MenuItem createItem(Controls controls,
             String text, Image icon, String accelerator,
             Supplier<TemplateWPreview> supplier) {
 
@@ -58,19 +80,6 @@ public class LabGlassSubmodule implements MenuSubmodule {
         });
 
         return item;
-    }
-
-    protected MenuItem createItem(Controls controls,
-            String name, String title, String accelerator) {
-
-        Function<Color, Element> function = c -> (c.getFloatAlpha() > 0.5f)
-                ? new RefractoryMetal(c)
-                : null;
-
-        Supplier<TemplateWPreview> supp = () ->
-               new ImageColorTemplate(template(name), function);
-
-        return createItem(controls, title, icon(name), accelerator, supp);
     }
 
     protected Image template(String name) {

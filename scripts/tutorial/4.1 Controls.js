@@ -1,24 +1,25 @@
 
-// získání štětců
+// Getting primary and secondary brush
 
-var pBrush = controls.getPrimaryBrush()
-var sBrush = controls.getSecondaryBrush()
+var pBrush = controls.getPrimaryBrush();
+var sBrush = controls.getSecondaryBrush();
 
-// nastavení štětců (prohození stávajících)
+// Setting brushes (swap)
 
-controls.setPrimaryBrush(sBrush)
-controls.setSecondaryBrush(pBrush)
+controls.setPrimaryBrush(sBrush);
+controls.setSecondaryBrush(pBrush);
 
 
-// získání nástrojů
-// - obvykle jsou nastaveny stejné nástroje pro obě tlačítka
+// Getting tools
+// - usually the same for primary and secondary brush
 
-var pTool = controls.getPrimaryTool()
-var sTool = controls.getSecondaryTool()
+var pTool = controls.getPrimaryTool();
+var sTool = controls.getSecondaryTool();
 
-// nastavení nového štětce
 
-var newTool = ToolFactory.centeredTriangle(15, 15, 15)
+// Example of setting a different tool
 
-controls.setPrimaryTool(newTool)
-controls.setSecondaryTool(newTool)
+var newTool = ToolFactory.centeredTriangle(15, 15, 15);
+
+controls.setPrimaryTool(newTool);
+controls.setSecondaryTool(newTool);

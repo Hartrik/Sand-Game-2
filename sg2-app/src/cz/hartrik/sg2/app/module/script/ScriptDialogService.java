@@ -1,3 +1,4 @@
+
 package cz.hartrik.sg2.app.module.script;
 
 import cz.hartrik.jfxeditor.CodeEditor;
@@ -6,6 +7,7 @@ import cz.hartrik.jfxeditor.build.Template;
 import cz.hartrik.jfxeditor.codemirror.CMResources;
 import cz.hartrik.sg2.app.Application;
 import cz.hartrik.sg2.app.Frame;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.service.Service;
 import cz.hartrik.sg2.app.service.ServiceProvider;
 import java.util.Map;
@@ -56,7 +58,7 @@ public class ScriptDialogService {
         MyScriptDialog dialog = new MyScriptDialog(cd, owner, map, "js", def);
         dialog.setWidth(700);
         dialog.setMinHeight(500);
-        dialog.setTitle("Vlastní script");
+        dialog.setTitle(Strings.get("module.script.scripting-dialog"));
         dialog.setPreCode(api.loadInitCode());
 
         return dialog;

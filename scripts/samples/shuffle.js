@@ -1,4 +1,4 @@
-// promíchá obsah plátna
+// Shuffles the canvas content
 
 var width  = canvas.getWidth();
 var height = canvas.getHeight();

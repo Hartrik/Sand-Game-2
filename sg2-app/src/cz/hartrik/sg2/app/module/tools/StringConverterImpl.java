@@ -1,3 +1,4 @@
+
 package cz.hartrik.sg2.app.module.tools;
 
 import cz.hartrik.common.Exceptions;

@@ -1,5 +1,7 @@
+
 package cz.hartrik.sg2.app.module.tools;
 
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.module.script.ToolFactory;
 import cz.hartrik.sg2.brush.Controls;
 import javafx.geometry.Pos;
@@ -24,7 +26,7 @@ public class PanelToolCircle extends PanelTool {
     }
 
     private void init() {
-        final Label lRadius = new Label("Poloměr");
+        final Label lRadius = new Label(Strings.get("module.tools.circle.r"));
         lRadius.setPrefWidth(70);
 
         sRadius = createSpinner(min, max, def);

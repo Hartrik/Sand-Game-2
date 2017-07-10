@@ -1,5 +1,5 @@
-package cz.hartrik.sg2.app.module.tools;
 
+package cz.hartrik.sg2.app.module.tools;
 
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;

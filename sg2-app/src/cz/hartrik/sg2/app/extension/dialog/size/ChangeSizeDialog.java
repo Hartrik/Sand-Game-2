@@ -4,27 +4,30 @@ package cz.hartrik.sg2.app.extension.dialog.size;
 import cz.hartrik.common.Pair;
 import cz.hartrik.common.io.Resources;
 import cz.hartrik.common.ui.javafx.FXMLControlledStage;
+import cz.hartrik.sg2.app.Strings;
+import java.net.URL;
 import javafx.stage.Modality;
 import javafx.stage.Window;
 
 /**
  * Dialog pro výběr rozměrů plátna.
  *
- * @version 2016-06-21
+ * @version 2017-07-05
  * @author Patrik Harag
  */
 public class ChangeSizeDialog extends FXMLControlledStage<ChangeSizeController> {
 
     public static final String ICON = "icon - resize.png";
+    private static final URL URL = ChangeSizeDialog.class.getResource("ChangeSize.fxml");
 
     public ChangeSizeDialog(Window owner,
             int initalWidth, int initalHeight, int initialChunkSize) {
 
-        super(ChangeSizeDialog.class.getResource("ChangeSize.fxml"));
+        super(URL, Strings.getResourceBundle());
 
         initOwner(owner);
         initModality(Modality.APPLICATION_MODAL);
-        setTitle("Rozměry plátna");
+        setTitle(Strings.get("extension.size.title"));
         getIcons().setAll(Resources.image(ICON, getClass()));
 
         setMinWidth(540); setMinHeight(400);

@@ -1,5 +1,7 @@
+
 package cz.hartrik.sg2.app.module.tools;
 
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.module.script.ToolFactory;
 import cz.hartrik.sg2.brush.Controls;
 import javafx.beans.value.ChangeListener;
@@ -28,9 +30,9 @@ public class PanelToolTriangle extends PanelTool {
     }
 
     private void init() {
-        final Label lFirst = new Label("Délka a");
-        final Label lSecond = new Label("Délka b");
-        final Label lThird = new Label("Délka c");
+        final Label lFirst = new Label(Strings.get("module.tools.triangle.a"));
+        final Label lSecond = new Label(Strings.get("module.tools.triangle.b"));
+        final Label lThird = new Label(Strings.get("module.tools.triangle.c"));
 
         lFirst.setPrefWidth(70);
         lSecond.setPrefWidth(70);

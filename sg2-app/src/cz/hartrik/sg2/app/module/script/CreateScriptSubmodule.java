@@ -1,9 +1,11 @@
+
 package cz.hartrik.sg2.app.module.script;
 
 import cz.hartrik.common.Exceptions;
 import cz.hartrik.common.io.Resources;
 import cz.hartrik.common.ui.javafx.ExceptionDialog;
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.app.module.io.FileSubmodule;
 import java.awt.Desktop;
@@ -36,7 +38,7 @@ public class CreateScriptSubmodule implements MenuSubmodule {
         this.scriptFolder = scriptFolder;
         this.chooserSave = new FileChooser();
 
-        chooserSave.setTitle("Vytvořit nový script");
+        chooserSave.setTitle(Strings.get("module.script.create-new"));
         chooserSave.setInitialDirectory(scriptFolder.toFile());
         chooserSave.getExtensionFilters()
                 .add(new ExtensionFilter("JavaScript", "*.js"));
@@ -45,7 +47,7 @@ public class CreateScriptSubmodule implements MenuSubmodule {
     @Override
     public MenuItem[] createMenuItems(Application app) {
 
-        MenuItem item = new MenuItem("Vytvořit nový", loadImage());
+        MenuItem item = new MenuItem(Strings.get("module.script.create-new"), loadImage());
 
         item.setOnAction(e -> {
             app.getSyncTools().pauseBothLazy(() -> {
@@ -71,9 +73,9 @@ public class CreateScriptSubmodule implements MenuSubmodule {
         } catch (IOException ex) {
             ExceptionDialog dialog = new ExceptionDialog(ex);
             dialog.initOwner(owner);
-            dialog.setTitle("Došlo k chybě");
-            dialog.setHeaderText("Chyba při vytváření souboru");
-            dialog.setContentText("Došlo k neočekávané chybě vytváření souboru.");
+            dialog.setTitle(Strings.get("module.script.err-new.title"));
+            dialog.setHeaderText(Strings.get("module.script.err-new.header"));
+            dialog.setContentText(Strings.get("module.script.err-new.content"));
             dialog.showAndWait();
 
             return false;

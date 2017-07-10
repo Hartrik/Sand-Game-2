@@ -2,8 +2,9 @@
 package cz.hartrik.sg2.app.module.edit;
 
 import cz.hartrik.common.io.Resources;
-import cz.hartrik.sg2.app.extension.dialog.size.ChangeSizeDialog;
 import cz.hartrik.sg2.app.Application;
+import cz.hartrik.sg2.app.Strings;
+import cz.hartrik.sg2.app.extension.dialog.size.ChangeSizeDialog;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.app.service.Require;
 import cz.hartrik.sg2.app.service.ServiceManager;
@@ -27,7 +28,7 @@ public class SizeChangeSubmodule implements MenuSubmodule {
 
         Image icon = Resources.image(ChangeSizeDialog.ICON, ChangeSizeDialog.class);
 
-        MenuItem iChangeSize = new MenuItem("Změnit rozměry plátna");
+        MenuItem iChangeSize = new MenuItem(Strings.get("module.edit.resize"));
         iChangeSize.setGraphic(new ImageView(icon));
         iChangeSize.setAccelerator(KeyCombination.valueOf("shift+r"));
         iChangeSize.setOnAction((e) -> {

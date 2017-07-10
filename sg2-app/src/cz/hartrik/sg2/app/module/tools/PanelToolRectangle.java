@@ -1,5 +1,7 @@
+
 package cz.hartrik.sg2.app.module.tools;
 
+import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.module.script.ToolFactory;
 import cz.hartrik.sg2.brush.Controls;
 import javafx.beans.value.ChangeListener;
@@ -27,8 +29,8 @@ public class PanelToolRectangle extends PanelTool {
     }
 
     private void init() {
-        final Label lWidth = new Label("Šířka");
-        final Label lHeight = new Label("Výška");
+        final Label lWidth = new Label(Strings.get("module.tools.rect.w"));
+        final Label lHeight = new Label(Strings.get("module.tools.rect.h"));
 
         lWidth.setPrefWidth(70);
         lHeight.setPrefWidth(70);

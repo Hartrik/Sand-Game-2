@@ -1,50 +1,23 @@
 
 package cz.hartrik.sg2.app.sandbox;
 
+import cz.hartrik.sg2.app.Strings;
+import cz.hartrik.sg2.app.extension.io.*;
+import cz.hartrik.sg2.app.module.*;
+import cz.hartrik.sg2.app.module.about.AboutSubmodule;
+import cz.hartrik.sg2.app.module.edit.*;
+import cz.hartrik.sg2.app.module.io.*;
+import cz.hartrik.sg2.app.module.misc.ModuleBrushListFilterable;
+import cz.hartrik.sg2.app.module.misc.ModuleBrushThumbnails;
+import cz.hartrik.sg2.app.module.misc.ModulePerformanceInfo;
+import cz.hartrik.sg2.app.module.options.*;
+import cz.hartrik.sg2.app.module.script.CreateScriptSubmodule;
+import cz.hartrik.sg2.app.module.script.MenuModuleScriptFolder;
+import cz.hartrik.sg2.app.module.script.ModuleToolBarScriptDialog;
 import cz.hartrik.sg2.app.module.tools.PasteSaveSubmodule;
 import cz.hartrik.sg2.app.module.tools.RandomizerSubmodule;
 import cz.hartrik.sg2.app.module.tools.ShapesSubmodule;
 import cz.hartrik.sg2.app.module.tools.TemplatesSubmodule;
-import cz.hartrik.sg2.app.module.script.MenuModuleScriptFolder;
-import cz.hartrik.sg2.app.module.script.ModuleToolBarScriptDialog;
-import cz.hartrik.sg2.app.module.script.CreateScriptSubmodule;
-import cz.hartrik.sg2.app.module.misc.ModuleBrushThumbnails;
-import cz.hartrik.sg2.app.module.misc.ModuleBrushListFilterable;
-import cz.hartrik.sg2.app.module.misc.ModulePerformanceInfo;
-import cz.hartrik.sg2.app.module.edit.TransformSubmodule;
-import cz.hartrik.sg2.app.module.edit.SizeChangeSubmodule;
-import cz.hartrik.sg2.app.module.edit.EditServices;
-import cz.hartrik.sg2.app.module.edit.PerformanceTestSubmodule;
-import cz.hartrik.sg2.app.module.edit.ModuleToolBarSizeChange;
-import cz.hartrik.sg2.app.module.edit.EditSubmodule;
-import cz.hartrik.sg2.app.module.options.EngineSpeedSubmodule;
-import cz.hartrik.sg2.app.module.options.ModuleToolBarScale;
-import cz.hartrik.sg2.app.module.options.ModuleToolBarProcessorSwitch;
-import cz.hartrik.sg2.app.module.options.RendererOptionsSubmodule;
-import cz.hartrik.sg2.app.module.options.NoBottomSubmodule;
-import cz.hartrik.sg2.app.module.io.FileSubmodule;
-import cz.hartrik.sg2.app.module.io.ModuleDragAndDropIO;
-import cz.hartrik.sg2.app.module.io.OpenPathSubmodule;
-import cz.hartrik.sg2.app.module.io.ScreenshotSubmodule;
-import cz.hartrik.sg2.app.module.io.StatsSubmodule;
-import cz.hartrik.sg2.app.module.io.ScreenshotService;
-import cz.hartrik.sg2.app.module.about.AboutSubmodule;
-import cz.hartrik.sg2.app.extension.io.JFXUIProvider;
-import cz.hartrik.sg2.app.extension.io.BasicIOProvider;
-import cz.hartrik.sg2.app.extension.io.JFXMultiFileChooser;
-import cz.hartrik.sg2.app.extension.io.IOManager;
-import cz.hartrik.sg2.app.extension.io.ResourceTypeManager;
-import cz.hartrik.sg2.app.extension.io.IOProvider;
-import cz.hartrik.sg2.app.extension.io.ZipIOBrushTemplate;
-import cz.hartrik.sg2.app.extension.io.ElementAreaProvider;
-import cz.hartrik.sg2.app.extension.io.ZipIO;
-import cz.hartrik.sg2.app.extension.io.UIProvider;
-import cz.hartrik.sg2.app.extension.io.ZipIOSerial;
-import cz.hartrik.sg2.app.module.ApplicationModule;
-import cz.hartrik.sg2.app.module.CompoundMenuSubmodule;
-import cz.hartrik.sg2.app.module.MenuModule;
-import cz.hartrik.sg2.app.module.ModuleToolBarSimpleButton;
-import cz.hartrik.sg2.app.module.TitleMenuSubmodule;
 import cz.hartrik.sg2.brush.manage.BrushManager;
 import cz.hartrik.sg2.world.BasicElement;
 import cz.hartrik.sg2.world.ModularWorld;
@@ -55,7 +28,7 @@ import java.util.function.Supplier;
 import javafx.stage.Window;
 
 /**
- * @version 2016-07-10
+ * @version 2017-07-05
  * @author Patrik Harag
  */
 public class MainModules {
@@ -93,37 +66,37 @@ public class MainModules {
             new ModuleBrushThumbnails(32, 32),
             new ModuleBrushListFilterable(),
 
-            new MenuModule("Soubor")
+            new MenuModule(Strings.get("module.io"))
                     .add(new FileSubmodule(ioManager))
                     .add(new CompoundMenuSubmodule(
                             new StatsSubmodule(),
                             new ScreenshotSubmodule())),
 
-            new MenuModule("Úpravy")
+            new MenuModule(Strings.get("module.edit"))
                     .add(new SizeChangeSubmodule())
                     .add(new TransformSubmodule())
                     .add(new EditSubmodule())
                     .add(new PerformanceTestSubmodule()),
 
-            new MenuModule("Nástroje")
-                    .add(new TitleMenuSubmodule("Základní tvary"))
+            new MenuModule(Strings.get("module.tools"))
+                    .add(new TitleMenuSubmodule(Strings.get("module.tools.basic-tools")))
                     .add(new ShapesSubmodule())
                     .add(new RandomizerSubmodule())
-                    .add(new TitleMenuSubmodule("Šablony"))
+                    .add(new TitleMenuSubmodule(Strings.get("module.tools.templates")))
                     .add(new PasteSaveSubmodule(ioManager))
                     .add(new TemplatesSubmodule()),
 
-            new MenuModule("Možnosti")
+            new MenuModule(Strings.get("module.options"))
                     .add(new EngineSpeedSubmodule(EngineSpeedSubmodule.Settings.PROCESSOR))
                     .add(new RendererOptionsSubmodule())
                     .add(new NoBottomSubmodule()),
 
-            new MenuModuleScriptFolder("Scripty", scripts)
+            new MenuModuleScriptFolder(Strings.get("module.script"), scripts)
                     .add(new CompoundMenuSubmodule(
-                            new OpenPathSubmodule(scripts, "Otevřít složku se scripty"),
+                            new OpenPathSubmodule(scripts, Strings.get("module.script.open-folder")),
                             new CreateScriptSubmodule(scripts))),
 
-            new MenuModule("Informace")
+            new MenuModule(Strings.get("module.about"))
                     .add(new AboutSubmodule()),
 
 //            new MenuModule("* Test")
@@ -131,10 +104,10 @@ public class MainModules {
 
             new ModuleToolBarProcessorSwitch(),
             new ModuleToolBarSizeChange(),
-            new ModuleToolBarScale("Přiblížení:"),
-            new ModuleToolBarSimpleButton("Naplnit", EditServices.SERVICE_EDIT_FILL),
-            new ModuleToolBarSimpleButton("Screenshot", ScreenshotService.SERVICE_SCREENSHOT),
-            new ModuleToolBarScriptDialog("Script"),
+            new ModuleToolBarScale(),
+            new ModuleToolBarSimpleButton(Strings.get("module.edit.fill"), EditServices.SERVICE_EDIT_FILL),
+            new ModuleToolBarSimpleButton(Strings.get("module.io.scr"), ScreenshotService.SERVICE_SCREENSHOT),
+            new ModuleToolBarScriptDialog(Strings.get("module.script.scripting-dialog")),
 
             new ModuleDragAndDropIO(ioManager),
         };

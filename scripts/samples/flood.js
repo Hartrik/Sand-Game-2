@@ -1,8 +1,8 @@
-// postupně zaplaví plátno vodou až do určité výšky
+// Slowly fills the canvas with water up to a certain height
 
-var water_level = 250;  // maximální výška
-var delay = 20;         // prodleva mezi cykly v milisekundách
-var water = brush("voda");
+var water_level = 250;
+var delay = 20;  // milliseconds
+var water = brush(70);
 
 new java.lang.Thread(function() {
     var predicate = function(e) { return Elements.isAir(e) };

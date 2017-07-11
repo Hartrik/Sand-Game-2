@@ -5,14 +5,17 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 /**
  * This class manages externalized strings.
  *
  * @author Patrik Harag
- * @version 2017-07-05
+ * @version 2017-07-11
  */
 public class Strings {
+
+    private static final Logger LOGGER = Logger.getLogger(Strings.class.getName());
 
     /**
      * SingletonHolder is loaded on the first execution of Singleton.getInstance()
@@ -50,7 +53,7 @@ public class Strings {
             return getInstance().resourceBundle.getString(key);
 
         } catch (MissingResourceException exc) {
-            System.err.println("Property not found: '" + key + "'");
+            LOGGER.severe("Property not found: '" + key + "'");
             return key;  // better than exceptions everywhere
         }
     }

@@ -7,18 +7,25 @@ import cz.hartrik.sg2.app.ApplicationBuilder;
 import cz.hartrik.sg2.app.Frame;
 import cz.hartrik.sg2.app.module.io.FileServices;
 import cz.hartrik.sg2.app.service.ServiceManager;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 import javafx.stage.Stage;
 
 /**
  * Vstupní třída.
  *
- * @version 2017-07-10
+ * @version 2017-07-11
  * @author Patrik Harag
  */
 public class Main extends javafx.application.Application {
+
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+    private static final String LOGGING_CONFIG = "/logging.properties";
 
     public static final String APP_NAME = "Sand Game 2";
     public static final String APP_VERSION = "2.03 Beta";
@@ -33,6 +40,7 @@ public class Main extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        initLogging();
         processParameters(getParameters());
 
         setUserAgentStylesheet(STYLESHEET_MODENA);
@@ -51,6 +59,17 @@ public class Main extends javafx.application.Application {
         frame.show();
     }
 
+    private void initLogging() {
+        InputStream inputStream = getClass().getResourceAsStream(LOGGING_CONFIG);
+
+        try {
+            LogManager.getLogManager().readConfiguration(inputStream);
+        } catch (IOException e) {
+            LOGGER.severe("Could not load default logging.properties file");
+            LOGGER.severe(e.getMessage());
+        }
+    }
+
     private void processParameters(Parameters parameters) {
         Map<String, String> map = parameters.getNamed();
 
@@ -59,7 +78,7 @@ public class Main extends javafx.application.Application {
             try {
                 Locale.setDefault(Locale.forLanguageTag(locale));
             } catch (Exception e) {
-                System.err.printf("Cannot set locale to '%s'%n", locale);
+                LOGGER.severe(String.format("Cannot set locale to '%s'%n", locale));
             }
         }
     }

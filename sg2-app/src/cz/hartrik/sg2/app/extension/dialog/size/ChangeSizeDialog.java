@@ -21,7 +21,7 @@ public class ChangeSizeDialog extends FXMLControlledStage<ChangeSizeController> 
     private static final URL URL = ChangeSizeDialog.class.getResource("ChangeSize.fxml");
 
     public ChangeSizeDialog(Window owner,
-            int initalWidth, int initalHeight, int initialChunkSize) {
+            int initialWidth, int initialHeight, int initialChunkSize) {
 
         super(URL, Strings.getResourceBundle());
 
@@ -33,7 +33,7 @@ public class ChangeSizeDialog extends FXMLControlledStage<ChangeSizeController> 
         setMinWidth(540); setMinHeight(400);
         setMaxWidth(700); setMaxHeight(500);
 
-        controller.setInital(initalWidth, initalHeight, initialChunkSize);
+        controller.setInitial(initialWidth, initialHeight, initialChunkSize);
         controller.reset();
     }
 

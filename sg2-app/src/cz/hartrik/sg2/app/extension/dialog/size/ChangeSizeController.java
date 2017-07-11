@@ -13,12 +13,14 @@ import javafx.stage.Stage;
 /**
  * Controller ovládající panel s nastevením rozměrů plátna.
  *
- * @version 2016-06-21
+ * @version 2017-07-11
  * @author Patrik Harag
  */
 public class ChangeSizeController implements Initializable {
 
-    private int initalWidth, initalHeight, initialChunkSize;
+    private static final int MAX_SIZE = 1500;
+
+    private int initialWidth, initialHeight, initialChunkSize;
     private int lastWidth, lastHeight;
     private boolean changed = false;
 
@@ -33,8 +35,13 @@ public class ChangeSizeController implements Initializable {
         sliderChunkSize.valueProperty().addListener((ov, o, n) -> {
             int chunkSize = n.intValue();
 
+            int max = MAX_SIZE - (MAX_SIZE % chunkSize);
+            sliderWidth.setMax(max);
+            sliderHeight.setMax(max);
+
             sliderWidth.setMin(chunkSize);
             sliderHeight.setMin(chunkSize);
+
             sliderWidth.setBlockIncrement(chunkSize);
             sliderHeight.setBlockIncrement(chunkSize);
             sliderWidth.setMajorTickUnit(chunkSize);
@@ -64,16 +71,16 @@ public class ChangeSizeController implements Initializable {
                 (int) sliderWidth.getValue(), (int) sliderHeight.getValue()));
     }
 
-    public void setInital(int width, int height, int chunkSize) {
-        this.initalWidth = this.lastWidth = width;
-        this.initalHeight = this.lastHeight = height;
+    public void setInitial(int width, int height, int chunkSize) {
+        this.initialWidth = this.lastWidth = width;
+        this.initialHeight = this.lastHeight = height;
         this.initialChunkSize = chunkSize;
     }
 
     @FXML
     public void reset() {
-        sliderWidth.setValue(initalWidth);
-        sliderHeight.setValue(initalHeight);
+        sliderWidth.setValue(initialWidth);
+        sliderHeight.setValue(initialHeight);
         sliderChunkSize.setValue(initialChunkSize);
     }
 

@@ -1,7 +1,9 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io.zip.resource;
 
 import cz.hartrik.common.Point;
+import cz.hartrik.sg2.io.zip.ParseUtils;
+import cz.hartrik.sg2.io.zip.SimpleDOM;
 import cz.hartrik.sg2.world.ElementArea;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

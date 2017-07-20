@@ -2,6 +2,9 @@
 package cz.hartrik.sg2.app.extension.io;
 
 import cz.hartrik.sg2.app.Strings;
+import cz.hartrik.sg2.io.FileTypeIOProvider;
+import cz.hartrik.sg2.io.IFileChooser;
+import cz.hartrik.sg2.io.IOProvider;
 import java.io.File;
 import java.nio.file.Path;
 import javafx.stage.FileChooser;
@@ -11,7 +14,7 @@ import javafx.stage.Window;
 /**
  * 
  * 
- * @version 2017-07-05
+ * @version 2017-07-19
  * @author Patrik Harag
  */
 public class JFXMultiFileChooser implements IFileChooser<Window> {
@@ -40,8 +43,10 @@ public class JFXMultiFileChooser implements IFileChooser<Window> {
                 new ExtensionFilter(Strings.get("extension.io.type.all"), filters));
         
         for (FileTypeIOProvider<?> provider : ioProvider.getProviders()) {
-            final ExtensionFilter filter = new ExtensionFilter(
-                    provider.getInfo(), "*." + provider.getExtension());
+            String info = Strings.get("extension.io.type." + provider.getExtension());
+            String extension = "*." + provider.getExtension();
+
+            ExtensionFilter filter = new ExtensionFilter(info, extension);
 
             chooserSave.getExtensionFilters().add(filter);
             chooserOpen.getExtensionFilters().add(filter);

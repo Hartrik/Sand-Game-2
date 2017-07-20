@@ -1,7 +1,11 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io.zip;
 
-import cz.hartrik.sg2.app.Strings;
+import cz.hartrik.sg2.io.AppInfo;
+import cz.hartrik.sg2.io.ElementAreaProvider;
+import cz.hartrik.sg2.io.zip.resource.ResourceSerialized;
+import cz.hartrik.sg2.io.zip.resource.ResourceType;
+import cz.hartrik.sg2.io.zip.resource.ResourceTypeManager;
 import cz.hartrik.sg2.world.ElementArea;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -12,7 +16,7 @@ import java.util.Map;
  *
  * Dokáže načíst všechny typy resources.
  *
- * @version 2016-06-21
+ * @version 2017-07-19
  * @author Patrik Harag
  * @param <T> vstup/výstup
  */
@@ -20,15 +24,10 @@ public class ZipIOSerial<T extends ElementArea> extends ZipIO<T> {
 
     public static final String FILE_DATA = "data.ser";
 
-    public ZipIOSerial(ElementAreaProvider<T> areaProvider,
-            ResourceTypeManager resourceTypeManager) {
+    public ZipIOSerial(AppInfo appInfo, ElementAreaProvider<T> areaProvider,
+                       ResourceTypeManager resourceTypeManager) {
 
-        super(areaProvider, resourceTypeManager);
-    }
-
-    @Override
-    public String getInfo() {
-        return Strings.get("extension.io.type.sgs");
+        super(appInfo, areaProvider, resourceTypeManager);
     }
 
     @Override

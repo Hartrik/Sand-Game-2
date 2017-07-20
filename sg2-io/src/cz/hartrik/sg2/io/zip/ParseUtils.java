@@ -1,7 +1,9 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io.zip;
 
 import cz.hartrik.common.Point;
+import cz.hartrik.sg2.io.ElementAreaProvider;
+import cz.hartrik.sg2.io.ParseException;
 import cz.hartrik.sg2.world.ElementArea;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

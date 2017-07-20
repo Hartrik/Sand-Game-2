@@ -1,5 +1,5 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io.zip;
 
 import cz.hartrik.common.Exceptions;
 import java.util.Stack;

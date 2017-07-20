@@ -8,7 +8,7 @@ import cz.hartrik.sg2.app.module.script.ToolFactory;
 import cz.hartrik.sg2.app.sandbox.element.StandardBrushCollection;
 import cz.hartrik.sg2.brush.jfx.JFXControls;
 import cz.hartrik.sg2.brush.manage.BrushManager;
-import cz.hartrik.sg2.brush.manage.ObservedBrushManagerBC;
+import cz.hartrik.sg2.brush.manage.ObservedBrushManager;
 import cz.hartrik.sg2.engine.*;
 import cz.hartrik.sg2.engine.process.HeatProcessor;
 import cz.hartrik.sg2.engine.process.Tools;
@@ -124,10 +124,8 @@ public class FrameController extends FrameControllerTemplate implements Initiali
 
     // brush manager
 
-    private final ObservedBrushManagerBC brushManager = StandardBrushCollection.create(
-            () -> new ObservedBrushManagerBC(
-                    StandardBrushCollection.getVersion(),
-                    StandardBrushCollection::getBCConverter),
+    private final ObservedBrushManager brushManager = new StandardBrushCollection().create(
+            ObservedBrushManager::new,
             () -> engine.getProcessor().getTools());
 
     public BrushManager getBrushManager() {

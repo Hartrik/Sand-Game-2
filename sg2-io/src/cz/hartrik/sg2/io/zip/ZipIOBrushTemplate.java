@@ -1,7 +1,9 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io.zip;
 
-import cz.hartrik.sg2.app.Strings;
+import cz.hartrik.sg2.io.AppInfo;
+import cz.hartrik.sg2.io.ElementAreaProvider;
+import cz.hartrik.sg2.io.zip.resource.*;
 import cz.hartrik.sg2.world.ElementArea;
 import java.util.*;
 
@@ -12,21 +14,16 @@ import java.util.*;
  *
  * Dokáže načíst všechny typy resources.
  *
- * @version 2016-06-21
+ * @version 2017-07-19
  * @author Patrik Harag
  * @param <T>
  */
 public class ZipIOBrushTemplate <T extends ElementArea> extends ZipIO<T> {
 
-    public ZipIOBrushTemplate(ElementAreaProvider<T> areaProvider,
-            ResourceTypeManager resourceTypeManager) {
+    public ZipIOBrushTemplate(AppInfo appInfo, ElementAreaProvider<T> areaProvider,
+                              ResourceTypeManager resourceTypeManager) {
 
-        super(areaProvider, resourceTypeManager);
-    }
-
-    @Override
-    public String getInfo() {
-        return Strings.get("extension.io.type.sgb");
+        super(appInfo, areaProvider, resourceTypeManager);
     }
 
     @Override

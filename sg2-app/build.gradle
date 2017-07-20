@@ -2,27 +2,7 @@
 dependencies {
     compile project(':sg2-core')
     compile project(':sg2-core-jfx')
+    compile project(':sg2-io')
 
     compile fileTree(dir: 'lib', include: '*.jar')
-}
-
-sourceSets {
-    main {
-        java {
-            srcDir 'src'
-        }
-        resources {
-            srcDirs 'src', 'src-resources'
-            excludes ['**/*.java']
-        }
-    }
-    test {
-        java {
-            srcDir 'test'
-        }
-        resources {
-            srcDirs 'test', 'test-resources'
-            excludes ['**/*.java']
-        }
-    }
 }

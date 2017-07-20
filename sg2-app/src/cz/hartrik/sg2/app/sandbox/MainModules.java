@@ -19,6 +19,11 @@ import cz.hartrik.sg2.app.module.tools.RandomizerSubmodule;
 import cz.hartrik.sg2.app.module.tools.ShapesSubmodule;
 import cz.hartrik.sg2.app.module.tools.TemplatesSubmodule;
 import cz.hartrik.sg2.brush.manage.BrushManager;
+import cz.hartrik.sg2.io.*;
+import cz.hartrik.sg2.io.zip.resource.ResourceTypeManager;
+import cz.hartrik.sg2.io.zip.ZipIO;
+import cz.hartrik.sg2.io.zip.ZipIOBrushTemplate;
+import cz.hartrik.sg2.io.zip.ZipIOSerial;
 import cz.hartrik.sg2.world.BasicElement;
 import cz.hartrik.sg2.world.ModularWorld;
 import java.nio.file.Path;
@@ -44,8 +49,9 @@ public class MainModules {
 
         ResourceTypeManager rtManager = new ResourceTypeManager(bmSupplier, 0);
 
-        ZipIO<ModularWorld> serZipIO = new ZipIOSerial<>(areaProvider, rtManager);
-        ZipIO<ModularWorld> tmpZipIO = new ZipIOBrushTemplate<>(areaProvider, rtManager);
+        AppInfo appInfo = new AppInfo(Main.APP_NAME, Main.APP_VERSION);
+        ZipIO<ModularWorld> serZipIO = new ZipIOSerial<>(appInfo, areaProvider, rtManager);
+        ZipIO<ModularWorld> tmpZipIO = new ZipIOBrushTemplate<>(appInfo, areaProvider, rtManager);
 
         IOProvider<ModularWorld> ioProvider = new BasicIOProvider<>(Arrays.asList(serZipIO, tmpZipIO));
 

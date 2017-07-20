@@ -1,14 +1,13 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io;
 
 import cz.hartrik.common.Checker;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
-import javafx.application.Platform;
 
 /**
- * @version 2016-07-10
+ * @version 2017-07-19
  * @author Patrik Harag
  * @param <T> typ ukládaných dat
  * @param <U> typ objektu, který je nutný pro výstup - např. hlavní okno, ke
@@ -59,11 +58,11 @@ public class IOManager<T, U> {
 
     // --- ostatní gettery a settery
 
-    protected UIProvider<U> getUIProvider() {
+    public UIProvider<U> getUIProvider() {
         return uiProvider;
     }
 
-    protected IOProvider<T> getIOProvider() {
+    public IOProvider<T> getIOProvider() {
         return ioProvider;
     }
 
@@ -143,11 +142,11 @@ public class IOManager<T, U> {
         } catch (IOException ex) {
             // runLater - protože jinak by po celou dobu zobrazení dialogu
             // zůstala viditelná např. grafika D&D
-            Platform.runLater(() -> {
+            getUIProvider().runLater(() -> {
                 getUIProvider().onLoadIOException(ex, context);
             });
         } catch (ParseException ex) {
-            Platform.runLater(() -> {
+            getUIProvider().runLater(() -> {
                 getUIProvider().onLoadParseException(ex, context);
             });
         }
@@ -166,16 +165,6 @@ public class IOManager<T, U> {
         if (newFile) clearPath();
 
         return newFile;
-    }
-
-    // gettery
-
-    public UIProvider<U> getUiProvider() {
-        return uiProvider;
-    }
-
-    public IOProvider<T> getIoProvider() {
-        return ioProvider;
     }
 
 }

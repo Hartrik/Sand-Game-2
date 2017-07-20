@@ -4,11 +4,11 @@ package cz.hartrik.sg2.app.module.tools;
 import cz.hartrik.sg2.app.Application;
 import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.extension.canvas.ToolPasteTemplateOnce;
-import cz.hartrik.sg2.app.extension.io.IOManager;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.app.service.Service;
 import cz.hartrik.sg2.app.service.ServiceProvider;
 import cz.hartrik.sg2.brush.Controls;
+import cz.hartrik.sg2.io.IOManager;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.template.ElementAreaTemplate;
 import java.nio.file.Path;
@@ -48,7 +48,7 @@ public class PasteSaveSubmodule implements MenuSubmodule {
     public void pasteFromSave(Application app) {
         app.getSyncTools().pauseBothLazy(() -> {
 
-            Path path = manager.getUiProvider().getFileChooser()
+            Path path = manager.getUIProvider().getFileChooser()
                     .openFile(app.getStage());
 
             if (path == null)

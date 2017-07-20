@@ -1,6 +1,7 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io.zip.resource;
 
+import cz.hartrik.sg2.io.zip.SimpleDOM;
 import cz.hartrik.sg2.world.ElementArea;
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,9 +1,14 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io.zip;
 
 import cz.hartrik.common.Exceptions;
 import cz.hartrik.common.io.NioUtil;
-import cz.hartrik.sg2.app.sandbox.Main;
+import cz.hartrik.sg2.io.AppInfo;
+import cz.hartrik.sg2.io.ElementAreaProvider;
+import cz.hartrik.sg2.io.FileTypeIOProvider;
+import cz.hartrik.sg2.io.ParseException;
+import cz.hartrik.sg2.io.zip.resource.ResourceType;
+import cz.hartrik.sg2.io.zip.resource.ResourceTypeManager;
 import cz.hartrik.sg2.world.ChunkedArea;
 import cz.hartrik.sg2.world.ElementArea;
 import java.io.BufferedOutputStream;
@@ -23,7 +28,7 @@ import org.w3c.dom.NodeList;
 /**
  * Abstraktní třída pro I/O do ZIP souboru.
  *
- * @version 2016-06-21
+ * @version 2017-07-19
  * @author Patrik Harag
  * @param <T>
  */
@@ -32,11 +37,13 @@ public abstract class ZipIO<T extends ElementArea>
 
     public static final String FILE_CONTROLLER = "controller.xml";
 
+    protected final AppInfo appInfo;
     protected final ElementAreaProvider<T> areaProvider;
     protected final ResourceTypeManager resourceTypeManager;
 
-    public ZipIO(ElementAreaProvider<T> areaProvider,
+    public ZipIO(AppInfo appInfo, ElementAreaProvider<T> areaProvider,
             ResourceTypeManager resourceTypeManager) {
+        this.appInfo = appInfo;
 
         this.areaProvider = areaProvider;
         this.resourceTypeManager = resourceTypeManager;
@@ -60,8 +67,8 @@ public abstract class ZipIO<T extends ElementArea>
             zipStream.putNextEntry(new ZipEntry(FILE_CONTROLLER));
 
             XMLController.Data d = new XMLController.Data() {{
-                appName = Main.APP_NAME;
-                appVersion = Main.APP_VERSION;
+                appName = appInfo.getName();
+                appVersion = appInfo.getVersion();
                 title = NioUtil.removeExtension(path.getFileName().toString());
                 description = "";
                 contentWidth = data.getWidth();

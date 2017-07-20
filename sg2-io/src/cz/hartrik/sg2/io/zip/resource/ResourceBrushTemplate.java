@@ -1,11 +1,12 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io.zip.resource;
 
 import cz.hartrik.common.Point;
-import cz.hartrik.common.reflect.TODO;
-import cz.hartrik.sg2.app.sandbox.element.StandardBrushCollection;
 import cz.hartrik.sg2.brush.Brush;
+import cz.hartrik.sg2.brush.manage.BrushCollection;
 import cz.hartrik.sg2.brush.manage.BrushManager;
+import cz.hartrik.sg2.io.zip.ParseUtils;
+import cz.hartrik.sg2.io.zip.SimpleDOM;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.Inserter;
@@ -22,10 +23,9 @@ import org.w3c.dom.NodeList;
 /**
  * ID štětců uložená v png obrázku.
  *
- * @version 2016-06-20
+ * @version 2017-07-20
  * @author Patrik Harag
  */
-@TODO("Podporuje pouze StandardBrushCollection")
 public class ResourceBrushTemplate implements ResourceType {
 
     public static final String IDENTIFIER = "brush template";
@@ -33,9 +33,7 @@ public class ResourceBrushTemplate implements ResourceType {
     private final Supplier<BrushManager> supplier;
     private final int defaultBrushID;
 
-    public ResourceBrushTemplate(
-            Supplier<BrushManager> supplier, int defaultBrushID) {
-
+    public ResourceBrushTemplate(Supplier<BrushManager> supplier, int defaultBrushID) {
         this.supplier = supplier;
         this.defaultBrushID = defaultBrushID;
     }
@@ -49,9 +47,12 @@ public class ResourceBrushTemplate implements ResourceType {
 
     @Override
     public void writeXML(SimpleDOM dom) {
+        BrushManager brushManager = supplier.get();
+        BrushCollection brushCollection = brushManager.getBrushCollection();
+
         dom.addNode("brush-manager")
-                .addAttribute("version", StandardBrushCollection.getVersion())
-                .addText("standard")
+                .addAttribute("version", brushCollection.getVersion())
+                .addText(brushCollection.getName())
                 .end();
     }
 
@@ -85,14 +86,16 @@ public class ResourceBrushTemplate implements ResourceType {
     public void loadData(InputStream inputStream, Node node, ElementArea area)
             throws IOException {
 
+        BrushManager brushManager = supplier.get();
+
         BufferedImage image = ImageIO.read(inputStream);
-        IntUnaryOperator mapper = parseMapper(node);
+        IntUnaryOperator mapper = parseMapper(node, brushManager.getBrushCollection());
         Point position = ParseUtils.parsePosition(node);
 
-        apply(area, image, mapper, supplier.get(), position.getX(), position.getY());
+        apply(area, image, mapper, brushManager, position.getX(), position.getY());
     }
 
-    private IntUnaryOperator parseMapper(Node node) {
+    private IntUnaryOperator parseMapper(Node node, BrushCollection brushCollection) {
         NodeList nodes = node.getChildNodes();
 
         for (int i = 0; i < nodes.getLength(); i++) {
@@ -102,14 +105,14 @@ public class ResourceBrushTemplate implements ResourceType {
             if ("brush-manager".equals(nodeName)) {
                 Node attVersion = next.getAttributes().getNamedItem("version");
                 String version = attVersion.getNodeValue();
-                return StandardBrushCollection.getBCConverter(version);
+                return brushCollection.getBCConverter(version);
             }
         }
 
         return IntUnaryOperator.identity();
     }
 
-    protected void apply(ElementArea area, BufferedImage image, IntUnaryOperator convertor,
+    protected void apply(ElementArea area, BufferedImage image, IntUnaryOperator converter,
             BrushManager manager, int x, int y) {
 
         final int imgWidth = image.getWidth();
@@ -127,7 +130,7 @@ public class ResourceBrushTemplate implements ResourceType {
                 if (cX < 0 || cY < 0) continue;
 
                 final int id = ~image.getRGB(cX - x, cY - y);
-                final Brush brush = manager.getBrush(convertor.applyAsInt(id));
+                final Brush brush = manager.getBrush(converter.applyAsInt(id));
 
                 if (brush != null) {
                     inserter.apply(cX, cY, brush);

@@ -1,5 +1,5 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io;
 
 import cz.hartrik.common.io.NioUtil;
 import java.nio.file.Path;

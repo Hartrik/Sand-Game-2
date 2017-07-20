@@ -1,6 +1,7 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io.zip;
 
+import cz.hartrik.sg2.io.ParseException;
 import java.io.*;
 import java.util.function.Consumer;
 import javax.xml.parsers.DocumentBuilder;

@@ -1,10 +1,11 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io.zip.resource;
 
 import cz.hartrik.common.Point;
+import cz.hartrik.sg2.io.zip.ParseUtils;
+import cz.hartrik.sg2.io.zip.SimpleDOM;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.Inserter;
-import cz.hartrik.sg2.world.template.ElementAreaTemplate;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -61,12 +62,17 @@ public class ResourceSerialized implements ResourceType {
     }
 
     private void insert(ElementArea from, ElementArea to, int x, int y) {
-        ElementAreaTemplate template = new ElementAreaTemplate(from);
+        // TODO: use ElementAreaTemplate when possible
 
         Inserter<?> inserter = to.getInserter();
         inserter.setEraseTemperature(false);
 
-        template.insert(inserter, x, y);
+        from.forEachPoint((int ix, int iy) -> {
+            if (inserter.insert((x + ix), (y + iy), from.get(ix, iy))) {
+                float temp = from.getTemperature(ix, iy);
+                inserter.getArea().setTemperature((x + ix), (y + iy), temp);
+            }
+        });
     }
 
 }

@@ -1,5 +1,5 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io.zip.resource;
 
 import cz.hartrik.sg2.brush.manage.BrushManager;
 import java.util.Arrays;

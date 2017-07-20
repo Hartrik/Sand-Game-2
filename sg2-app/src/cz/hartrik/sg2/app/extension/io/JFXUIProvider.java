@@ -3,7 +3,11 @@ package cz.hartrik.sg2.app.extension.io;
 
 import cz.hartrik.common.ui.javafx.ExceptionDialog;
 import cz.hartrik.sg2.app.Strings;
+import cz.hartrik.sg2.io.IFileChooser;
+import cz.hartrik.sg2.io.ParseException;
+import cz.hartrik.sg2.io.UIProvider;
 import java.io.FileNotFoundException;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -12,7 +16,7 @@ import javafx.stage.Window;
 /**
  * Zajišťuje uživatelské rozhraní v JavaFX.
  * 
- * @version 2017-07-05
+ * @version 2017-07-19
  * @author Patrik Harag
  * @param <T> kontext
  */
@@ -81,4 +85,8 @@ public class JFXUIProvider<T extends Window> implements UIProvider<T> {
         return alert.showAndWait().map(b -> b == ButtonType.OK).orElse(false);
     }
 
+    @Override
+    public void runLater(Runnable runnable) {
+        Platform.runLater(runnable);
+    }
 }

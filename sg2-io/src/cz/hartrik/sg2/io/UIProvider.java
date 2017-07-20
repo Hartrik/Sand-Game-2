@@ -1,11 +1,11 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io;
 
 /**
  * Rozhraní, které zajišťuje uživatelské rozhraní správce vstupních/výstupních
  * operací. Může fungovat i bez ohledu na typ ukládaných dat.
  * 
- * @version 2015-01-12
+ * @version 2017-07-19
  * @author Patrik Harag
  * @param <T> typ objektu, který je nutný pro výstup - např. hlavní okno, ke
  *            kterému bude vytvořen dialog; nějaký proud atd...
@@ -21,5 +21,7 @@ public interface UIProvider<T> {
     boolean newFile(T context);
     
     IFileChooser<T> getFileChooser();
-    
+
+    void runLater(Runnable runnable);
+
 }

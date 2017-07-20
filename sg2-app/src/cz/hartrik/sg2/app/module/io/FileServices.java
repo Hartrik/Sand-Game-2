@@ -4,7 +4,7 @@ package cz.hartrik.sg2.app.module.io;
 import cz.hartrik.sg2.app.Application;
 import cz.hartrik.sg2.app.service.Service;
 import cz.hartrik.sg2.app.service.ServiceProvider;
-import cz.hartrik.sg2.app.extension.io.IOManager;
+import cz.hartrik.sg2.io.IOManager;
 import cz.hartrik.sg2.world.ModularWorld;
 import javafx.application.Platform;
 import javafx.stage.Window;

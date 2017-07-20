@@ -24,12 +24,17 @@ import java.util.*;
  * používat pro vnitřní potřebu (např. k duplikaci elementů, ukládání...).
  * </p>
  *
- * @version 2017-07-08
+ * @version 2017-07-20
  * @author Patrik Harag
  */
 public class BrushManager {
 
+    protected final BrushCollection brushCollection;
     protected final Map<Integer, BrushItem> map = new HashMap<>();
+
+    public BrushManager(BrushCollection brushCollection) {
+        this.brushCollection = brushCollection;
+    }
 
     // add
 
@@ -178,4 +183,9 @@ public class BrushManager {
         return false;
     }
 
+    // ostatní
+
+    public BrushCollection getBrushCollection() {
+        return brushCollection;
+    }
 }

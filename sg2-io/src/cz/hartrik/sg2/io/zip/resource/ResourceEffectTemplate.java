@@ -1,5 +1,5 @@
 
-package cz.hartrik.sg2.app.extension.io;
+package cz.hartrik.sg2.io.zip.resource;
 
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.EffectBrush;

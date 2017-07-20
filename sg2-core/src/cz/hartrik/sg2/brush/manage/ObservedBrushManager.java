@@ -4,12 +4,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @version 2015-01-10
+ * @version 2017-07-20
  * @author Patrik Harag
  */
 public class ObservedBrushManager extends BrushManager {
 
     protected final List<Runnable> listeners = new LinkedList<>();
+
+    public ObservedBrushManager(BrushCollection brushCollection) {
+        super(brushCollection);
+    }
 
     @Override
     public void addBrushItem(BrushItem brushItem) {

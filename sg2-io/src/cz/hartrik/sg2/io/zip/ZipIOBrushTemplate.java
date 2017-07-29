@@ -14,7 +14,7 @@ import java.util.*;
  *
  * Dokáže načíst všechny typy resources.
  *
- * @version 2017-07-19
+ * @version 2017-07-29
  * @author Patrik Harag
  * @param <T>
  */
@@ -36,13 +36,13 @@ public class ZipIOBrushTemplate <T extends ElementArea> extends ZipIO<T> {
         Map<String, ResourceType> map = new LinkedHashMap<>();
 
         String id1 = ResourceHeatmap.IDENTIFIER;
-        map.put("heatmap.png", resourceTypeManager.findByIdentifier(id1));
+        map.put("heatmap.png", resourceTypeManager.findByIdentifier(id1).get());
 
         String id2 = ResourceBrushTemplate.IDENTIFIER;
-        map.put("template.png", resourceTypeManager.findByIdentifier(id2));
+        map.put("template.png", resourceTypeManager.findByIdentifier(id2).get());
 
         String id3 = ResourceEffectTemplate.IDENTIFIER;
-        map.put("effects.png", resourceTypeManager.findByIdentifier(id3));
+        map.put("effects.png", resourceTypeManager.findByIdentifier(id3).get());
 
         return map;
     }

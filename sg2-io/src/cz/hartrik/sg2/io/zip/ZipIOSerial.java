@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * Dokáže načíst všechny typy resources.
  *
- * @version 2017-07-19
+ * @version 2017-07-29
  * @author Patrik Harag
  * @param <T> vstup/výstup
  */
@@ -40,7 +40,7 @@ public class ZipIOSerial<T extends ElementArea> extends ZipIO<T> {
         Map<String, ResourceType> map = new LinkedHashMap<>();
 
         map.put(FILE_DATA,
-                resourceTypeManager.findByIdentifier(ResourceSerialized.IDENTIFIER));
+                resourceTypeManager.findByIdentifier(ResourceSerialized.IDENTIFIER).get());
 
         return map;
     }

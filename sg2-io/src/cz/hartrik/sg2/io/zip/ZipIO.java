@@ -49,10 +49,6 @@ public abstract class ZipIO<T extends ElementArea>
         this.resourceTypeManager = resourceTypeManager;
     }
 
-    public Collection<ResourceType> getSupportedResourceTypes() {
-        return resourceTypeManager.getAllSupported();
-    }
-
     public abstract Map<String, ResourceType> getWriteResourceTypes();
 
     @Override
@@ -151,11 +147,8 @@ public abstract class ZipIO<T extends ElementArea>
     }
 
     private ResourceType findResourceType(String id) throws IOException {
-        return getSupportedResourceTypes().stream()
-                .filter(r -> r.getIdentifier().equals(id))
-                .findFirst()
-                .orElseThrow(() ->
-                        new IOException("Unsupported resource type - " + id));
+        return resourceTypeManager.findByIdentifier(id)
+                .orElseThrow(() -> new IOException("Unsupported resource type - " + id));
     }
 
     private ZipEntry findEntry(ZipFile zip, String fileName) throws IOException {

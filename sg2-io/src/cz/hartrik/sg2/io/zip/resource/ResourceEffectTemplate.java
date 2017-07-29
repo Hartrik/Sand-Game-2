@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
  * Pro správné fungování musí být tato šablona načtena až po načtení
  * standardní šablony (efektové štětce musí být aplikovány přes ni).
  *
- * @version 2016-06-20
+ * 2017-07-29
  * @author Patrik Harag
  */
 public class ResourceEffectTemplate extends ResourceBrushTemplate {
 
-    public static final String IDENTIFIER = "effect template";
+    public static final String IDENTIFIER = "EFFECT_TEMPLATE";
 
     public ResourceEffectTemplate(
             Supplier<BrushManager> supplier, int defID) {

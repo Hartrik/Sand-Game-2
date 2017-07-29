@@ -3,13 +3,13 @@ package cz.hartrik.sg2.io.zip.resource;
 
 import cz.hartrik.sg2.brush.manage.BrushManager;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
  * Spravuje seznam všech dostupných typů zdrojů.
  *
- * @version 2016-06-20
+ * @version 2017-07-29
  * @author Patrik Harag
  */
 public class ResourceTypeManager {
@@ -28,25 +28,21 @@ public class ResourceTypeManager {
     }
 
     /**
-     * Vrátí všechny podporované typy zdrojů.
-     *
-     * @return kolekce typů zdrojů
-     */
-    public Collection<ResourceType> getAllSupported() {
-        return Arrays.asList(resourceTypes);
-    }
-
-    /**
      * Vrátí typ zdroje podle identifikátoru.
      *
      * @param identifier identifikátor ({@link ResourceType#getIdentifier()})
-     * @return ResourceType
+     * @return Optional
      */
-    public ResourceType findByIdentifier(String identifier) {
+    public Optional<ResourceType> findByIdentifier(String identifier) {
+        String normalized = normalizeIdentifier(identifier);
+
         return Arrays.stream(resourceTypes)
-                .filter(rs -> rs.getIdentifier().equals(identifier))
-                .findFirst()
-                    .get();
+                .filter(rs -> rs.getIdentifier().equals(normalized))
+                .findFirst();
+    }
+
+    private String normalizeIdentifier(String identifier) {
+        return identifier.toUpperCase().replace(' ', '_');
     }
 
 }

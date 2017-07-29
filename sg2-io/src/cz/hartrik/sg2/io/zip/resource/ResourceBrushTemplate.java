@@ -23,12 +23,12 @@ import org.w3c.dom.NodeList;
 /**
  * ID štětců uložená v png obrázku.
  *
- * @version 2017-07-20
+ * @version 2017-07-29
  * @author Patrik Harag
  */
 public class ResourceBrushTemplate implements ResourceType {
 
-    public static final String IDENTIFIER = "brush template";
+    public static final String IDENTIFIER = "BRUSH_TEMPLATE";
 
     private final Supplier<BrushManager> supplier;
     private final int defaultBrushID;
@@ -50,7 +50,7 @@ public class ResourceBrushTemplate implements ResourceType {
         BrushManager brushManager = supplier.get();
         BrushCollection brushCollection = brushManager.getBrushCollection();
 
-        dom.addNode("brush-manager")
+        dom.addNode("brush-collection")
                 .addAttribute("version", brushCollection.getVersion())
                 .addText(brushCollection.getName())
                 .end();
@@ -102,7 +102,7 @@ public class ResourceBrushTemplate implements ResourceType {
             Node next = nodes.item(i);
             String nodeName = next.getNodeName();
 
-            if ("brush-manager".equals(nodeName)) {
+            if (nodeName.equals("brush-manager") || nodeName.equals("brush-collection")) {
                 Node attVersion = next.getAttributes().getNamedItem("version");
                 String version = attVersion.getNodeValue();
                 return brushCollection.getBCConverter(version);

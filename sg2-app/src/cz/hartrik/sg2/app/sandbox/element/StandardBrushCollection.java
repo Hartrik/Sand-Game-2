@@ -22,7 +22,7 @@ public class StandardBrushCollection implements BrushCollection {
 
     @Override
     public String getName() {
-        return "standard";
+        return "STANDARD";
     }
 
     @Override

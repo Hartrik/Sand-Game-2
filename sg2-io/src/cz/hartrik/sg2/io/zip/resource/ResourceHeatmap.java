@@ -15,12 +15,12 @@ import org.w3c.dom.Node;
 /**
  * Teplotní mapa uložená v obrázku.
  *
- * @version 2016-06-19
+ * @version 2017-07-29
  * @author Patrik Harag
  */
 public class ResourceHeatmap implements ResourceType {
 
-    public static final String IDENTIFIER = "heatmap template";
+    public static final String IDENTIFIER = "HEATMAP_TEMPLATE";
 
     @Override
     public String getIdentifier() {

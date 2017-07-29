@@ -16,12 +16,12 @@ import org.w3c.dom.Node;
 /**
  * Serializované plátno.
  *
- * @version 2016-06-20
+ * @version 2017-07-29
  * @author Patrik Harag
  */
 public class ResourceSerialized implements ResourceType {
 
-    public static final String IDENTIFIER = "serialized";
+    public static final String IDENTIFIER = "SERIALIZED";
 
     @Override
     public String getIdentifier() {

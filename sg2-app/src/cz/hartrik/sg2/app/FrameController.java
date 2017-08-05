@@ -124,9 +124,8 @@ public class FrameController extends FrameControllerTemplate implements Initiali
 
     // brush manager
 
-    private final ObservedBrushManager brushManager = new StandardBrushCollection().create(
-            ObservedBrushManager::new,
-            () -> engine.getProcessor().getTools());
+    private final ObservedBrushManager brushManager = new StandardBrushCollection()
+            .create(ObservedBrushManager::new);
 
     public BrushManager getBrushManager() {
         return brushManager;

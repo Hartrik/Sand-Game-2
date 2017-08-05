@@ -4,14 +4,12 @@ package cz.hartrik.sg2.app.sandbox.element;
 import cz.hartrik.common.io.Resources;
 import cz.hartrik.sg2.brush.BrushTemperature;
 import cz.hartrik.sg2.brush.jfx.BrushCollectionBuilder;
-import cz.hartrik.sg2.engine.process.Tools;
-import java.util.function.Supplier;
 import javafx.scene.image.Image;
 
 /**
  * Štětce pro práci s teplotou.
  *
- * @version 2016-06-14
+ * @version 2017-08-05
  * @author Patrik Harag
  */
 public class CollectionThermalTools {
@@ -23,8 +21,7 @@ public class CollectionThermalTools {
         return Resources.absolutePath(fileName, CollectionThermalTools.class);
     }
 
-    public static void createBrushes(BrushCollectionBuilder collectionBuilder,
-            Supplier<Tools> toolSupplier) {
+    public static void createBrushes(BrushCollectionBuilder collectionBuilder) {
 
         final Image tempUp   = new Image(URL_TEMP_UP);
         final Image tempDown = new Image(URL_TEMP_DOWN);

@@ -1,13 +1,11 @@
 package cz.hartrik.sg2.brush.manage;
 
-import cz.hartrik.sg2.engine.process.Tools;
 import java.util.function.Function;
 import java.util.function.IntUnaryOperator;
-import java.util.function.Supplier;
 
 /**
  * @author Patrik Harag
- * @version 2017-07-19
+ * @version 2017-08-05
  */
 public interface BrushCollection {
 
@@ -30,11 +28,9 @@ public interface BrushCollection {
      *
      * @param <T>
      * @param bmSupplier
-     * @param toolSupplier
      * @return
      */
-    <T extends BrushManager> T create(
-            Function<BrushCollection, T> bmSupplier, Supplier<Tools> toolSupplier);
+    <T extends BrushManager> T create(Function<BrushCollection, T> bmSupplier);
 
     IntUnaryOperator getBCConverter(String version);
 

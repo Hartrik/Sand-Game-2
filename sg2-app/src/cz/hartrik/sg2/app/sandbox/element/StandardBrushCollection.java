@@ -5,14 +5,12 @@ import cz.hartrik.sg2.brush.jfx.BrushCollectionBuilder;
 import cz.hartrik.sg2.brush.manage.BrushCollection;
 import cz.hartrik.sg2.brush.manage.BrushInfoLoader;
 import cz.hartrik.sg2.brush.manage.BrushManager;
-import cz.hartrik.sg2.engine.process.Tools;
 import java.util.function.Function;
 import java.util.function.IntUnaryOperator;
-import java.util.function.Supplier;
 
 /**
  *
- * @version 2017-07-20
+ * @version 2017-08-05
  * @author Patrik Harag
  */
 public class StandardBrushCollection implements BrushCollection {
@@ -31,9 +29,7 @@ public class StandardBrushCollection implements BrushCollection {
     }
 
     @Override
-    public <T extends BrushManager> T create(
-            Function<BrushCollection, T> bmFactory, Supplier<Tools> toolSupplier) {
-
+    public <T extends BrushManager> T create(Function<BrushCollection, T> bmFactory) {
         T brushManager = bmFactory.apply(this);
 
         BrushInfoLoader loader = new BrushInfoLoader(PROPERTIES);
@@ -42,7 +38,7 @@ public class StandardBrushCollection implements BrushCollection {
         CollectionBasic.createBrushes(builder);
         CollectionSource.createBrushes(builder, brushManager);
         CollectionTest.createBrushes(builder, brushManager);
-        CollectionThermalTools.createBrushes(builder, toolSupplier);
+        CollectionThermalTools.createBrushes(builder);
 
         brushManager.addBrushItems(builder.getCollection());
 

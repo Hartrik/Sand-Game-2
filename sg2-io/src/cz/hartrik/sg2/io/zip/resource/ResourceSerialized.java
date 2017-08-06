@@ -6,6 +6,7 @@ import cz.hartrik.sg2.io.zip.ParseUtils;
 import cz.hartrik.sg2.io.zip.SimpleDOM;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.Inserter;
+import cz.hartrik.sg2.world.template.ElementAreaTemplate;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -16,7 +17,7 @@ import org.w3c.dom.Node;
 /**
  * Serializované plátno.
  *
- * @version 2017-07-29
+ * @version 2017-08-06
  * @author Patrik Harag
  */
 public class ResourceSerialized implements ResourceType {
@@ -62,17 +63,12 @@ public class ResourceSerialized implements ResourceType {
     }
 
     private void insert(ElementArea from, ElementArea to, int x, int y) {
-        // TODO: use ElementAreaTemplate when possible
+        ElementAreaTemplate template = new ElementAreaTemplate(from);
 
         Inserter<?> inserter = to.getInserter();
         inserter.setEraseTemperature(false);
 
-        from.forEachPoint((int ix, int iy) -> {
-            if (inserter.insert((x + ix), (y + iy), from.get(ix, iy))) {
-                float temp = from.getTemperature(ix, iy);
-                inserter.getArea().setTemperature((x + ix), (y + iy), temp);
-            }
-        });
+        template.insert(inserter, x, y);
     }
 
 }

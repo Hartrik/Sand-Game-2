@@ -11,7 +11,7 @@ import javafx.scene.control.MenuItem;
 /**
  * Sub-modul pro testování výkonu aplikace.
  *
- * @version 2016-07-09
+ * @version 2017-08-06
  * @author Patrik Harag
  */
 @Require(PerformanceTestServices.class)
@@ -23,15 +23,20 @@ public class PerformanceTestSubmodule implements MenuSubmodule {
 
         MenuItem iSandTest = new MenuItem(Strings.get("module.edit.benchmark-1"));
         iSandTest.setOnAction((e) -> {
-            manager.run(PerformanceTestServices.SERVICE_TEST_SAND_FALL);
+            manager.run(PerformanceTestServices.SERVICE_TEST_BENCHMARK_1);
         });
 
-        MenuItem iBenchmark = new MenuItem(Strings.get("module.edit.benchmark-2"));
-        iBenchmark.setOnAction((e) -> {
-            manager.run(PerformanceTestServices.SERVICE_TEST_BENCHMARK);
+        MenuItem iBenchmark1 = new MenuItem(Strings.get("module.edit.benchmark-2"));
+        iBenchmark1.setOnAction((e) -> {
+            manager.run(PerformanceTestServices.SERVICE_TEST_BENCHMARK_2);
         });
 
-        return new MenuItem[] { iSandTest, /*iBenchmark*/ };
+        MenuItem iBenchmark2 = new MenuItem(Strings.get("module.edit.benchmark-3"));
+        iBenchmark2.setOnAction((e) -> {
+            manager.run(PerformanceTestServices.SERVICE_TEST_BENCHMARK_3);
+        });
+
+        return new MenuItem[] { iSandTest, /*iBenchmark1, iBenchmark2*/ };
     }
 
 }

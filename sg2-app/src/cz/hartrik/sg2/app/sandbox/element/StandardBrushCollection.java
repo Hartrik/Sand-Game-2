@@ -1,7 +1,7 @@
 
 package cz.hartrik.sg2.app.sandbox.element;
 
-import cz.hartrik.sg2.brush.jfx.BrushCollectionBuilder;
+import cz.hartrik.sg2.brush.build.BrushCollectionBuilder;
 import cz.hartrik.sg2.brush.manage.BrushCollection;
 import cz.hartrik.sg2.brush.manage.BrushInfoLoader;
 import cz.hartrik.sg2.brush.manage.BrushManager;

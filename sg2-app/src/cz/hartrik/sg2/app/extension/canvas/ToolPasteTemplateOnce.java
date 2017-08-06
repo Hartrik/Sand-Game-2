@@ -6,7 +6,7 @@ import cz.hartrik.sg2.brush.Controls.Button;
 import cz.hartrik.sg2.tool.Tool;
 import cz.hartrik.sg2.tool.ToolCancel;
 import cz.hartrik.sg2.world.BrushInserter;
-import cz.hartrik.sg2.world.template.TemplateWPreview;
+import cz.hartrik.sg2.world.template.Template;
 
 /**
  * Jednou vloží šablonu, poté nastaví předešlý nástroj.
@@ -20,7 +20,7 @@ public class ToolPasteTemplateOnce extends ToolPasteTemplate {
     private final Controls controls;
     private final Controls.Button button;
 
-    public ToolPasteTemplateOnce(TemplateWPreview template,
+    public ToolPasteTemplateOnce(Template template,
             Tool previous, Controls controls, Controls.Button button) {
         
         super(template);
@@ -43,18 +43,18 @@ public class ToolPasteTemplateOnce extends ToolPasteTemplate {
     
     // pomocné statické metody
     
-    public static void init(TemplateWPreview template, Controls controls) {
+    public static void init(Template template, Controls controls) {
         init(template, controls, Controls.Button.PRIMARY);
     }
     
-    public static void init(TemplateWPreview template, Controls controls, Button button) {
+    public static void init(Template template, Controls controls, Button button) {
         ToolPasteTemplateOnce tool = new ToolPasteTemplateOnce(
                 template, controls.getTool(button), controls, button);
         
         controls.setTool(button, tool);
     }
     
-    public static void initWithCancel(TemplateWPreview template, Controls controls) {
+    public static void initWithCancel(Template template, Controls controls) {
         final Pair<Tool, Tool> prv = unwrap(
                 controls.getPrimaryTool(), controls.getSecondaryTool());
         

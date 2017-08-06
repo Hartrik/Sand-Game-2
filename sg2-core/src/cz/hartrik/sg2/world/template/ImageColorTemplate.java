@@ -1,11 +1,11 @@
 package cz.hartrik.sg2.world.template;
 
 import cz.hartrik.common.Color;
+import cz.hartrik.sg2.engine.Image;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.Inserter;
 import java.util.function.Function;
-import javafx.scene.image.Image;
 
 /**
  * Šablona vytvořená podle obrázku, která je určena hlavně k nanášení jednoho

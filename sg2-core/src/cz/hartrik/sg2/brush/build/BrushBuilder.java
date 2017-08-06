@@ -1,10 +1,11 @@
 
-package cz.hartrik.sg2.brush.jfx;
+package cz.hartrik.sg2.brush.build;
 
 import cz.hartrik.common.Checker;
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
-import javafx.scene.image.Image;
+import cz.hartrik.sg2.engine.Image;
+import cz.hartrik.sg2.engine.Platform;
 
 /**
  * Předek pro buildery jednotlivých typů štětců.
@@ -37,7 +38,7 @@ public abstract class BrushBuilder {
     }
 
     public BrushBuilder setImage(String url) {
-        this.image = new Image(url);
+        this.image = Platform.get().createImage(url);
         return this;
     }
 

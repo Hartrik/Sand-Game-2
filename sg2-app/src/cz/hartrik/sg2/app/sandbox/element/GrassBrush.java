@@ -2,14 +2,14 @@ package cz.hartrik.sg2.app.sandbox.element;
 
 import cz.hartrik.sg2.brush.BrushRandom;
 import cz.hartrik.sg2.brush.Controls;
-import cz.hartrik.sg2.brush.jfx.Thumbnailable;
-import cz.hartrik.sg2.brush.jfx.Thumbnails;
+import cz.hartrik.sg2.brush.build.Thumbnailable;
+import cz.hartrik.sg2.brush.build.Thumbnails;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
+import cz.hartrik.sg2.engine.Image;
 import cz.hartrik.sg2.random.XORShiftRandom;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.ElementArea;
 import java.util.function.IntUnaryOperator;
-import javafx.scene.image.Image;
 
 /**
  * Speciální štětec pro nanášení trávy.
@@ -17,12 +17,12 @@ import javafx.scene.image.Image;
  * @version 2015-11-19
  * @author Patrik Harag
  */
-public class JFXGrassBrush extends BrushRandom implements Thumbnailable {
+public class GrassBrush extends BrushRandom implements Thumbnailable {
 
     private final IntUnaryOperator operator;
 
-    public JFXGrassBrush(BrushInfo info, IntUnaryOperator operator,
-            Element... elements) {
+    public GrassBrush(BrushInfo info, IntUnaryOperator operator,
+                      Element... elements) {
 
         super(info, elements);
         this.operator = operator;

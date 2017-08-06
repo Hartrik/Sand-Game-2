@@ -1,16 +1,15 @@
 package cz.hartrik.sg2.world.template;
 
-import cz.hartrik.sg2.engine.render.JFXRenderer;
+import cz.hartrik.sg2.engine.Image;
+import cz.hartrik.sg2.engine.Platform;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.Inserter;
-import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
 
 /**
- * @version 2016-06-16
+ * @version 2017-08-06
  * @author Patrik Harag
  */
-public class ElementAreaTemplate implements TemplateWPreview {
+public class ElementAreaTemplate implements Template {
 
     private final ElementArea elementArea;
 
@@ -45,17 +44,7 @@ public class ElementAreaTemplate implements TemplateWPreview {
 
     @Override
     public Image getImage() {
-        WritableImage image = new WritableImage(getWidth(), getHeight());
-
-        JFXRenderer renderer = new JFXRenderer(elementArea);
-        renderer.updateBuffer();
-
-        image.getPixelWriter().setPixels(
-                0, 0, getWidth(), getHeight(),
-                renderer.getPixelFormat(),
-                renderer.getBuffer(), 0, (getWidth() * 4));
-
-        return image;
+        return Platform.get().renderPreview(elementArea);
     }
 
 }

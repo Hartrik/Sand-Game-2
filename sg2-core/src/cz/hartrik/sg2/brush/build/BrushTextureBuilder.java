@@ -1,19 +1,21 @@
 
-package cz.hartrik.sg2.brush.jfx;
+package cz.hartrik.sg2.brush.build;
 
 import cz.hartrik.common.Checker;
 import cz.hartrik.common.Color;
 import cz.hartrik.sg2.brush.Brush;
+import cz.hartrik.sg2.brush.BrushTexture;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
+import cz.hartrik.sg2.engine.Image;
+import cz.hartrik.sg2.engine.Platform;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.factory.FactoryFunction;
 import cz.hartrik.sg2.world.factory.FuncMapFactory;
 import cz.hartrik.sg2.world.factory.ISingleInputFactory;
 import java.util.function.Function;
-import javafx.scene.image.Image;
 
 /**
- * Slouží k vytvoření {@link JFXBrushTexture}.
+ * Slouží k vytvoření {@link BrushTexture}.
  *
  * @version 2015-11-19
  * @author Patrik Harag
@@ -48,7 +50,7 @@ public class BrushTextureBuilder extends BrushBuilder {
     }
 
     public BrushTextureBuilder setTexture(String url) {
-        this.texture = new Image(url);
+        this.texture = Platform.get().createImage(url);
         return this;
     }
 
@@ -79,14 +81,14 @@ public class BrushTextureBuilder extends BrushBuilder {
         Checker.requireNonNull(texture, "texture cannot be null");
 
         if (producesFunc != null) {
-            return new JFXBrushTexture<Element>(brushInfo, texture, factory) {
+            return new BrushTexture<Element>(brushInfo, texture, factory) {
                 @Override public boolean produces(Element element) {
                     return producesFunc.apply(element);
                 }
             };
         }
 
-        return new JFXBrushTexture<>(brushInfo, texture, factory);
+        return new BrushTexture<>(brushInfo, texture, factory);
     }
 
 }

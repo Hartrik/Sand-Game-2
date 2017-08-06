@@ -1,12 +1,12 @@
 
-package cz.hartrik.sg2.brush.jfx;
+package cz.hartrik.sg2.brush.build;
 
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.BrushRandom;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
+import cz.hartrik.sg2.engine.Image;
 import cz.hartrik.sg2.world.Element;
 import java.util.function.Function;
-import javafx.scene.image.Image;
 
 /**
  * Slouží k vytvoření {@link BrushRandom}.

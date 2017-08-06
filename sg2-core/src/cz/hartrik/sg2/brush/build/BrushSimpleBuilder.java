@@ -1,5 +1,5 @@
 
-package cz.hartrik.sg2.brush.jfx;
+package cz.hartrik.sg2.brush.build;
 
 import cz.hartrik.common.Checker;
 import cz.hartrik.common.Color;

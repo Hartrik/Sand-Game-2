@@ -7,6 +7,8 @@ import cz.hartrik.sg2.app.ApplicationBuilder;
 import cz.hartrik.sg2.app.Frame;
 import cz.hartrik.sg2.app.module.io.FileServices;
 import cz.hartrik.sg2.app.service.ServiceManager;
+import cz.hartrik.sg2.engine.JFXPlatform;
+import cz.hartrik.sg2.engine.Platform;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
@@ -19,7 +21,7 @@ import javafx.stage.Stage;
 /**
  * Vstupní třída.
  *
- * @version 2017-07-11
+ * @version 2017-08-06
  * @author Patrik Harag
  */
 public class Main extends javafx.application.Application {
@@ -93,6 +95,7 @@ public class Main extends javafx.application.Application {
     }
 
     public static void main(String[] args) {
+        Platform.init(new JFXPlatform());
         launch(args);
     }
 

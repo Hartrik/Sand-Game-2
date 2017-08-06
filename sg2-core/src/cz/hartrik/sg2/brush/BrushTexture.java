@@ -1,38 +1,33 @@
 
-package cz.hartrik.sg2.brush.jfx;
+package cz.hartrik.sg2.brush;
 
 import cz.hartrik.common.Color;
-import cz.hartrik.sg2.brush.ABrushBase;
-import cz.hartrik.sg2.brush.Controls;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
+import cz.hartrik.sg2.engine.Image;
 import cz.hartrik.sg2.random.XORShiftRandom;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.ElementArea;
 import java.util.function.Function;
-import javafx.scene.image.Image;
-import javafx.scene.image.PixelReader;
 
 /**
  * Štětec, který umožňuje nanášet elementy obarvené podle nějaké textury.
  *
- * @version 2015-11-19
+ * @version 2017-08-06
  * @author Patrik Harag
  * @param <E> element
  */
-public class JFXBrushTexture<E extends Element> extends ABrushBase {
+public class BrushTexture<E extends Element> extends ABrushBase {
 
     protected final Function<Color, E> factory;
     protected final Image image;
-    protected final PixelReader reader;
     protected final XORShiftRandom random = new XORShiftRandom();
 
-    public JFXBrushTexture(BrushInfo brushInfo, Image image,
-            Function<Color, E> factory) {
+    public BrushTexture(BrushInfo brushInfo, Image image,
+                        Function<Color, E> factory) {
 
         super(brushInfo);
         this.image = image;
         this.factory = factory;
-        this.reader = image.getPixelReader();
     }
 
     @Override
@@ -42,22 +37,20 @@ public class JFXBrushTexture<E extends Element> extends ABrushBase {
         if (x == -1 || y == -1)
             return getElement(current);  // náhodná barva
 
-        final int imgX = x % (int) image.getWidth();
-        final int imgY = y % (int) image.getHeight();
-        final int argb = reader.getArgb(imgX, imgY);
-
-        return factory.apply(Color.createARGB(argb));
-    }
-
-    protected Color randomColor() {
-        int x = random.nextInt((int) image.getWidth());
-        int y = random.nextInt((int) image.getHeight());
-        return Color.createARGB(reader.getArgb(x, y));
+        final int imgX = x % image.getWidth();
+        final int imgY = y % image.getHeight();
+        return factory.apply(image.getColor(imgX, imgY));
     }
 
     @Override
     public E getElement(Element current) {
         return factory.apply(randomColor());
+    }
+
+    private Color randomColor() {
+        int x = random.nextInt(image.getWidth());
+        int y = random.nextInt(image.getHeight());
+        return image.getColor(x, y);
     }
 
     @Override

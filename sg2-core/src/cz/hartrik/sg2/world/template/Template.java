@@ -1,12 +1,13 @@
 package cz.hartrik.sg2.world.template;
 
+import cz.hartrik.sg2.engine.Image;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.Inserter;
 
 /**
  * Rozhraní pro šablonu, která na plátno umístí elementy podle nějakého vzoru.
  * 
- * @version 2015-01-11
+ * @version 2017-08-06
  * @author Patrik Harag
  */
 public interface Template {
@@ -16,7 +17,7 @@ public interface Template {
      * 
      * @param area struktura elementů
      */
-    public default void insert(ElementArea area) {
+    default void insert(ElementArea area) {
         insert(area, 0, 0);
     }
     
@@ -29,7 +30,7 @@ public interface Template {
      * @param x horizontální souřadnice
      * @param y vertikální souřadnice
      */
-    public default void insert(ElementArea area, int x, int y) {
+    default void insert(ElementArea area, int x, int y) {
         Inserter<? extends ElementArea> inserter = area.getInserter();
         insert(area.getInserter(), x, y);
         inserter.finalizeInsertion();
@@ -44,7 +45,7 @@ public interface Template {
      * @param x horizontální souřadnice
      * @param y vertikální souřadnice
      */
-    public void insert(Inserter<? extends ElementArea> inserter, int x, int y);
+    void insert(Inserter<? extends ElementArea> inserter, int x, int y);
     
     /**
      * Pokud se rozměry šablony mění na základě velikosti pole elementů, do
@@ -52,20 +53,27 @@ public interface Template {
      * 
      * @return responsivní
      */
-    public boolean isResponsive();
+    boolean isResponsive();
     
     /**
      * Vrátí šířku šablony, pokud je šířka relativní, vrací <code>-1</code>.
      * 
      * @return šířka šablony
      */
-    public int getWidth();
+    int getWidth();
     
     /**
      * Vrátí výšku šablony, pokud je výška relativní, vrací <code>-1</code>.
      * 
      * @return výška šablony
      */
-    public int getHeight();
-    
+    int getHeight();
+
+    /**
+     * Vrátí obrázek, který slouží jako náhled před vložením šablony.
+     *
+     * @return obrázek
+     */
+    Image getImage();
+
 }

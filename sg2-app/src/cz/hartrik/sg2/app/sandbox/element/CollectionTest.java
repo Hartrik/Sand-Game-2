@@ -3,7 +3,7 @@ package cz.hartrik.sg2.app.sandbox.element;
 
 import cz.hartrik.common.io.Resources;
 import cz.hartrik.sg2.brush.BrushEffect;
-import cz.hartrik.sg2.brush.jfx.BrushCollectionBuilder;
+import cz.hartrik.sg2.brush.build.BrushCollectionBuilder;
 import cz.hartrik.sg2.brush.manage.BrushManager;
 import cz.hartrik.sg2.world.element.powder.Glueable;
 import cz.hartrik.sg2.world.element.powder.WallPowder;

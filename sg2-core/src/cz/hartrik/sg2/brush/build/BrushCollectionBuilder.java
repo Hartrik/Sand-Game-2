@@ -1,17 +1,18 @@
 
-package cz.hartrik.sg2.brush.jfx;
+package cz.hartrik.sg2.brush.build;
 
 import cz.hartrik.common.Color;
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
 import cz.hartrik.sg2.brush.manage.BrushInfoLoader;
 import cz.hartrik.sg2.brush.manage.BrushItem;
+import cz.hartrik.sg2.engine.Image;
+import cz.hartrik.sg2.engine.Platform;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.factory.FactoryFunction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
-import javafx.scene.image.Image;
 
 /**
  * Slouží k tvorbě kolekce štětců.
@@ -106,7 +107,7 @@ public class BrushCollectionBuilder {
     // - unknown
 
     public BrushCollectionBuilder add(Brush brush, String url) {
-        return add(brush, new Image(url));
+        return add(brush, Platform.get().createImage(url));
     }
 
     public BrushCollectionBuilder add(Brush brush, Image img) {
@@ -136,7 +137,7 @@ public class BrushCollectionBuilder {
     }
 
     public BrushCollectionBuilder add(int id, String img, Function<BrushInfo, Brush> func) {
-        return add(id, new Image(img), func);
+        return add(id, Platform.get().createImage(img), func);
     }
 
     public BrushCollectionBuilder addHidden(int id, Function<BrushInfo, Brush> func) {
@@ -148,7 +149,7 @@ public class BrushCollectionBuilder {
     }
 
     public BrushCollectionBuilder addHidden(int id, String img, Function<BrushInfo, Brush> func) {
-        return addHidden(id, new Image(img), func);
+        return addHidden(id, Platform.get().createImage(img), func);
     }
 
 }

@@ -8,7 +8,9 @@ import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.Controls;
 import cz.hartrik.sg2.brush.Controls.Button;
 import cz.hartrik.sg2.brush.jfx.JFXControls;
-import cz.hartrik.sg2.brush.jfx.Thumbnailable;
+import cz.hartrik.sg2.brush.build.Thumbnailable;
+import cz.hartrik.sg2.engine.Image;
+import cz.hartrik.sg2.engine.JFXPlatform;
 import cz.hartrik.sg2.world.Element;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
@@ -80,8 +82,12 @@ public class ModuleBrushThumbnails implements ApplicationModule {
     }
 
     private void updateImage(ImageView imageView, Brush brush) {
-        imageView.setImage((brush instanceof Thumbnailable)
-                ? ((Thumbnailable) brush).getThumb(width, height) : null);
+        if (brush instanceof Thumbnailable) {
+            Image thumb = ((Thumbnailable) brush).getThumb(width, height);
+            imageView.setImage(JFXPlatform.asJFXImage(thumb));
+        } else {
+            imageView.setImage(null);
+        }
     }
 
     private void onThumbClick(FrameController controller,

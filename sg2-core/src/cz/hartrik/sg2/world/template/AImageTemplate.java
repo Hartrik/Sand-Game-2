@@ -1,18 +1,17 @@
 package cz.hartrik.sg2.world.template;
 
 import cz.hartrik.common.Color;
+import cz.hartrik.sg2.engine.Image;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.Inserter;
-import javafx.scene.image.Image;
-import javafx.scene.image.PixelReader;
 
 /**
  * Abstraktní třída se základem pro další šablony vytvářené z obrázků.
  * 
- * @version 2014-12-19
+ * @version 2017-08-06
  * @author Patrik Harag
  */
-public abstract class AImageTemplate implements TemplateWPreview {
+public abstract class AImageTemplate implements Template {
     
     private final Image image;
 
@@ -25,11 +24,9 @@ public abstract class AImageTemplate implements TemplateWPreview {
 
     @Override
     public void insert(Inserter<? extends ElementArea> inserter, int x, int y) {
-        PixelReader pixelReader = image.getPixelReader();
-        
         for (int iy = 0; iy < getHeight(); iy++) {
             for (int ix = 0; ix < getWidth(); ix++) {
-                Color color = Color.createARGB(pixelReader.getArgb(ix, iy));
+                Color color = image.getColor(ix, iy);
                 insertAt(x + ix, y + iy, color, inserter);
             }
         }
@@ -52,12 +49,12 @@ public abstract class AImageTemplate implements TemplateWPreview {
 
     @Override
     public int getWidth() {
-        return (int) image.getWidth();
+        return image.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return (int) image.getHeight();
+        return image.getHeight();
     }
     
 }

@@ -2,8 +2,8 @@ package cz.hartrik.sg2.world.template;
 
 import cz.hartrik.common.Color;
 import cz.hartrik.sg2.brush.Brush;
+import cz.hartrik.sg2.engine.Image;
 import cz.hartrik.sg2.world.Inserter;
-import javafx.scene.image.Image;
 
 /**
  * Šablona, která je vykreslována celá jedním štětcem. Vstupní obrázek by měl

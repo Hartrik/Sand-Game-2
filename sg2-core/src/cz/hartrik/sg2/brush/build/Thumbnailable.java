@@ -1,13 +1,13 @@
 
-package cz.hartrik.sg2.brush.jfx;
+package cz.hartrik.sg2.brush.build;
 
 import cz.hartrik.sg2.brush.Brush;
-import javafx.scene.image.Image;
+import cz.hartrik.sg2.engine.Image;
 
 /**
  * Rozhraní pro štětec, který má nějakou formu náhledu nebo ikony.
  * 
- * @version 2014-05-06
+ * @version 2017-08-06
  * @author Patrik Harag
  */
 public interface Thumbnailable extends Brush {
@@ -21,6 +21,6 @@ public interface Thumbnailable extends Brush {
      * @param height optimální výška náhledu
      * @return náhled
      */
-    public Image getThumb(int width, int height);
+    Image getThumb(int width, int height);
     
 }

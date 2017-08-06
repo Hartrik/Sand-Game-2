@@ -8,16 +8,18 @@ import cz.hartrik.sg2.app.Strings;
 import cz.hartrik.sg2.app.extension.canvas.ToolPasteTemplateOnce;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.brush.Controls;
+import cz.hartrik.sg2.engine.Image;
+import cz.hartrik.sg2.engine.JFXImage;
+import cz.hartrik.sg2.engine.JFXPlatform;
 import cz.hartrik.sg2.world.Element;
 import cz.hartrik.sg2.world.element.solid.RefractoryMetal;
 import cz.hartrik.sg2.world.template.ImageColorTemplate;
-import cz.hartrik.sg2.world.template.TemplateWPreview;
+import cz.hartrik.sg2.world.template.Template;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 
@@ -57,17 +59,17 @@ public class LabGlassSubmodule implements MenuSubmodule {
                 ? new RefractoryMetal(c)
                 : null;
 
-        Supplier<TemplateWPreview> supp = () ->
+        Supplier<Template> supp = () ->
                new ImageColorTemplate(template(name), function);
 
         return createItem(controls, title, icon(name), accelerator, supp);
     }
 
     private MenuItem createItem(Controls controls,
-            String text, Image icon, String accelerator,
-            Supplier<TemplateWPreview> supplier) {
+                                String text, Image icon, String accelerator,
+                                Supplier<Template> supplier) {
 
-        ImageView imageView = new ImageView(icon);
+        ImageView imageView = new ImageView(JFXPlatform.asJFXImage(icon));
         imageView.setFitHeight(16);
         imageView.setFitWidth(16);
 
@@ -83,11 +85,13 @@ public class LabGlassSubmodule implements MenuSubmodule {
     }
 
     protected Image template(String name) {
-        return Resources.image("template - " + name + ".png", getClass());
+        String fileName = "template - " + name + ".png";
+        return new JFXImage(Resources.image(fileName, getClass()));
     }
 
     protected Image icon(String name) {
-        return Resources.image("icon - " + name + ".png", getClass());
+        String fileName = "icon - " + name + ".png";
+        return new JFXImage(Resources.image(fileName, getClass()));
     }
 
 }

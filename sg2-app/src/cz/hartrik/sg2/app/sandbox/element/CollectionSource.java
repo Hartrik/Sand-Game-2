@@ -4,7 +4,7 @@ package cz.hartrik.sg2.app.sandbox.element;
 import cz.hartrik.common.io.Resources;
 import cz.hartrik.sg2.brush.BrushSource;
 import cz.hartrik.sg2.brush.BrushSourceEffect;
-import cz.hartrik.sg2.brush.jfx.BrushCollectionBuilder;
+import cz.hartrik.sg2.brush.build.BrushCollectionBuilder;
 import cz.hartrik.sg2.brush.manage.BrushManager;
 
 

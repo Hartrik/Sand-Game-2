@@ -2,9 +2,9 @@ package cz.hartrik.sg2.world.template;
 
 import cz.hartrik.common.Color;
 import cz.hartrik.sg2.brush.Brush;
+import cz.hartrik.sg2.engine.Image;
 import cz.hartrik.sg2.world.Inserter;
 import java.util.Map;
-import javafx.scene.image.Image;
 
 /**
  * @version 2016-06-16

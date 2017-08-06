@@ -3,8 +3,9 @@ package cz.hartrik.sg2.app.module.misc;
 
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.Controls;
-import cz.hartrik.sg2.brush.jfx.Thumbnailable;
+import cz.hartrik.sg2.brush.build.Thumbnailable;
 import cz.hartrik.sg2.brush.manage.BrushInfo;
+import cz.hartrik.sg2.engine.JFXPlatform;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javafx.geometry.Pos;
@@ -51,8 +52,10 @@ public class BrushCell extends ListCell<Brush> {
         imageBox.getStyleClass().add("border-light");
 
         Image image = null;
-        if (item instanceof Thumbnailable)
-            image = ((Thumbnailable) item).getThumb(ICON_SIZE, ICON_SIZE);
+        if (item instanceof Thumbnailable) {
+            Thumbnailable temp = ((Thumbnailable) item);
+            image = JFXPlatform.asJFXImage(temp.getThumb(ICON_SIZE, ICON_SIZE));
+        }
         
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(ICON_SIZE);

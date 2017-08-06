@@ -9,10 +9,12 @@ import cz.hartrik.sg2.app.extension.canvas.ToolPasteTemplateOnce;
 import cz.hartrik.sg2.app.module.MenuSubmodule;
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.Controls;
+import cz.hartrik.sg2.engine.Image;
+import cz.hartrik.sg2.engine.JFXImage;
 import cz.hartrik.sg2.world.element.solid.Iron;
 import cz.hartrik.sg2.world.template.ImageColorTemplate;
 import cz.hartrik.sg2.world.template.ImageMapTemplate;
-import cz.hartrik.sg2.world.template.TemplateWPreview;
+import cz.hartrik.sg2.world.template.Template;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -20,12 +22,11 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
 
 /**
  * Sub-modul do menu, přidávající šablony.
  *
- * @version 2017-07-05
+ * @version 2017-08-06
  * @author Patrik Harag
  */
 public class TemplatesSubmodule implements MenuSubmodule {
@@ -34,13 +35,13 @@ public class TemplatesSubmodule implements MenuSubmodule {
     public MenuItem[] createMenuItems(Application app) {
 
         String textCar = Strings.get("module.tools.template.car");
-        Supplier<TemplateWPreview> suppCar = () ->
+        Supplier<Template> suppCar = () ->
                 new ImageColorTemplate(
                         image("car section"),
                         c -> c.getFloatAlpha() < 0.4f ? null : new Iron(c));
 
         String textEiffel = Strings.get("module.tools.template.eiffel");
-        Supplier<TemplateWPreview> suppEiffel = () -> {
+        Supplier<Template> suppEiffel = () -> {
             Brush b = app.getControls().getPrimaryBrush();
             Map<Color, Brush> map = Collections.singletonMap(Color.BLACK, b);
 
@@ -49,7 +50,7 @@ public class TemplatesSubmodule implements MenuSubmodule {
         };
 
         String textCastle = Strings.get("module.tools.template.castle");
-        Supplier<TemplateWPreview> suppCastle = () -> {
+        Supplier<Template> suppCastle = () -> {
             Brush b = app.getBrushManager().getBrush(15);
             Map<Color, Brush> map = Collections.singletonMap(Color.BLACK, b);
 
@@ -57,7 +58,7 @@ public class TemplatesSubmodule implements MenuSubmodule {
         };
 
         String textBarrel = Strings.get("module.tools.template.barrel");
-        Supplier<TemplateWPreview> suppBarrel = () ->
+        Supplier<Template> suppBarrel = () ->
                 new ImageColorTemplate(
                         image("barrel"),
                         c -> c.getFloatAlpha() < 0.4f ? null : new Iron(c));
@@ -76,12 +77,13 @@ public class TemplatesSubmodule implements MenuSubmodule {
         };
     }
 
-    private Image image(String fileName) {
-        return Resources.image("template - " + fileName + ".png", getClass());
+    private Image image(String name) {
+        String fileName = "template - " + name + ".png";
+        return new JFXImage(Resources.image(fileName, getClass()));
     }
 
     private MenuItem createItem(Controls controls, String text,
-                                Supplier<TemplateWPreview> supplier) {
+                                Supplier<Template> supplier) {
 
         MenuItem item = new MenuItem(text);
         item.setOnAction((ActionEvent e) -> {

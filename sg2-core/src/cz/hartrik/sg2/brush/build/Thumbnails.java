@@ -1,16 +1,15 @@
-package cz.hartrik.sg2.brush.jfx;
+package cz.hartrik.sg2.brush.build;
 
 import cz.hartrik.common.Color;
 import cz.hartrik.sg2.brush.ABrushWrapper;
 import cz.hartrik.sg2.brush.Brush;
+import cz.hartrik.sg2.engine.Image;
+import cz.hartrik.sg2.engine.Platform;
 import cz.hartrik.sg2.world.Element;
 import java.util.function.BiFunction;
-import javafx.scene.image.Image;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
 
 /**
- * @version 2015-11-19
+ * @version 2017-08-06
  * @author Patrik Harag
  */
 public final class Thumbnails {
@@ -59,8 +58,7 @@ public final class Thumbnails {
     }
 
     public static Image generateThumb(Brush brush, int width, int height) {
-        final WritableImage image = new WritableImage(width, height);
-        final PixelWriter pixelWriter = image.getPixelWriter();
+        Image image = Platform.get().createImage(width, height);
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -74,7 +72,7 @@ public final class Thumbnails {
                 } else {
                     color = getColor(brush.getElement());
                 }
-                pixelWriter.setArgb(x, y, color.getARGB());
+                image.setColor(x, y, color);
             }
         }
         return image;

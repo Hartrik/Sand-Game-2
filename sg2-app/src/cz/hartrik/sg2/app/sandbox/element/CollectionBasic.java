@@ -4,7 +4,7 @@ package cz.hartrik.sg2.app.sandbox.element;
 import cz.hartrik.common.Color;
 import cz.hartrik.common.io.Resources;
 import cz.hartrik.sg2.brush.BrushEffect;
-import cz.hartrik.sg2.brush.jfx.BrushCollectionBuilder;
+import cz.hartrik.sg2.brush.build.BrushCollectionBuilder;
 import cz.hartrik.sg2.random.RandomSuppliers;
 import cz.hartrik.sg2.world.element.fluid.Napalm;
 import cz.hartrik.sg2.world.element.powder.*;
@@ -117,22 +117,22 @@ public class CollectionBasic {
             .addRnd(71, WATER_SALT)
 
             // fauna, flora (100 - 129)
-            .addHidden(new JFXGrassBrush(collectionBuilder.load(100),
+            .addHidden(new GrassBrush(collectionBuilder.load(100),
                     x -> 100 + x * x * 7, GRASS))
 
-            .addHidden(new JFXGrassBrush(collectionBuilder.load(101),
+            .addHidden(new GrassBrush(collectionBuilder.load(101),
                     x -> 100 + x * x * 8, WILD_GRASS))
 
-            .addHidden(new JFXGrassBrush(collectionBuilder.load(102),
+            .addHidden(new GrassBrush(collectionBuilder.load(102),
                     x -> 100 + x * x * x * 3, REED))
 
-            .add(new JFXSeedBrush(collectionBuilder.load(110), GRASS,
+            .add(new SeedBrush(collectionBuilder.load(110), GRASS,
                     x -> 100 + x * x * 7, SEEDS))
 
-            .add(new JFXSeedBrush(collectionBuilder.load(111), WILD_GRASS,
+            .add(new SeedBrush(collectionBuilder.load(111), WILD_GRASS,
                     x -> 100 + x * x * 8, WILD_SEEDS))
 
-            .add(new JFXSeedBrush(collectionBuilder.load(112), REED,
+            .add(new SeedBrush(collectionBuilder.load(112), REED,
                     x -> 100 + x * x * x * 3, REED_SEEDS))
 
             .add(new BrushEffect(collectionBuilder.load(120), BACTERIA_FACT),

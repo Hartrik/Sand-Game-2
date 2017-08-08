@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.layout.*?>
-<?import java.net.URL?>
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.hartrik.sg2.app.FrameController">
-  <children>
-    <VBox prefHeight="831.0" prefWidth="759.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="rootPane" prefHeight="500.0" prefWidth="800.0"
+           xmlns="http://javafx.com/javafx/8.0.65"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="cz.hartrik.sg2.app.FrameController">
+
+   <children>
+    <VBox>
       <children>
         <MenuBar fx:id="menuBar" />
         <ToolBar fx:id="toolBar" minHeight="30.0" prefHeight="30.0" prefWidth="-1.0" />
-        <SplitPane id="SplitPane" fx:id="splitPane" dividerPositions="0.30451127819548873" orientation="HORIZONTAL" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+        <SplitPane id="SplitPane" fx:id="splitPane" dividerPositions="0.30451127819548873" orientation="HORIZONTAL" VBox.vgrow="ALWAYS">
           <items>
             <VBox id="VBox" fx:id="leftPanel" alignment="TOP_LEFT" focusTraversable="true" maxWidth="350.0" minWidth="240.0" prefWidth="240.0" spacing="10.0">
               <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
               </padding>
             </VBox>
-            <ScrollPane fx:id="scrollPane" content="$null" fitToHeight="true" fitToWidth="true" pannable="false" prefHeight="-1.0" prefWidth="-1.0" style="" styleClass="canvas-background" />
+            <ScrollPane fx:id="scrollPane" content="$null" fitToHeight="true" fitToWidth="true" pannable="false" styleClass="canvas-background" />
           </items>
         </SplitPane>
       </children>
     </VBox>
-  </children>
+   </children>
+
   <stylesheets>
     <URL value="@style.css" />
   </stylesheets>
-</AnchorPane>
+</StackPane>

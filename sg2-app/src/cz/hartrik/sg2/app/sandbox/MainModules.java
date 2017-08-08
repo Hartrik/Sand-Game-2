@@ -9,6 +9,7 @@ import cz.hartrik.sg2.app.module.edit.*;
 import cz.hartrik.sg2.app.module.io.*;
 import cz.hartrik.sg2.app.module.misc.ModuleBrushListFilterable;
 import cz.hartrik.sg2.app.module.misc.ModuleBrushThumbnails;
+import cz.hartrik.sg2.app.module.misc.ModuleConsole;
 import cz.hartrik.sg2.app.module.misc.ModulePerformanceInfo;
 import cz.hartrik.sg2.app.module.options.*;
 import cz.hartrik.sg2.app.module.script.CreateScriptSubmodule;
@@ -68,6 +69,8 @@ public class MainModules {
         // ...
 
         return new ApplicationModule[] {
+            new ModuleConsole(),
+
             new ModulePerformanceInfo(),
             new ModuleBrushThumbnails(32, 32),
             new ModuleBrushListFilterable(),

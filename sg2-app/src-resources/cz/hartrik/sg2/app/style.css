@@ -33,7 +33,6 @@
     MENU
 ************************************************/
 
-
 .custom-menu-item, .custom-menu-item .label {
     -fx-background-color: white;
     -fx-text-fill: black;
@@ -41,4 +40,18 @@
 
 .custom-menu-item .slider .axis {
     -fx-tick-label-fill: derive(black, 70%);
+}
+
+/***********************************************
+    CONSOLE
+************************************************/
+
+.console-box {
+    -fx-background-color: rgba(0, 88, 136, 0.85);
+}
+
+.console-box .text-area {
+    -fx-font-family: Consolas;
+    -fx-font-size: 12;
+    -fx-display-caret: true;
 }

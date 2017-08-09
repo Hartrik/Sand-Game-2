@@ -11,6 +11,8 @@ import cz.hartrik.sg2.engine.JFXPlatform;
 import cz.hartrik.sg2.engine.Platform;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Map;
@@ -42,7 +44,8 @@ public class Main extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        initLogging();
+        loadLoggingConfig();
+        initGlobalExceptionHandler();
         processParameters(getParameters());
 
         setUserAgentStylesheet(STYLESHEET_MODENA);
@@ -61,7 +64,7 @@ public class Main extends javafx.application.Application {
         frame.show();
     }
 
-    private void initLogging() {
+    private void loadLoggingConfig() {
         InputStream inputStream = getClass().getResourceAsStream(LOGGING_CONFIG);
 
         try {
@@ -70,6 +73,17 @@ public class Main extends javafx.application.Application {
             LOGGER.severe("Could not load default logging.properties file");
             LOGGER.severe(e.getMessage());
         }
+    }
+
+    private void initGlobalExceptionHandler() {
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            String stackTrace = sw.toString(); // stack trace as a string
+
+            Logger.getGlobal().severe("Uncatched exception:\n" + stackTrace);
+        });
     }
 
     private void processParameters(Parameters parameters) {

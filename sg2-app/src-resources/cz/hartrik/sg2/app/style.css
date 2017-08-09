@@ -55,3 +55,8 @@
     -fx-font-size: 12;
     -fx-display-caret: true;
 }
+
+.console-box .text-field, .console-box .text {
+    -fx-font-family: Consolas;
+    -fx-font-size: 14;
+}

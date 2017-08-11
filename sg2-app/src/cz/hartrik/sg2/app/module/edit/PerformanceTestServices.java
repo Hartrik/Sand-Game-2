@@ -27,7 +27,7 @@ import java.util.function.Supplier;
 /**
  * Poskytuje služby pro testování výkonu aplikace.
  *
- * @version 2017-08-06
+ * @version 2017-08-12
  * @author Patrik Harag
  */
 @ServiceProvider
@@ -91,6 +91,11 @@ public class PerformanceTestServices {
             benchmark(800, 500, 20, (w) -> {
                 fall(w, napalmSource, ironBrush);
                 terrain(w, ironBrush);
+            }, app);
+
+            System.out.println("### STILL SAND ###");
+            benchmark(800, 500, 20, (w) -> {
+                fill(w, sandBrush);
             }, app);
 
             System.out.println("### WARM SAND ###");

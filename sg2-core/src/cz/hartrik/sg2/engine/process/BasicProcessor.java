@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Abstraktní třída Processor.
  *
- * @version 2016-06-26
+ * @version 2017-08-12
  * @author Patrik Harag
  */
 public abstract class BasicProcessor implements Processor {
@@ -20,7 +20,9 @@ public abstract class BasicProcessor implements Processor {
     protected final Random random;
     protected final XORShiftRandom xorRandom;
 
-    protected final boolean[] running;
+    // značí chunky které jsou během aktuálního cyklu procházeny
+    protected final boolean[][] runningAll;
+    protected boolean[] running;
 
     protected final int horChunkCount;
     protected final int verChunkCount;
@@ -36,6 +38,7 @@ public abstract class BasicProcessor implements Processor {
 
         this.random = new Random();
         this.xorRandom = new XORShiftRandom();
+        this.runningAll = new boolean[verChunkCount][horChunkCount];
         this.running = new boolean[horChunkCount];
     }
 
@@ -49,8 +52,17 @@ public abstract class BasicProcessor implements Processor {
     public void nextCycle() {
         world.nextCycle();
 
+        // sesbírání aktivních chunků
+        for (int cy = 0; cy < verChunkCount; cy++) {
+            running = runningAll[cy];
+            for (int cx = 0; cx < horChunkCount; cx++) {
+                running[cx] = world.getChunk(cx, cy).isChanged();
+            }
+        }
+
         int updated = 0;
         for (int cy = verChunkCount - 1; cy >= 0; --cy) {
+            this.running = runningAll[cy];
 
             // nejvyšší a nejnišší hor. pozice v ch.
             final int cyTop = cy * world.getChunkSize();
@@ -63,16 +75,22 @@ public abstract class BasicProcessor implements Processor {
                 Chunk chunk = world.getChunk(cx, cy);
                 if (chunk.isChanged()) {
                     runningCount++;
-                    running[cx] = true;
                     chunk.change(false);
                     // a pokud se nezmění, tak už bude v dalším kole nečinný
 
                 } else {
                     // jestliže je chunk nezměněný, tak ho stejně alespoň
                     // zrychleně otestujeme a případně také projdeme
-                    boolean test = testChunk(cx, cyTop, cyBottom);
-                    if (test) runningCount++;
-                    running[cx] = test;
+
+                    // pokud bychom to netestovali, tak by např. padající
+                    // elementy zůstali viset ve vzduchu pokud bychom pod nimi
+                    // něco vymazali tak, že by nedošlo ke změně jejich chunku
+
+                    final boolean test = testChunkFast(cx, cy, cyTop, cyBottom);
+                    if (test) {
+                        running[cx] = true;
+                        runningCount++;
+                    }
                 }
             }
 
@@ -84,12 +102,18 @@ public abstract class BasicProcessor implements Processor {
             iterate(cyTop, cyBottom, runningCount);
 
             // kontrola chunků, které se nezměnily
-            //  - v jednom kole se totiž nutně nemusí změnit vše co může a
-            //    některé částečky by tak mohly zůstat ve vzduchu atd.
             for (int cx = 0; cx < horChunkCount; cx++) {
                 Chunk chunk = world.getChunk(cx, cy);
-                if (running[cx] && !chunk.isChanged())
-                    if (testChunkAll(cx, cyTop, cyBottom)) chunk.change();
+                if (running[cx] && !chunk.isChanged()) {
+                    // tento chunk by mohlo jít uspat, ale ještě ho musíme
+                    // pořádně otestovat - v jednom kole se totiž nutně nemusí
+                    // změnit vše co může a některé částečky by tak mohly zůstat
+                    // ve vzduchu atd.
+                    if (testChunkFull(cx, cyTop, cyBottom)) {
+                        // chunk nemůže být uspát - probudíme ho
+                        chunk.change();
+                    }
+                }
             }
         }
         this.updatedChunks = updated;
@@ -100,25 +124,43 @@ public abstract class BasicProcessor implements Processor {
     // testování
     // -----------------------------------------------------
 
-    protected final boolean testChunk(
-            final int cx,
+    protected final boolean testChunkFast(
+            int cx, final int cy,
             final int cyTop, final int cyBottom) {
 
         final int cxLeft = cx * world.getChunkSize();
         final int cxRight = cxLeft + world.getChunkSize() - 1;
 
-        // horní a dolní okraje
-        for (int x = cxLeft; x <= cxRight; x++)
-            if (testPoint(x, cyTop) || testPoint(x, cyBottom)) return true;
+        // testuje pouze pokud je vedle aktivní chunk
 
-        // boční okraje
-        for (int y = cyBottom; y >= cyTop; --y)
-            if (testPoint(cxLeft, y) || testPoint(cxRight, y)) return true;
+        // levá strana
+        if (cx > 0 && running[cx - 1]) {
+            for (int y = cyBottom; y >= cyTop; --y)
+                if (testPoint(cxLeft, y)) return true;
+        }
+
+        // pravá strana
+        if (cx < (horChunkCount - 1) && running[cx + 1]) {
+            for (int y = cyBottom; y >= cyTop; --y)
+                if (testPoint(cxRight, y)) return true;
+        }
+
+        // horní strana
+        if (cy > 0 && runningAll[cy - 1][cx]) {
+            for (int x = cxLeft; x <= cxRight; x++)
+                if (testPoint(x, cyTop)) return true;
+        }
+
+        // dolní strana
+        if (cy < (verChunkCount - 1) && runningAll[cy + 1][cx]) {
+            for (int x = cxLeft; x <= cxRight; x++)
+                if (testPoint(x, cyBottom)) return true;
+        }
 
         return false;
     }
 
-    protected final boolean testChunkAll(
+    protected final boolean testChunkFull(
             final int cx,
             final int cyTop, final int cyBottom) {
 

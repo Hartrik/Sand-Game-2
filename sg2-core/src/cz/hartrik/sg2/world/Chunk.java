@@ -52,8 +52,4 @@ public class Chunk implements Serializable {
     public final int getBottomRightX() { return bottomRightX; }
     public final int getBottomRightY() { return bottomRightY; }
 
-    public final boolean contains(int x, int y) {
-        return x >= topLeftX && x <= bottomRightX && y >= topLeftY && y <= bottomRightY;
-    }
-
 }

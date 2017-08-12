@@ -64,10 +64,6 @@ public abstract class BasicProcessor implements Processor {
         for (int cy = verChunkCount - 1; cy >= 0; --cy) {
             this.running = runningAll[cy];
 
-            // nejvyšší a nejnišší hor. pozice v ch.
-            final int cyTop = cy * world.getChunkSize();
-            final int cyBottom = cyTop + world.getChunkSize() - 1;
-
             // zjistí horizontální chunky, které (ne)byly změněny
             int runningCount = 0;
 
@@ -86,8 +82,7 @@ public abstract class BasicProcessor implements Processor {
                     // elementy zůstali viset ve vzduchu pokud bychom pod nimi
                     // něco vymazali tak, že by nedošlo ke změně jejich chunku
 
-                    final boolean test = testChunkFast(cx, cy, cyTop, cyBottom);
-                    if (test) {
+                    if (testChunkFast(chunk)) {
                         running[cx] = true;
                         runningCount++;
                     }
@@ -99,6 +94,10 @@ public abstract class BasicProcessor implements Processor {
 
             updated += runningCount;
 
+            // nejvyšší a nejnišší hor. pozice v ch.
+            int cyTop = cy * world.getChunkSize();
+            int cyBottom = cyTop + world.getChunkSize() - 1;
+
             iterate(cyTop, cyBottom, runningCount);
 
             // kontrola chunků, které se nezměnily
@@ -109,7 +108,7 @@ public abstract class BasicProcessor implements Processor {
                     // pořádně otestovat - v jednom kole se totiž nutně nemusí
                     // změnit vše co může a některé částečky by tak mohly zůstat
                     // ve vzduchu atd.
-                    if (testChunkFull(cx, cyTop, cyBottom)) {
+                    if (testChunkFull(chunk)) {
                         // chunk nemůže být uspát - probudíme ho
                         chunk.change();
                     }
@@ -124,51 +123,39 @@ public abstract class BasicProcessor implements Processor {
     // testování
     // -----------------------------------------------------
 
-    protected final boolean testChunkFast(
-            int cx, final int cy,
-            final int cyTop, final int cyBottom) {
-
-        final int cxLeft = cx * world.getChunkSize();
-        final int cxRight = cxLeft + world.getChunkSize() - 1;
-
+    protected final boolean testChunkFast(Chunk chunk) {
         // testuje pouze pokud je vedle aktivní chunk
 
         // levá strana
-        if (cx > 0 && running[cx - 1]) {
-            for (int y = cyBottom; y >= cyTop; --y)
-                if (testPoint(cxLeft, y)) return true;
+        if (chunk.getChunkX() > 0 && running[chunk.getChunkX() - 1]) {
+            for (int y = chunk.getTopLeftY() + 1; y < chunk.getBottomRightY(); y++)
+                if (testPoint(chunk.getTopLeftX(), y)) return true;
         }
 
         // pravá strana
-        if (cx < (horChunkCount - 1) && running[cx + 1]) {
-            for (int y = cyBottom; y >= cyTop; --y)
-                if (testPoint(cxRight, y)) return true;
+        if (chunk.getChunkX() < (horChunkCount - 1) && running[chunk.getChunkX() + 1]) {
+            for (int y = chunk.getTopLeftY() + 1; y < chunk.getBottomRightY(); y++)
+                if (testPoint(chunk.getBottomRightX(), y)) return true;
         }
 
         // horní strana
-        if (cy > 0 && runningAll[cy - 1][cx]) {
-            for (int x = cxLeft; x <= cxRight; x++)
-                if (testPoint(x, cyTop)) return true;
+        if (chunk.getChunkY() > 0 && runningAll[chunk.getChunkY() - 1][chunk.getChunkX()]) {
+            for (int x = chunk.getTopLeftX(); x <= chunk.getBottomRightX(); x++)
+                if (testPoint(x, chunk.getTopLeftY())) return true;
         }
 
         // dolní strana
-        if (cy < (verChunkCount - 1) && runningAll[cy + 1][cx]) {
-            for (int x = cxLeft; x <= cxRight; x++)
-                if (testPoint(x, cyBottom)) return true;
+        if (chunk.getChunkY() < (verChunkCount - 1) && runningAll[chunk.getChunkY() + 1][chunk.getChunkX()]) {
+            for (int x = chunk.getTopLeftX(); x <= chunk.getBottomRightX(); x++)
+                if (testPoint(x, chunk.getBottomRightY())) return true;
         }
 
         return false;
     }
 
-    protected final boolean testChunkFull(
-            final int cx,
-            final int cyTop, final int cyBottom) {
-
-        final int cxLeft = cx * world.getChunkSize();
-        final int cxRight = cxLeft + world.getChunkSize() - 1;
-
-        for (int y = cyBottom; y >= cyTop; --y)
-            for (int x = cxLeft; x <= cxRight; x++)
+    protected final boolean testChunkFull(Chunk chunk) {
+        for (int y = chunk.getTopLeftY(); y <= chunk.getBottomRightY(); y++)
+            for (int x = chunk.getTopLeftX(); x <= chunk.getBottomRightX(); x++)
                 if (testPoint(x, y)) return true;
 
         return false;

@@ -52,7 +52,7 @@ public class ChunkedArea extends ElementArea {
     private void initChunks() {
         for (int y = 0; y < verChunkCount; y++)
             for (int x = 0; x < horChunkCount; x++)
-                chunks[x + (y * horChunkCount)] = new Chunk(this, chunkSize, x, y);
+                chunks[x + (y * horChunkCount)] = new Chunk(chunkSize, x, y);
     }
 
     // základní metody...

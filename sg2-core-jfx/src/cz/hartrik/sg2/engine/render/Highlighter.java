@@ -33,14 +33,14 @@ public class Highlighter {
     }
 
     public void highlightChunk(Chunk chunk) {
-        for (int x = chunk.getBoundMinX(); x <= chunk.getBoundMaxX(); x++) {
-            highlight(x, chunk.getBoundMinY());
-            highlight(x, chunk.getBoundMaxY());
+        for (int x = chunk.getTopLeftX(); x <= chunk.getBottomRightX(); x++) {
+            highlight(x, chunk.getTopLeftY());
+            highlight(x, chunk.getBottomRightY());
         }
 
-        for (int y = chunk.getBoundMinY() + 1; y < chunk.getBoundMaxY(); y++) {
-            highlight(chunk.getBoundMaxX(), y);
-            highlight(chunk.getBoundMinX(), y);
+        for (int y = chunk.getTopLeftY() + 1; y < chunk.getBottomRightY(); y++) {
+            highlight(chunk.getBottomRightX(), y);
+            highlight(chunk.getTopLeftX(), y);
         }
     }
 

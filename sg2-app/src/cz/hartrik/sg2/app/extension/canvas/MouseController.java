@@ -3,7 +3,7 @@ package cz.hartrik.sg2.app.extension.canvas;
 
 import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.jfx.JFXControls;
-import cz.hartrik.sg2.engine.JFXEngine;
+import cz.hartrik.sg2.engine.EngineSyncTools;
 import cz.hartrik.sg2.tool.Draggable;
 import cz.hartrik.sg2.tool.Tool;
 import cz.hartrik.sg2.world.BrushInserter;
@@ -23,7 +23,7 @@ import javafx.util.Duration;
  * době po zmáčknutí tlačítka myši a k deaktivaci po jeho puštění nebo pohybu
  * myši.
  *
- * @version 2016-07-01
+ * @version 2017-08-12
  * @author Patrik Harag
  */
 public class MouseController {
@@ -34,16 +34,16 @@ public class MouseController {
     protected final Canvas canvas;
     protected final JFXControls controls;
 
-    protected final Supplier<JFXEngine<?>> engineSupplier;
+    protected final Supplier<EngineSyncTools<?>> syncTools;
     protected final Supplier<ElementArea> areaSupplier;
 
     public MouseController(Canvas canvas, JFXControls controls,
-            Supplier<JFXEngine<?>> engineSupplier,
-            Supplier<ElementArea> areaSupplier) {
+                           Supplier<EngineSyncTools<?>> syncTools,
+                           Supplier<ElementArea> areaSupplier) {
 
         this.canvas = canvas;
         this.controls = controls;
-        this.engineSupplier = engineSupplier;
+        this.syncTools = syncTools;
         this.areaSupplier = areaSupplier;
     }
 
@@ -98,8 +98,11 @@ public class MouseController {
     // další metody
 
     private void startHoldTimer(MouseButton button) {
-        timeline = new Timeline(new KeyFrame(MOUSE_HOLDING_PAUSE,
-                (e) -> apply(lastX, lastY, button, false)));
+        final int lastX = this.lastX;
+        final int lastY = this.lastY;
+        timeline = new Timeline(new KeyFrame(MOUSE_HOLDING_PAUSE, (e) -> {
+            apply(lastX, lastY, button, false);
+        }));
 
         timeline.setDelay(MOUSE_HOLDING_DELAY);
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -112,22 +115,30 @@ public class MouseController {
         }
     }
 
-    protected boolean isSupported(MouseButton button) {
+    private boolean isSupported(MouseButton button) {
         return button == MouseButton.PRIMARY || button == MouseButton.SECONDARY;
     }
 
-    protected void apply(int x, int y, MouseButton button, boolean drag) {
+    protected void apply(final int x, final int y, MouseButton button, boolean drag) {
         final Tool tool = controls.getTool(button);
         final Brush brush = controls.getBrush(button);
-        final BrushInserter<?> inserter = getInserter(brush);
+        final int lastX = this.lastX;
+        final int lastY = this.lastY;
 
         if (drag && tool instanceof Draggable) {
-            Draggable draggable = ((Draggable) tool);
-            draggable.stroke(x, y, lastX, lastY, inserter);
+            syncTools.get().synchronize(() -> {
+                BrushInserter<?> inserter = getInserter(brush);
+                ((Draggable) tool).stroke(x, y, lastX, lastY, inserter);
+                inserter.finalizeInsertion();
+            });
+
         } else {
-            tool.apply(x, y, inserter);
+            syncTools.get().synchronize(() -> {
+                BrushInserter<?> inserter = getInserter(brush);
+                tool.apply(x, y, inserter);
+                inserter.finalizeInsertion();
+            });
         }
-        inserter.finalizeInsertion();
     }
 
     protected BrushInserter<?> getInserter(Brush brush) {

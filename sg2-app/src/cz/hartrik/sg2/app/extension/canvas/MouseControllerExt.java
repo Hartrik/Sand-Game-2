@@ -5,7 +5,6 @@ import cz.hartrik.sg2.brush.Brush;
 import cz.hartrik.sg2.brush.jfx.JFXControls;
 import cz.hartrik.sg2.brush.manage.BrushManager;
 import cz.hartrik.sg2.engine.EngineSyncTools;
-import cz.hartrik.sg2.engine.JFXEngine;
 import cz.hartrik.sg2.tool.Draggable;
 import cz.hartrik.sg2.tool.Fillable;
 import cz.hartrik.sg2.tool.Tool;
@@ -13,6 +12,7 @@ import cz.hartrik.sg2.world.BrushInserter;
 import cz.hartrik.sg2.world.ElementArea;
 import cz.hartrik.sg2.world.element.Air;
 import java.util.function.Supplier;
+import java.util.logging.Logger;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -20,25 +20,25 @@ import javafx.scene.input.MouseEvent;
 /**
  * Kromě základního kreslení myší umožňuje ještě podržením shift, ctrl, alt...
  *
- * @version 2015-03-21
+ * @version 2017-08-12
  * @author Patrik Harag
  */
 public class MouseControllerExt extends MouseControllerPick {
 
-    protected final CanvasWithCursor fxCanvas;
+    private static final Logger LOGGER = Logger.getLogger(MouseControllerExt.class.getName());
 
-    protected boolean shiftEvent;
-    protected boolean ctrlEvent;
-    protected boolean altEvent;
+    private final CanvasWithCursor fxCanvas;
+
+    private boolean shiftEvent;
+    private boolean ctrlEvent;
+    private boolean altEvent;
 
     public MouseControllerExt(Canvas canvas, JFXControls controls,
-            Supplier<JFXEngine<?>> engineSupplier,
             Supplier<ElementArea> areaSupplier,
             Supplier<EngineSyncTools<?>> syncTools,
             BrushManager brushManager, CanvasWithCursor fxCanvas) {
 
-        super(canvas, controls, engineSupplier, areaSupplier, syncTools,
-                brushManager);
+        super(canvas, controls, areaSupplier, syncTools, brushManager);
 
         this.fxCanvas = fxCanvas;
     }
@@ -68,6 +68,7 @@ public class MouseControllerExt extends MouseControllerPick {
             apply((int) event.getX(), (int) event.getY(), event.getButton(), false);
             shiftEvent = false;
             ctrlEvent = false;
+
         } else {
             super.onMouseReleased(event);
         }
@@ -75,7 +76,8 @@ public class MouseControllerExt extends MouseControllerPick {
 
     @Override
     protected void onMouseDragged(MouseEvent event) {
-        if (!shiftEvent && !ctrlEvent) super.onMouseDragged(event);
+        if (!shiftEvent && !ctrlEvent)
+            super.onMouseDragged(event);
     }
 
     // ostatní metody
@@ -90,21 +92,26 @@ public class MouseControllerExt extends MouseControllerPick {
             super.apply(x, y, button, drag);
     }
 
-    protected void shiftEvent(int x, int y, MouseButton button) {
-        Draggable draggable = ((Draggable) controls.getTool(button));
-        Brush brush = controls.getBrush(button);
-        BrushInserter<?> inserter = getInserter(brush);
+    private void shiftEvent(int x, int y, MouseButton button) {
+        final Tool tool = controls.getTool(button);
+        final Brush brush = controls.getBrush(button);
+        final int lastX = this.lastX;
+        final int lastY = this.lastY;
 
-        draggable.stroke(x, y, lastX, lastY, inserter);
+        if (tool instanceof Draggable) {
+            syncTools.get().synchronize(() -> {
+                BrushInserter<?> inserter = getInserter(brush);
+                ((Draggable) tool).stroke(x, y, lastX, lastY, inserter);
+                inserter.finalizeInsertion();
+            });
+        } else {
+            LOGGER.warning("Stroke is not supported");
+        }
 
-        inserter.finalizeInsertion();
         setDefaultCursor();
     }
 
-    protected void ctrlEvent(int x, int y, MouseButton button) {
-        Fillable fillable = ((Fillable) controls.getTool(button));
-        Brush brush = controls.getBrush(button);
-        BrushInserter<?> inserter = getInserter(brush);
+    private void ctrlEvent(int x, int y, MouseButton button) {
 
         final int startX = Math.min(x, lastX);
         final int startY = Math.min(y, lastY);
@@ -113,33 +120,41 @@ public class MouseControllerExt extends MouseControllerPick {
         final int height = Math.abs(y - lastY);
 
         if (width != 0 && height != 0) {
-            fillable.apply(startX, startY, width, height, inserter);
-            inserter.finalizeInsertion();
+            final Tool tool = controls.getTool(button);
+            final Brush brush = controls.getBrush(button);
+
+            if (tool instanceof Fillable) {
+                syncTools.get().synchronize(() -> {
+                    BrushInserter<?> inserter = getInserter(brush);
+                    ((Fillable) tool).apply(startX, startY, width, height, inserter);
+                    inserter.finalizeInsertion();
+                });
+            } else {
+                LOGGER.warning("Fill is not supported");
+            }
         }
 
         setDefaultCursor();
     }
 
-    protected void altEvent(int x, int y, MouseButton button) {}
-
-    protected void setDefaultCursor() {
+    private void setDefaultCursor() {
         fxCanvas.removeCursor();
         Tool tool = controls.getTool(MouseButton.PRIMARY);
         if (tool instanceof Cursorable)
             fxCanvas.setCursor(((Cursorable) tool).createCursor(fxCanvas));
     }
 
-    protected boolean isSupportedForDrag(MouseButton button) {
+    private boolean isSupportedForDrag(MouseButton button) {
         return (button == MouseButton.PRIMARY || button == MouseButton.SECONDARY)
                 && controls.getTool(button) instanceof Draggable;
     }
 
-    protected boolean isSupportedForFill(MouseButton button) {
+    private boolean isSupportedForFill(MouseButton button) {
         return (button == MouseButton.PRIMARY || button == MouseButton.SECONDARY)
                 && controls.getTool(button) instanceof Fillable;
     }
 
-    protected void savePos(MouseEvent event) {
+    private void savePos(MouseEvent event) {
         lastX = (int) event.getX();
         lastY = (int) event.getY();
     }

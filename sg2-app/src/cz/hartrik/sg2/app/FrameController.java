@@ -162,8 +162,7 @@ public class FrameController extends FrameControllerTemplate implements Initiali
 
         initEngineStateMonitor();
 
-        new MouseControllerExt(fxCanvas, controls,
-                this::getEngine, this::getWorld, this::getSyncTools,
+        new MouseControllerExt(fxCanvas, controls, this::getWorld, this::getSyncTools,
                 brushManager, canvas).init();
     }
 

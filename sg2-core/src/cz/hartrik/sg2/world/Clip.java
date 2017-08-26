@@ -110,7 +110,7 @@ public class Clip implements Iterable<Element>, Region {
     
     @Override
     public void forEach(PointElementConsumer<? super Element> consumer) {
-        iteratorLabeled().forEachRemaining(consumer);
+        iteratorLabeled().forEachRemaining((Consumer<? super Pair<Element, Point>>) consumer);
     }
     
     @Override

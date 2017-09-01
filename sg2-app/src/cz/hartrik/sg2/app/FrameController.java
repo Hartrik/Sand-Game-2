@@ -149,9 +149,11 @@ public class FrameController extends FrameControllerTemplate implements Initiali
         this.canvas = new CanvasWithCursor(scrollPane, fxCanvas);
 
         controls.primaryToolProperty().addListener((ob, o, tool) -> {
-            canvas.removeCursor();
-            if (tool instanceof Cursorable)
-                canvas.setCursor(((Cursorable) tool).createCursor(canvas));
+            javafx.application.Platform.runLater(() -> {
+                canvas.removeCursor();
+                if (tool instanceof Cursorable)
+                    canvas.setCursor(((Cursorable) tool).createCursor(canvas));
+            });
         });
 
         controls.setPrimaryTool(ToolFactory.getInstance().centeredSquare(10));

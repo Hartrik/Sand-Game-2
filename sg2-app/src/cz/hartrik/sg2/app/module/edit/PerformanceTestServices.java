@@ -214,12 +214,12 @@ public class PerformanceTestServices {
     private void fall(World world, Source top, Brush bottom) {
         // horní okraj
         for (int x = 0; x < world.getWidth(); x++)
-            world.set(x, 0, top);
+            world.setAndChange(x, 0, top);
 
         // dolní okraj
         final int y = world.getHeight() - 1;
         for (int x = 0; x < world.getWidth(); x++)
-            world.set(x, y, bottom.getElement());
+            world.setAndChange(x, y, bottom.getElement());
     }
 
     private void terrain(World world, Brush bottom) {
@@ -235,7 +235,7 @@ public class PerformanceTestServices {
             y = Math.min(MAX, y);
 
             for (int j = world.getHeight() - 1; j > y; j--) {
-                world.set(x, j, bottom.getElement());
+                world.setAndChange(x, j, bottom.getElement());
             }
         }
     }

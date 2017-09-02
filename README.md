@@ -3,7 +3,10 @@
 [b-travis-link]: https://travis-ci.org/Hartrik/Sand-Game-2
 [b-release-img]: https://img.shields.io/github/release/Hartrik/Sand-Game-2.svg
 [b-release-link]: https://github.com/Hartrik/Sand-Game-2/releases
-[prev-1]: .github/preview.png
+[prev-ui]: .github/preview-ui.png
+[prev-scripting]: .github/preview-scripting.png
+[prev-templates]: .github/preview-templates.png
+[prev-chunks]: .github/preview-chunks.png
 [scripts]: /scripts
 [releases]: https://github.com/Hartrik/Sand-Game-2/releases
 
@@ -19,14 +22,14 @@ a wide range of various elements. Try to build something cool!
 **Features**
 - many elements and tools
 - gravity
-- temperature
+- fire and temperature
 - in-game scripting
 - loading / saving
 - portable, multi-platform, with open sources
 
 **Showcase**
 
-![preview][prev-1]
+![Preview - ui][prev-ui]
 
 
 ## Controls
@@ -51,6 +54,8 @@ Several prepared templates can be found in `menus > tools`.
 Insertion can be canceled using *RMB*.
 
 Saved canvases can also be inserted as templates.
+
+![Preview - templates][prev-templates]
 
 ### Editing tools
 
@@ -80,6 +85,8 @@ to run all scripts from the menu. The second option is a build-in editor.
 
 Get inspired by [examples][scripts].
 
+![Preview - scripting][prev-scripting]
+
 
 ## Performance
 
@@ -92,6 +99,8 @@ Another factor affecting performance is the canvas size.
 **Choose the canvas size with respect to performance of your computer.**
 
 **You should follow these suggestions for better playing experience.**
+
+![Preview - chunks][prev-chunks]
 
 
 ## Download

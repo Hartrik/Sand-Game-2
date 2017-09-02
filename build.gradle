@@ -51,7 +51,7 @@ jar {
     manifest {
         attributes(
                 'Implementation-Title': 'Sand Game 2',
-                'Implementation-Version': '2.03 Beta',
+                'Implementation-Version': '2.04 Beta',
                 'Implementation-Vendor': 'Patrik Harag',
                 'Main-Class': 'cz.hartrik.sg2.app.sandbox.Main',
         )

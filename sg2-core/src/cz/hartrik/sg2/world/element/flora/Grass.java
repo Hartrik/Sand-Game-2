@@ -13,9 +13,17 @@ import cz.hartrik.sg2.world.element.temperature.FireAffected;
 import cz.hartrik.sg2.world.element.temperature.FireSettings;
 
 /**
- * Element představující trávu.
+ * <p>Element představující trávu.</p>
  *
- * @version 2016-06-16
+ * <p>
+ *     <b>Poznámka k growHeight vs maxHeight:</b><br/>
+ *     growHeight - výška, do které tráva může vyrůst, obvykle náhodná<br/>
+ *     maxHeight - výška, do které tráva může existovat<br/>
+ *     Vzhledem k tomu, že je growHeight náhodná, po vložený by bez znalosti
+ *     maxHeight některá tráva odumřela.
+ * </p>
+ *
+ * @version 2017-09-02
  * @author Patrik Harag
  */
 public class Grass extends Plant implements BurnableDef, FireAffected {
@@ -27,16 +35,20 @@ public class Grass extends Plant implements BurnableDef, FireAffected {
     protected int maxElementDensity = 150;
 
     private final Color color;
+    protected final int growHeight;
     protected final int maxHeight;
     protected final Chance growChance;
     protected final Element[] deadGrass;
     protected final FireSettings fireSettings;
 
-    public Grass(Color color, Chance chance, int maxHeight, Element[] deadGrass,
-            FireSettings fireSettings) {
+    public Grass(Color color, Chance chance, int growHeight, int maxHeight,
+                 Element[] deadGrass, FireSettings fireSettings) {
+
+        assert growHeight <= maxHeight;
 
         this.color = color;
         this.growChance = chance;
+        this.growHeight = growHeight;
         this.maxHeight = maxHeight;
         this.deadGrass = deadGrass;
         this.fireSettings = fireSettings;
@@ -59,11 +71,13 @@ public class Grass extends Plant implements BurnableDef, FireAffected {
 
         final int findSoil = findSoil(x, y, maxHeight, world);
 
-        if (findSoil == SOIL_NOT_FOUND)
+        if (findSoil == SOIL_NOT_FOUND) {
             // uschne - nemá půdu
             world.setAndChange(x, y, randomDeadGrass(tools));
-        else
+
+        } else {
             checkElementAbove(x, y, findSoil, tools, world);
+        }
     }
 
     protected void checkElementAbove(int x, int y, int findSoil,
@@ -75,7 +89,7 @@ public class Grass extends Plant implements BurnableDef, FireAffected {
 
         final Element element = world.get(x, up);
         if (element instanceof Air) {
-            if (findSoil < maxHeight && growChance.nextBoolean())
+            if (findSoil < growHeight && growChance.nextBoolean())
                 // vyroste
                 world.setAndChange(x, up, this);
 
@@ -102,9 +116,12 @@ public class Grass extends Plant implements BurnableDef, FireAffected {
         if (!world.valid(x, y - 1)) return true;
         final Element over = world.get(x, y - 1);
 
-        return (over instanceof Air)
-                ? findSoil(x, y, maxHeight, world) < maxHeight
-                : !(over instanceof Grass);
+        if (over instanceof Air) {
+            int findSoil = findSoil(x, y, maxHeight, world);
+            return (findSoil < growHeight || findSoil > maxHeight);
+        } else {
+            return !(over instanceof Grass);
+        }
     }
 
     @Override

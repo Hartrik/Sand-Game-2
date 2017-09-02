@@ -13,7 +13,7 @@ import cz.hartrik.sg2.world.element.temperature.FireSettings;
 /**
  * Element představující trávu, která se sama rozšiřuje.
  *
- * @version 2016-06-16
+ * @version 2017-09-02
  * @author Patrik Harag
  */
 public class WildGrass extends Grass {
@@ -22,10 +22,9 @@ public class WildGrass extends Grass {
 
     protected Grass[] grass;
 
-    public WildGrass(Color color, Chance chance, int maxHeight,
-            Element[] deadGrass, FireSettings fireSettings) {
-
-        super(color, chance, maxHeight, deadGrass, fireSettings);
+    public WildGrass(Color color, Chance chance, int growHeight, int maxHeight,
+                     Element[] deadGrass, FireSettings fireSettings) {
+        super(color, chance, growHeight, maxHeight, deadGrass, fireSettings);
     }
 
     public void setGrass(Grass... grass) {
@@ -53,7 +52,7 @@ public class WildGrass extends Grass {
         }
     }
 
-    private static enum Result { ERROR, WARNING, SUCCESS }
+    private enum Result { ERROR, WARNING, SUCCESS }
 
     private void growNextTo(int x, int y, Tools tools, World world) {
         if (grass == null || grass.length == 0) return;
@@ -113,7 +112,7 @@ public class WildGrass extends Grass {
         Element over = world.get(x, y - 1);
         if (over instanceof Air) {
             int findSoil = findSoil(x, y, maxHeight, world);
-            if (findSoil < maxHeight) return true;
+            if (findSoil < growHeight || findSoil > maxHeight) return true;
         } else if (over instanceof Grass) {
             if (!trySide(x + 1, y, false, tools, world))
                 return trySide(x - 1, y, false, tools, world);

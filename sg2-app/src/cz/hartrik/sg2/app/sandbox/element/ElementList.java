@@ -116,9 +116,9 @@ public class ElementList {
 
     static final FireSettings FS = new FireSettings(rc(5), 400, 1200, rc(50));
 
-    static final Grass GRASS_1 = new Grass(c(39, 87, 28), rc(400), 9, GRASS_DEAD_COL, FS);
-    static final Grass GRASS_2 = new Grass(c( 0, 68,  0), rc(400), 7, GRASS_DEAD_COL, FS);
-    static final Grass GRASS_3 = new Grass(c( 0, 60,  0), rc(400), 8, GRASS_DEAD_COL, FS);
+    static final Grass GRASS_1 = new Grass(c(39, 87, 28), rc(400), 9, 9, GRASS_DEAD_COL, FS);
+    static final Grass GRASS_2 = new Grass(c( 0, 68,  0), rc(400), 7, 9, GRASS_DEAD_COL, FS);
+    static final Grass GRASS_3 = new Grass(c( 0, 60,  0), rc(400), 8, 9, GRASS_DEAD_COL, FS);
     public static final Grass GRASS[] = { GRASS_1, GRASS_2, GRASS_3 };
 
     static final Seed SEED_1 = new Seed(c(160, 160, 0), 50, Chance.ALWAYS, GRASS_1);
@@ -128,9 +128,9 @@ public class ElementList {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Tráva - divoká">
-    static final WildGrass GRASS_WILD_1 = new WildGrass(c(44, 92, 33), rc(400), 8, GRASS_DEAD_COL, FS);
-    static final WildGrass GRASS_WILD_2 = new WildGrass(c( 0, 72,  0), rc(400), 6, GRASS_DEAD_COL, FS);
-    static final WildGrass GRASS_WILD_3 = new WildGrass(c( 0, 65,  0), rc(400), 7, GRASS_DEAD_COL, FS);
+    static final WildGrass GRASS_WILD_1 = new WildGrass(c(44, 92, 33), rc(400), 8, 8, GRASS_DEAD_COL, FS);
+    static final WildGrass GRASS_WILD_2 = new WildGrass(c( 0, 72,  0), rc(400), 6, 8, GRASS_DEAD_COL, FS);
+    static final WildGrass GRASS_WILD_3 = new WildGrass(c( 0, 65,  0), rc(400), 7, 8, GRASS_DEAD_COL, FS);
     public static final WildGrass[] WILD_GRASS = { GRASS_WILD_1, GRASS_WILD_2, GRASS_WILD_3 };
 
     static final Seed SEED_WILD_1 = new Seed(c(178, 178, 0), 50, Chance.ALWAYS, GRASS_WILD_1);
@@ -146,10 +146,10 @@ public class ElementList {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Tráva - rákosí">
-    static final Grass REED_1 = new Grass(c( 83, 146, 35), rc(400), 15, new Element[] { GRASS_DEAD_1, AIR}, FS); // světlé
-    static final Grass REED_2 = new Grass(c(131, 160,  2), rc(400), 10, new Element[] { GRASS_DEAD_2, AIR}, FS); // žluté
-    static final Grass REED_3 = new Grass(c( 31,  93,  3), rc(400), 14, new Element[] { GRASS_DEAD_3, AIR}, FS); // tmavší
-    static final Grass REED_4 = new Grass(c( 75, 129,  7), rc(400), 13, new Element[] { GRASS_DEAD_3, AIR}, FS); // světlé
+    static final Grass REED_1 = new Grass(c( 83, 146, 35), rc(400), 15, 15, new Element[] { GRASS_DEAD_1, AIR}, FS); // světlé
+    static final Grass REED_2 = new Grass(c(131, 160,  2), rc(400), 10, 15, new Element[] { GRASS_DEAD_2, AIR}, FS); // žluté
+    static final Grass REED_3 = new Grass(c( 31,  93,  3), rc(400), 14, 15, new Element[] { GRASS_DEAD_3, AIR}, FS); // tmavší
+    static final Grass REED_4 = new Grass(c( 75, 129,  7), rc(400), 13, 15, new Element[] { GRASS_DEAD_3, AIR}, FS); // světlé
     public static final Grass REED[] = { REED_1, REED_2, REED_3, REED_4 };
 
     static final Seed REED_SEED_1 = new Seed(c(143, 104, 62), 50, Chance.ALWAYS, REED_1);

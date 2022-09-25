@@ -10,6 +10,7 @@
 [scripts]: /scripts
 [releases]: https://github.com/Hartrik/Sand-Game-2/releases
 
+:bulb: *Note: there is a successor called [Sand Game JS](https://github.com/Hartrik/sand-game-js). It's not as feature-rich, but it's playable in the browser.*
 
 # Sand Game 2
 

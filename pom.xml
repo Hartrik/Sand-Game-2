@@ -20,13 +20,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -48,11 +41,10 @@
             <artifactId>javafx-web</artifactId>
             <version>11.0.2</version>
         </dependency>
-
         <dependency>
-            <groupId>com.github.Hartrik</groupId>
-            <artifactId>HS-Common-Library</artifactId>
-            <version>1.0.0</version>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>11.0.2</version>
         </dependency>
 
         <!-- TESTING -->

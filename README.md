@@ -108,4 +108,4 @@ Another factor affecting performance is the canvas size.
 
 Executables can be found in [releases][releases].
 
-You will need at least **Java 8u40** for running this game.
+You will need at least **Java 11** for running this game.

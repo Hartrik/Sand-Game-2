@@ -1,8 +1,0 @@
-
-dependencies {
-    compile project(':sg2-core')
-    compile project(':sg2-core-jfx')
-    compile project(':sg2-io')
-
-    compile fileTree(dir: 'lib', include: '*.jar')
-}

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>O programu / Historie verzí - Beta</title>
+        <meta charset="UTF-8">
+
+        <style>
+            body {
+                font-family: sans-serif;
+                font-size: 12px;
+                line-height: 18px;
+            }
+
+            .history-table {
+                width: 100%;
+            }
+
+            .history-table, .history-table th, .history-table td  {
+                border: 1px solid #C0C0C0;
+                padding: 5px 15px 5px 15px;
+                border-collapse: collapse;
+            }
+        </style>
+    </head>
+    <body>
+        <h3>Historie verzí - Beta</h3>
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Verze</th>
+                    <th>Datum</th>
+                    <th>Popis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><s>1.00&nbsp;Beta</s><br>2.00&nbsp;Beta</td>
+                    <td>2015&#8209;01&#8209;01</td>
+                    <td>
+                        &bull; přidáno rozmazání nestatických elementů při vykreslování<br>
+                        &bull; přidáno propadávání elementů dnem plátna<br>
+                        &bull; přidán dialog se statistikami plátna<br>
+                        &bull; přidán scriptovací dialog<br>
+                        &bull; přidány šablony<br>
+                        &bull; přidány elementy:<br>
+                        &emsp;&bull; bakterie, agresivní bakterie<br>
+                        &bull; vylepšení obdélníkového kurzoru<br>
+                        &emsp;&bull; přizpůsobuje velikost plátnu
+                                     (konec trhání při najetí k okraji atd.)<br>
+                        &emsp;&bull; opravena chyba při kreslení štětcem liché velikosti<br>
+                        &bull; vylepšení elementů:<br>
+                        &emsp;&bull; při roztavení kovů dochází k míchání barev<br>
+                        &emsp;&bull; rozšířena podpora pro rozbíjení a slepování elementů<br>
+                        &emsp;&bull; (WIP) šíření soly v nové vodě<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td><s>1.01&nbsp;Beta</s><br>2.01&nbsp;Beta</td>
+                    <td>2015&#8209;02&#8209;20</td>
+                    <td>
+                        &bull; přidána možnost vypnout/zapnout motion blur<br>
+                        &bull; přidáno vkládání z uložené pozice<br>
+                        &bull; ukládání do <code>.sgb</code> (ukládání podle ID štětce) a
+                               <code>.sgs</code> (princip dřívějšího <code>.ser</code>)<br>
+                        &bull; načtení plátna přetažením souboru do oblasti plátna<br>
+                        &bull; scriptování - zjednodušení API<br>
+                        &bull; funkce alt funguje i na šablony<br>
+                        &bull; přidány elementy:<br>
+                        &emsp;&bull; filtr<br>
+                        &emsp;&bull; teleport<br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>2.02&nbsp;Beta</td>
+                    <td>2015&#8209;04&#8209;08</td>
+                    <td>
+                        &bull; přechod na Java 8u40, použití nových dialogů<br>
+                        &bull; při otevírání souboru s uloženou pozicí metodou <i>drag & drop</i> přidána možnost vložení<br>
+                        &bull; přidány XML kontrolery do souborů s uloženými pozicemi<br>
+                        &bull; složka <code>scripts</code>, ze které se scripty přenáší do menu, odkud se dají pohodlně spustit<br>
+                        &bull; přidány nové nástroje - kruh, trojúhelník, randomizér<br>
+                        &bull; přidána plechovka prostřední tlačítko myši + <code>ctrl</code> nebo <code>shift</code>)<br>
+                        &bull; vylepšena přesnost některých kurzorů<br>
+                        &bull; filtrování štětců<br>
+                        &bull; scriptování:<br>
+                        &emsp;&bull; přidáno API želví grafiky (třída <code>Turtle</code>)<br>
+                        &emsp;&bull; možnost vytvářet nástroje/tvary (<code>ToolFactory</code>)<br>
+                        &emsp;&bull; třída <code>Elements</code><br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>2.03&nbsp;Beta</td>
+                    <td>2016&#8209;07&#8209;03</td>
+                    <td>
+                        &bull; přidán element: napalm<br>
+                        &bull; přepracován systém přenosu tepla<br>
+                        &emsp;&bull; zvýšen výkon, snížena paměťová náročnost<br>
+                        &emsp;&bull; skoro všechny elementy nyní vedou teplo<br>
+                        &bull; přidána možnost zobrazit teplotu (heatmap)<br>
+                        &bull; přidána možnost změnit velikost chunků<br>
+                        &emsp;&bull; výchozí velikost se zároveň změnila na 20×20 bodů<br>
+                        &bull; vylepšen engine<br>
+                        &bull; vylepšen formát ukládání<br>
+                        &emsp;&bull; formát <code>.sgb</code> podporuje teplotu a další efekty<br>
+                        &emsp;&bull; sjednocení formátů <code>.sgb</code> a <code>.sgs</code><br>
+                        &bull; nanášení elementů při držení tlačítka myši<br>
+                        &bull; tlačítko start/stop reflektuje aktuální stav, stejně tak některé ukazatele<br>
+                        &bull; opravy chyb<br>
+                        &emsp;&bull; odebrány šedé šmouhy, které zůstávaly po motion blur<br>
+                        &emsp;&bull; opraveno blikání způsobené špatnou synchronizací<br>
+                        &emsp;&bull; opraveno blikání, které způsobovalo motion blur, když počet cyklů byl nižší než FPS<br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>2.04&nbsp;Beta</td>
+                    <td>2017&#8209;09&#8209;02</td>
+                    <td>
+                        &bull; migrace na Gradle, rozdělení na podprojekty<br>
+                        &bull; anglická lokalizace<br>
+                        &bull; konzole v aplikaci (F12)<br>
+                        &bull; přiblížení/oddálení pomocí ctrl + kolečko myši<br>
+                        &bull; snížena režie za uspávání chunků – celkové zvýšení výkonu<br>
+                        &bull; a další menší vylepšení, opravy chyb atd...<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2.04&nbsp;Beta for&nbsp;Java&nbsp;11</td>
+                    <td>2022&#8209;10&#8209;26</td>
+                    <td>
+                        &bull; migrace na Javu 11<br>
+                        &bull; migrace na Maven, zjednodušení projektové struktury<br>
+                        &bull; odebrání scriptovacího dialogu (přestal fungovat)<br>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

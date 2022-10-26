@@ -1,5 +1,0 @@
-
-include 'sg2-app'
-include 'sg2-core'
-include 'sg2-core-jfx'
-include 'sg2-io'

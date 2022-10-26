@@ -1,6 +1,5 @@
-/.gradle
+
 /.idea
 /.temp
-/build
-/*/build
+/target
 /saves

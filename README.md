@@ -8,7 +8,6 @@
 [prev-templates]: .github/preview-templates.png
 [prev-chunks]: .github/preview-chunks.png
 [scripts]: /scripts
-[releases]: https://github.com/Hartrik/Sand-Game-2/releases
 
 :bulb: *Note: there is a successor called [Sand Game JS](https://github.com/Hartrik/sand-game-js). It's not as feature-rich, but it's playable in the browser.*
 
@@ -105,7 +104,7 @@ Another factor affecting performance is the canvas size.
 
 
 ## Download
+You will need Java installed for running this game. Minimal supported version is Java 8 update 40.
 
-Executables can be found in [releases][releases].
-
-You will need at least **Java 11** for running this game.
+* Java 8 update 40 – [Sand-Game-2_2-04.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04/Sand-Game-2_2-04.zip)
+* from Java 11 – [SandGame2_2-04-J11.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04-J11/SandGame2_2-04-J11.zip)

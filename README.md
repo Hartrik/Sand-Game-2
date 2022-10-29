@@ -104,7 +104,7 @@ Another factor affecting performance is the canvas size.
 
 
 ## Download
-### Distribution with Java
+### Distribution with Java (Windows only)
 The easiest way. No need to have Java installed...
 
 1) Download [SandGame2_2-04-bundle.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04-J11-hotfix/SandGame2_2-04-bundle.zip)

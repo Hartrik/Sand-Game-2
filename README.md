@@ -106,5 +106,6 @@ Another factor affecting performance is the canvas size.
 ## Download
 You will need Java installed for running this game. Minimal supported version is Java 8 update 40.
 
-* Java 8 update 40 – [Sand-Game-2_2-04.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04/Sand-Game-2_2-04.zip)
-* from Java 11 – [SandGame2_2-04-J11.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04-J11-hotfix/SandGame2_2-04-J11.zip) (Windows only)
+* **Java 8** update 40 – [Sand-Game-2_2-04.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04/Sand-Game-2_2-04.zip)
+  * Amazon Corretto 8 JRE is not recommended – it miss some JavaFX features.
+* from **Java 11** – [SandGame2_2-04-J11.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04-J11-hotfix/SandGame2_2-04-J11.zip) (Windows only)

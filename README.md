@@ -1,9 +1,7 @@
 
-[b-travis-img]: https://travis-ci.org/Hartrik/Sand-Game-2.svg?branch=master
-[b-travis-link]: https://travis-ci.org/Hartrik/Sand-Game-2
-[b-release-img]: https://img.shields.io/github/release/Hartrik/Sand-Game-2.svg
-[b-release-link]: https://github.com/Hartrik/Sand-Game-2/releases
 [prev-ui]: .github/preview-ui.png
+[prev-fire]: .github/preview-fire.png
+[prev-device]: .github/preview-device.png
 [prev-scripting]: .github/preview-scripting.png
 [prev-templates]: .github/preview-templates.png
 [prev-chunks]: .github/preview-chunks.png
@@ -12,12 +10,11 @@
 :bulb: *Note: there is a successor called [Sand Game JS](https://github.com/Hartrik/sand-game-js). It's not as feature-rich, but it's playable in the browser.*
 
 # Sand Game 2
-
-[![Build Status][b-travis-img]][b-travis-link]
-[![GitHub Release][b-release-img]][b-release-link]
-
-**Sand Game 2** is a *falling sand* game where you are given an empty canvas and
-a wide range of various elements. Try to build something cool!
+**Sand Game 2** is a *falling sand* game that presents an empty canvas and a wide range of various elements.
+The player can create landscapes out of dirt, sand and water, then plant grass and watch it grow.
+Or build metal structures and then melt them with thermite, or perhaps set fire to an oil pond.
+Or mix water and salt to make brine – that can be distilled back to pure salt.
+And many other possibilities.
 
 **Features**
 - many elements and tools
@@ -31,6 +28,9 @@ a wide range of various elements. Try to build something cool!
 
 ![Preview - ui][prev-ui]
 
+![Preview - fire][prev-fire]
+
+![Preview - device][prev-device]
 
 ## Controls
 
@@ -51,7 +51,7 @@ Shape and size can be changed in `menu > tools`.
 ### Templates
 
 Several prepared templates can be found in `menus > tools`.
-Insertion can be canceled using *RMB*.
+Insertion can be cancelled using *RMB*.
 
 Saved canvases can also be inserted as templates.
 
@@ -93,7 +93,7 @@ Get inspired by [examples][scripts].
 The canvas is divided into chunks – square areas with dimensions usually 20×20 points.
 This allows to distinguish areas where “nothing moves” and these areas are then
 “ignored”, thus saving performance. **The aim is therefore to have the least active chunks**.
-Do you want a really big heap of sand? – no problem – until it moves.
+Do you want a huge heap of sand? – no problem – until it all moves.
 
 Another factor affecting performance is the canvas size.
 **Choose the canvas size with respect to performance of your computer.**
@@ -103,15 +103,29 @@ Another factor affecting performance is the canvas size.
 ![Preview - chunks][prev-chunks]
 
 
+## Development
+Most of the codebase comes from 2014 and 2015.
+In 2016 version 2.03 Beta was released as the last bigger release, introducing new elements and behaviour.
+Version 2.04 Beta was released in 2017 with English localization and performance improvements.
+
+Sand Game 2 is now in maintenance mode. No new features are planned in the future.
+Currently, it has over 29,000 source lines of code (Java only).
+
+In the past, there have always been issues with Java backwards compatibility:
+* wild changes in JavaFX between Java 7 and Java 8 (APIs removed, rendering changes),
+* JavaFX was removed from Java distributions since Java 11,
+* JavaScript engine was removed from Java distributions since Java 15.
+
+
 ## Download
 ### Distribution with Java (Windows only)
 The easiest way. No need to have Java installed...
 
 1) Download [SandGame2_2-04-bundle.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04-J11-hotfix/SandGame2_2-04-bundle.zip)
 2) **Unzip the file**
-3) Double click on **start.bat**
+3) Double-click on **start.bat**
 
-### Jar Distribution
+### Jar distribution
 Java must be installed. Minimal supported version is Java 8 update 40.
 
 * **Java 8** update 40 – [Sand-Game-2_2-04.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04/Sand-Game-2_2-04.zip)

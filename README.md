@@ -121,7 +121,7 @@ The easiest way. No need to have Java installed...
 
 1) Download [SandGame2_2-04-bundle.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04-J11-hotfix/SandGame2_2-04-bundle.zip)
 2) **Unzip the file**
-3) Double-click on **start.bat**
+3) Double-click on **SandGame2_2-04.exe**
 
 ### Jar distribution
 Java must be installed. Minimal supported version is Java 8 update 40.

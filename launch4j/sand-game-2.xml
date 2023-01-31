@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>true</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>SandGame2_2-04.jar</jar>
+  <outfile>SandGame2_2-04.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>high</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl>https://github.com/Hartrik/Sand-Game-2</supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>sand-game-2.ico</icon>
+  <jre>
+    <path>jdk11.0.17_8</path>
+    <requiresJdk>false</requiresJdk>
+    <requires64Bit>false</requires64Bit>
+    <minVersion></minVersion>
+    <maxVersion></maxVersion>
+  </jre>
+  <versionInfo>
+    <fileVersion>2.04.1.0</fileVersion>
+    <txtFileVersion>2.04 for Java 11</txtFileVersion>
+    <fileDescription>Sand Game 2</fileDescription>
+    <copyright>Patrik Harag. All Rights Reserved</copyright>
+    <productVersion>2.04.1.0</productVersion>
+    <txtProductVersion>2.04 for Java 11</txtProductVersion>
+    <productName>Sand Game 2</productName>
+    <companyName></companyName>
+    <internalName>Sand Game 2</internalName>
+    <originalFilename>SandGame2_2-04.exe</originalFilename>
+    <trademarks></trademarks>
+    <language>ENGLISH_US</language>
+  </versionInfo>
+</launch4jConfig>

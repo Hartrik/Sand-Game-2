@@ -1,13 +1,13 @@
 
 [prev-ui]: .github/preview-ui.png
-[prev-fire]: .github/preview-fire.png
-[prev-device]: .github/preview-device.png
+[prev-creations]: .github/preview-creations.png
 [prev-scripting]: .github/preview-scripting.png
 [prev-templates]: .github/preview-templates.png
 [prev-chunks]: .github/preview-chunks.png
 [scripts]: /scripts
+[sand-game-js]: https://github.com/Hartrik/sand-game-js
 
-:bulb: *Note: there is a successor called [Sand Game JS](https://github.com/Hartrik/sand-game-js). It's not as feature-rich, but it's playable in the browser.*
+:bulb: *Note: there is a successor called [Sand Game JS][sand-game-js]. It's not as feature-rich, but it's playable in the browser.*
 
 # Sand Game 2
 **Sand Game 2** is a *falling sand* game that presents an empty canvas and a wide range of various elements.
@@ -24,13 +24,11 @@ And many other possibilities.
 - loading / saving
 - portable, multi-platform, with open sources
 
-**Showcase**
+**Preview**
 
-![Preview - ui][prev-ui]
+![Preview - GUI][prev-ui]
 
-![Preview - fire][prev-fire]
-
-![Preview - device][prev-device]
+![Preview - creations][prev-creations]
 
 ## Controls
 

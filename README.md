@@ -124,8 +124,15 @@ The easiest way. No need to have Java installed...
 3) Double-click on **SandGame2_2-04.exe**
 
 ### Jar distribution
-Java must be installed. Minimal supported version is Java 8 update 40.
+Correct version and distribution of Java must be installed.
 
-* **Java 8** update 40 – [Sand-Game-2_2-04.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04/Sand-Game-2_2-04.zip)
-  * Amazon Corretto 8 JRE is not recommended – it miss some JavaFX features.
-* from **Java 11** – [SandGame2_2-04-J11.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04-J11-hotfix/SandGame2_2-04-J11.zip) (Windows only)
+* **Java 8** build – [Sand-Game-2_2-04.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04/Sand-Game-2_2-04.zip)
+  * :heavy_check_mark: Oracle JRE 8, 9, 10 &emsp; :x: 11 and later – it lacks JavaFX
+  * :heavy_check_mark: BellSoft Liberica **Full** JRE 8 &emsp; :x: 11 and later
+  * :x: Amazon Corretto JRE 8 and later – it lacks some JavaFX features
+  * :x: Eclipse Temurin/Adoptium JRE 8 and later – it lacks JavaFX
+* **Java 11** build – [SandGame2_2-04-J11.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04-J11-hotfix/SandGame2_2-04-J11.zip) (**Windows only**)
+  * :heavy_check_mark: Oracle JRE 11, 12, 13, 14 &emsp; :x: 15 and later – it lacks JavaScript engine
+  * :heavy_check_mark: BellSoft Liberica JRE 11 &emsp; :x: 17 and later – it lacks JavaScript engine
+  * :heavy_check_mark: Amazon Corretto JRE 11 &emsp; :x: 17 and later – it lacks JavaScript engine
+  * :heavy_check_mark: Eclipse Temurin/Adoptium JRE 11 &emsp; :x: 17 and later – it lacks JavaScript engine

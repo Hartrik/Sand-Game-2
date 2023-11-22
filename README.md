@@ -127,8 +127,8 @@ The easiest way. No need to have Java installed...
 Correct version and distribution of Java must be installed.
 
 * **Java 8** build – [Sand-Game-2_2-04.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04/Sand-Game-2_2-04.zip)
-  * :heavy_check_mark: Oracle JRE 8, 9, 10 &emsp; :x: 11 and later – it lacks JavaFX
-  * :heavy_check_mark: BellSoft Liberica **Full** JRE 8 &emsp; :x: 11 and later
+  * :heavy_check_mark: Oracle JRE 8 &emsp; :x: 9, 10 – resource loading broken, 11 and later – it lacks JavaFX
+  * :heavy_check_mark: BellSoft Liberica **Full** JRE 8 &emsp; :x: 11 and later – resource loading broken
   * :x: Amazon Corretto JRE 8 and later – it lacks some JavaFX features
   * :x: Eclipse Temurin/Adoptium JRE 8 and later – it lacks JavaFX
 * **Java 11** build – [SandGame2_2-04-J11.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04-J11-hotfix/SandGame2_2-04-J11.zip) (**Windows only**)

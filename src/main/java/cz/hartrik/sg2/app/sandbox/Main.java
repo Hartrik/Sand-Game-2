@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 /**
  * Vstupní třída.
  *
- * @version 2022-10-26
+ * @version 2023-11-23
  * @author Patrik Harag
  */
 public class Main extends javafx.application.Application {
@@ -30,10 +30,10 @@ public class Main extends javafx.application.Application {
     private static final String LOGGING_CONFIG = "/logging.properties";
 
     public static final String APP_NAME = "Sand Game 2";
-    public static final String APP_VERSION = "2.04 Beta J11";
-    public static final String APP_VERSION_DATE = "2022-10-26";
+    public static final String APP_VERSION = "2.04 Beta J11 hotfix 2";
+    public static final String APP_VERSION_DATE = "2023-11-23";
     public static final String APP_TITLE = APP_NAME + " (" + APP_VERSION + ")";
-    public static final String APP_AUTHOR = "© 2022 Patrik Harag\npatrik.harag@gmail.com";
+    public static final String APP_AUTHOR = "© 2023 Patrik Harag\npatrik.harag@gmail.com";
     public static final String APP_WEB = "https://github.com/Hartrik/Sand-Game-2";
 
     public static final String ICON = "icon - sg2.png";

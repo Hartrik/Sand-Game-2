@@ -14,6 +14,7 @@ import cz.hartrik.sg2.app.module.misc.ModulePerformanceInfo;
 import cz.hartrik.sg2.app.module.options.*;
 import cz.hartrik.sg2.app.module.script.CreateScriptSubmodule;
 import cz.hartrik.sg2.app.module.script.MenuModuleScriptFolder;
+import cz.hartrik.sg2.app.module.script.ModuleToolBarScriptDialog;
 import cz.hartrik.sg2.app.module.tools.PasteSaveSubmodule;
 import cz.hartrik.sg2.app.module.tools.RandomizerSubmodule;
 import cz.hartrik.sg2.app.module.tools.ShapesSubmodule;
@@ -115,6 +116,7 @@ public class MainModules {
             new ModuleToolBarScale(),
             new ModuleToolBarSimpleButton(Strings.get("module.edit.fill"), EditServices.SERVICE_EDIT_FILL),
             new ModuleToolBarSimpleButton(Strings.get("module.io.scr"), ScreenshotService.SERVICE_SCREENSHOT),
+            new ModuleToolBarScriptDialog(Strings.get("module.script.scripting-dialog")),
 
             new ModuleDragAndDropIO(ioManager),
         };

@@ -59,6 +59,9 @@ Saved canvases can also be inserted as templates.
 
 Canvas editing tools (fill, clear, flip, rotate...) can be found in `menus > edit`.
 
+### Debugging
+
+Press F12 to show the console.
 
 ## Saving and loading
 
@@ -88,6 +91,9 @@ Get inspired by [examples][scripts].
 
 ## Performance
 
+Significant effort has been invested in optimizing the game for efficiency.
+If, however, the simulation speed on your machine is not sufficient, try the following tips to enhance your gaming experience.
+
 The canvas is divided into chunks – square areas with dimensions usually 20×20 points.
 This allows to distinguish areas where “nothing moves” and these areas are then
 “ignored”, thus saving performance. **The aim is therefore to have the least active chunks**.
@@ -95,8 +101,7 @@ Do you want a huge heap of sand? – no problem – until it all moves.
 
 Another factor affecting performance is the canvas size.
 **Choose the canvas size with respect to performance of your computer.**
-
-**You should follow these suggestions for better playing experience.**
+Use scaling if needed.
 
 ![Preview - chunks][prev-chunks]
 
@@ -105,9 +110,10 @@ Another factor affecting performance is the canvas size.
 Most of the codebase comes from 2014 and 2015.
 In 2016 version 2.03 Beta was released as the last bigger release, introducing new elements and behaviour.
 Version 2.04 Beta was released in 2017 with English localization and performance improvements.
+It currently has around **30,000 source lines of Java code**.
 
 Sand Game 2 is now in maintenance mode. No new features are planned in the future.
-Currently, it has over 29,000 source lines of code (Java only).
+Check [Sand Game JS](https://github.com/Hartrik/sand-game-js).
 
 In the past, there have always been issues with Java backwards compatibility:
 * wild changes in JavaFX between Java 7 and Java 8 (APIs removed, rendering changes),
@@ -116,22 +122,22 @@ In the past, there have always been issues with Java backwards compatibility:
 
 
 ## Download
-### Distribution with Java (Windows only)
-The easiest way. No need to have Java installed...
+### EXE distribution (Windows only)
+The easiest way. Java is included.
 
-1) Download [SandGame2_2-04-bundle.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04-J11-hotfix/SandGame2_2-04-bundle.zip)
+1) Download [SandGame2_2-04-bundle-win.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04/SandGame2_2-04-bundle-win.zip) (71.1 MB)
 2) **Unzip the file**
 3) Double-click on **SandGame2_2-04.exe**
 
-### Jar distribution
-Correct version and distribution of Java must be installed.
+### JAR distribution
+Correct version and distribution of Java must be installed. Tested on Windows only.
 
-* **Java 8** build – [Sand-Game-2_2-04.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04/Sand-Game-2_2-04.zip)
+* **Java 8** build – [SandGame2_2-04.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04/SandGame2_2-04.zip) (1.4 MB)
   * :heavy_check_mark: Oracle JRE 8 &emsp; :x: 9, 10 – resource loading broken, 11 and later – it lacks JavaFX
   * :heavy_check_mark: BellSoft Liberica **Full** JRE 8 &emsp; :x: 11 and later – resource loading broken
   * :x: Amazon Corretto JRE 8 and later – it lacks some JavaFX features
   * :x: Eclipse Temurin/Adoptium JRE 8 and later – it lacks JavaFX
-* **Java 11** build – [SandGame2_2-04-J11.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04-J11-hotfix/SandGame2_2-04-J11.zip) (**Windows only**)
+* **Java 11** build with JavaFX Windows binaries included – [SandGame2_2-04-J11-win.zip](https://github.com/Hartrik/Sand-Game-2/releases/download/2.04-J11-hotfix-2/SandGame2_2-04-J11-win.zip) (34.6 MB)
   * :heavy_check_mark: Oracle JRE 11, 12, 13, 14 &emsp; :x: 15 and later – it lacks JavaScript engine
   * :heavy_check_mark: BellSoft Liberica JRE 11 &emsp; :x: 17 and later – it lacks JavaScript engine
   * :heavy_check_mark: Amazon Corretto JRE 11 &emsp; :x: 17 and later – it lacks JavaScript engine

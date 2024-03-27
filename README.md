@@ -7,7 +7,7 @@
 [scripts]: /scripts
 [sand-game-js]: https://github.com/Hartrik/sand-game-js
 
-:bulb: *Note: there is a successor called [Sand Game JS][sand-game-js]. It's not as feature-rich, but it's playable in the browser.*
+:bulb: **Note: there is a successor called [Sand Game JS][sand-game-js]. It's more advanced and playable right in your browser!**
 
 # Sand Game 2
 **Sand Game 2** is a *falling sand* game that presents an empty canvas and a wide range of various elements.
